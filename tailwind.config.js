@@ -5,7 +5,11 @@ module.exports = {
     fontFamily: {
       "bebas-neue": ["Bebas Neue"],
     },
-    extend: {},
+    extend: {
+      maxWidth: {
+        "10xl": "100rem",
+      },
+    },
   },
   variants: {
     extend: {},
