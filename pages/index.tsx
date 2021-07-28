@@ -20,7 +20,7 @@ export default function Home() {
         <Link href="https://www.figma.com/proto/3mchgUMnlaD0vim3jq0eAy/Portfolio-Project?node-id=103%3A7&scaling=min-zoom">
           <a
             target="_blank"
-            className="text-6xl hover:bg-black hover:text-white transition"
+            className="text-6xl hover:bg-gray-800 hover:text-white transition"
           >
             Figma Prototype
           </a>
