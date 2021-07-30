@@ -3,6 +3,12 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Container from "../components/Container";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
+
+// Icons
+import { FaReact } from "react-icons/fa";
+import { CSSProperties, HTMLAttributes } from "react";
 
 export default function Home() {
   return (
@@ -13,19 +19,60 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container className="bg-blue-50" maxWidth="7xl">
-        <div>
-          <h1 className="mb-5">Carlo Taleon Portfolio WIP</h1>
+      <Container className="relative" maxWidth="9xl">
+        <FloatingCircle style={{ right: "50rem", top: "5rem" }} />
+        <FloatingCircle
+          style={{ right: "30rem", bottom: "10rem" }}
+          orbitSize="25rem"
+        />
+        <div className="flex">
+          <div className="flex flex-col py-40 flex-grow">
+            <div>
+              <p>👋 Hello there! I am</p>
+              <h1 className="font-bold text-9xl text-gray-800">Carlo Taleon</h1>
+              <p className="mt-5 max-w-sm text-gray-500">
+                a Software Engineer based in the Philippines, React enthusiast,
+                fond of creating interactive and responsive layouts for web and
+                mobile applications.
+              </p>
+            </div>
+          </div>
+          <div
+            className="w-96"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
         </div>
-        <Link href="https://www.figma.com/proto/3mchgUMnlaD0vim3jq0eAy/Portfolio-Project?node-id=103%3A7&scaling=min-zoom">
-          <a
-            target="_blank"
-            className="text-6xl hover:bg-gray-800 hover:text-white transition"
-          >
-            Figma Prototype
-          </a>
-        </Link>
       </Container>
     </div>
   );
 }
+
+interface FloatingCircleProps {
+  className?: string;
+  style: CSSProperties | undefined;
+  orbitSize?: string;
+}
+export const FloatingCircle = ({
+  className,
+  style,
+  orbitSize = "35rem",
+}: FloatingCircleProps) => {
+  return (
+    <div
+      className={`animate-bounce h-20 w-20 p-2 flex items-center justify-center absolute ${className}`}
+      style={style}
+    >
+      <div className="absolute rounded-full bg-blue-200 opacity-50 w-20 h-20 group hover:w-28 hover:h-28 transition-all cursor-pointer flex items-center justify-center">
+        <div
+          className="absolute rounded-full border border-blue-200 opacity-50 group-hover:w-32 group-hover:h-32 transition-all"
+          style={{ width: orbitSize, height: orbitSize }}
+        ></div>
+      </div>
+      <FaReact size="2rem" className="text-blue-500" />
+    </div>
+  );
+};
