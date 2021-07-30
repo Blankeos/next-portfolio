@@ -31,9 +31,9 @@ export default function Home() {
               <p>👋 Hello there! I am</p>
               <h1 className="font-bold text-9xl text-gray-800">Carlo Taleon</h1>
               <p className="mt-5 max-w-sm text-gray-500">
-                a Software Engineer based in the Philippines, React enthusiast,
-                fond of creating interactive and responsive layouts for web and
-                mobile applications.
+                I love solving problems using Machine Learning and represent
+                Data in a meaningful way. Also, I like pushing myself and taking
+                up new challenges.
               </p>
             </div>
           </div>
