@@ -7,12 +7,20 @@ module.exports = {
     },
     extend: {
       maxWidth: {
-        "10xl": "100rem",
+        "8xl": "100rem",
+        "9xl": "110rem",
+      },
+      transitionProperty: {
+        width: "width",
+        height: "height",
       },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      width: ["hover", "group-hover"],
+      height: ["hover", "group-hover"],
+    },
   },
   plugins: [],
 };
