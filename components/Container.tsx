@@ -15,16 +15,18 @@ interface Props {
     | "5xl"
     | "6xl"
     | "7xl"
+    | "8xl"
+    | "9xl"
     | "full";
 }
 
 const Container: React.FC<Props> = ({
   children,
   className,
-  maxWidth = "6xl",
+  maxWidth = "9xl",
 }) => {
   return (
-    <div className={`max-w-${maxWidth} mx-auto p-5 ${className}`}>
+    <div className={`max-w-${maxWidth} mx-auto p-5 px-12 h-full ${className}`}>
       {children}
     </div>
   );
