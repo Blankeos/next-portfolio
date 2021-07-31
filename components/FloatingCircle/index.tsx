@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 interface FloatingCircleProps {
   style: CSSProperties | undefined;
   orbitSize?: string;
-  icon?: IconType;
   orbitClass?: string;
   nucleusClass?: string;
   animationDelay?: number;
@@ -13,7 +12,6 @@ interface FloatingCircleProps {
 const FloatingCircle: React.FC<FloatingCircleProps> = ({
   style,
   orbitSize = "35rem",
-  icon,
   orbitClass,
   nucleusClass,
   children,
