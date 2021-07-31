@@ -20,3 +20,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.nucleus:hover ~ .orbit {
+  @apply transition-all duration-300;
+  width: 10rem !important;
+  height: 10rem !important;
+}

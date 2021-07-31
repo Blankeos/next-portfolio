@@ -6,9 +6,10 @@ import Container from "../components/Container";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
+import FloatingCircle from "../components/FloatingCircle";
 // Icons
-import { FaReact } from "react-icons/fa";
-import { CSSProperties, HTMLAttributes } from "react";
+import { FaReact, FaDiscord } from "react-icons/fa";
+import React, { CSSProperties, HTMLAttributes } from "react";
 
 export default function Home() {
   return (
@@ -20,17 +21,14 @@ export default function Home() {
       </Head>
 
       <Container className="relative" maxWidth="9xl">
-        <FloatingCircle style={{ right: "50rem", top: "5rem" }} />
-        <FloatingCircle
-          style={{ right: "30rem", bottom: "10rem" }}
-          orbitSize="25rem"
-        />
         <div className="flex">
           <div className="flex flex-col py-40 flex-grow">
             <div>
-              <p>👋 Hello there! I am</p>
-              <h1 className="font-bold text-9xl text-gray-800">Carlo Taleon</h1>
-              <p className="mt-5 max-w-sm text-gray-500">
+              <p className="relative z-10">👋 Hello there! I am</p>
+              <h1 className="font-bold text-9xl text-gray-800 relative z-10">
+                Carlo Taleon
+              </h1>
+              <p className="mt-5 max-w-sm text-gray-500 relative z-10">
                 I love solving problems using Machine Learning and represent
                 Data in a meaningful way. Also, I like pushing myself and taking
                 up new challenges.
@@ -46,33 +44,21 @@ export default function Home() {
             }}
           />
         </div>
+        <FloatingCircle
+          style={{ right: "50rem", top: "5rem" }}
+          animationDelay={1}
+        >
+          <FaReact className="text-blue-400" size="2rem" />
+        </FloatingCircle>
+        <FloatingCircle
+          style={{ right: "30rem", bottom: "10rem" }}
+          orbitSize="25rem"
+          orbitClass="border-purple-400"
+          nucleusClass="bg-purple-400"
+        >
+          <FaDiscord className="text-purple-500" size="2rem" />
+        </FloatingCircle>
       </Container>
     </div>
   );
 }
-
-interface FloatingCircleProps {
-  className?: string;
-  style: CSSProperties | undefined;
-  orbitSize?: string;
-}
-export const FloatingCircle = ({
-  className,
-  style,
-  orbitSize = "35rem",
-}: FloatingCircleProps) => {
-  return (
-    <div
-      className={`animate-bounce h-20 w-20 p-2 flex items-center justify-center absolute ${className}`}
-      style={style}
-    >
-      <div className="absolute rounded-full bg-blue-200 opacity-50 w-20 h-20 group hover:w-28 hover:h-28 transition-all cursor-pointer flex items-center justify-center">
-        <div
-          className="absolute rounded-full border border-blue-200 opacity-50 group-hover:w-32 group-hover:h-32 transition-all"
-          style={{ width: orbitSize, height: orbitSize }}
-        ></div>
-      </div>
-      <FaReact size="2rem" className="text-blue-500" />
-    </div>
-  );
-};
