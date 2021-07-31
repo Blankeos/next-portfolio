@@ -28,10 +28,10 @@ export default function Home() {
               <h1 className="font-bold text-9xl text-gray-800 relative z-10">
                 Carlo Taleon
               </h1>
-              <p className="mt-5 max-w-sm text-gray-500 relative z-10">
-                I love solving problems using Machine Learning and represent
-                Data in a meaningful way. Also, I like pushing myself and taking
-                up new challenges.
+              <p className="mt-5 max-w-md text-gray-500 relative z-10">
+                I make games during my free time and I enjoy building web apps
+                using <b>React</b>. I'm also a student at{" "}
+                <b>West Visayas State University</b> studying Computer Science.
               </p>
             </div>
           </div>
