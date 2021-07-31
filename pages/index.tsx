@@ -30,8 +30,8 @@ export default function Home() {
               </h1>
               <p className="mt-5 max-w-md text-gray-500 relative z-10">
                 I make games during my free time and I enjoy building web apps
-                using <b>React</b>. I'm also a student at{" "}
-                <b>West Visayas State University</b> studying Computer Science.
+                using React. I'm also a student at West Visayas State University
+                studying Computer Science.
               </p>
             </div>
           </div>
