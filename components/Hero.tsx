@@ -76,9 +76,10 @@ const Hero = () => {
           orbitClass="border-indigo-400"
           nucleusClass="bg-indigo-400"
         >
-          <img
-            className="w-12 h-12"
+          <Image
             src="https://static.wikia.nocookie.net/spartaremix/images/e/ec/Discord-new-logo.png"
+            height="48"
+            width="48"
           />
         </FloatingCircle>
       </Container>
