@@ -14,12 +14,13 @@ import Particles, {
 import particlesConfig from "../particles/particles-config.js";
 
 import Container from "../components/Container";
+import Image from "next/image";
 
 const Hero = () => {
   return (
     <div className="relative pb-5">
       <div className="w-full h-full absolute overflow-hidden">
-        <div className="particle-wrapper absolute w-full h-full bg-yellow-500">
+        <div className="particle-wrapper absolute w-full h-full">
           <Particles
             id="tsparticles"
             options={particlesConfig as RecursivePartial<IOptions>}
@@ -45,10 +46,10 @@ const Hero = () => {
               </p>
             </div>
             <div className="flex space-x-3">
-              <button className="bg-gray-400 rounded-md px-5 py-2 text-white">
+              <button className="bg-gray-400 rounded-md px-5 py-2 text-white relative z-10">
                 Get in Touch
               </button>
-              <button className="bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center">
+              <button className="bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10">
                 <ResumeIcon size="1.2rem" />
                 <span>Resume</span>
               </button>
@@ -72,10 +73,13 @@ const Hero = () => {
         <FloatingCircle
           style={{ right: "30rem", bottom: "10rem" }}
           orbitSize="25rem"
-          orbitClass="border-purple-400"
-          nucleusClass="bg-purple-400"
+          orbitClass="border-indigo-400"
+          nucleusClass="bg-indigo-400"
         >
-          <FaDiscord className="text-purple-500" size="2rem" />
+          <img
+            className="w-12 h-12"
+            src="https://static.wikia.nocookie.net/spartaremix/images/e/ec/Discord-new-logo.png"
+          />
         </FloatingCircle>
       </Container>
     </div>

@@ -12,7 +12,7 @@ const particlesConfig = {
   },
   detectRetina: true,
   duration: 0,
-  fpsLimit: 60,
+  fpsLimit: 75,
   interactivity: {
     detectsOn: "window",
     events: {
@@ -25,7 +25,7 @@ const particlesConfig = {
           smooth: 10,
         },
       },
-      resize: false,
+      resize: true,
     },
     modes: {
       grab: {
@@ -47,7 +47,7 @@ const particlesConfig = {
   },
   particles: {
     color: {
-      value: "#cfcfcf",
+      value: "#93C5FD",
       animation: {
         h: {
           count: 0,
