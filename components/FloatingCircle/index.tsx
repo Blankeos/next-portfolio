@@ -64,7 +64,7 @@ const Nucleus: React.FC<NucleusProps> = ({
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ delay: 1, duration: 0.8, type: "spring" }}
-      className="nucleus absolute rounded-full group cursor-pointer flex items-center justify-center z-10"
+      className="nucleus absolute rounded-full group cursor-pointer flex items-center justify-center z-10 h-20 w-20"
     >
       <span
         className={`absolute opacity-40 w-20 h-20 group-hover:w-28 group-hover:h-28 transition-all rounded-full ${className}`}
