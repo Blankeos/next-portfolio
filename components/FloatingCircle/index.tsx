@@ -25,7 +25,7 @@ const FloatingCircle: React.FC<FloatingCircleProps> = ({
       className="h-20 w-20 p-2 flex items-center justify-center absolute"
       style={style}
       initial={{ y: 0 }}
-      animate={{ y: -20 }}
+      animate={{ y: -25 }}
       transition={{ yoyo: Infinity, duration: 2, delay: animationDelay }}
     >
       <Nucleus className={nucleusClass}>{children}</Nucleus>
