@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Hero from "../components/Hero";
+import Projects from "../components/Projects";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      <div className="bg-yellow-50 w-full" style={{ height: "38rem" }}></div>
+      <Projects />
       <div className="bg-white w-full" style={{ height: "38rem" }}></div>
     </>
   );
