@@ -20,20 +20,21 @@ const Projects = () => {
 
 const ProjectsGrid = () => {
   return (
-    <div className="grid grid-cols-2 gap-16 mt-12">
-      <ProjectCard title="1" />
+    <div className="grid grid-cols-2 gap-16 mt-12 items-end">
+      <ProjectCard title="1" className="pt-40" />
       <ProjectCard title="2" />
       <ProjectCard title="3" />
-      <ProjectCard title="4" />
+      <ProjectCard title="4" className="pb-40" />
     </div>
   );
 };
 
 interface ProjectCardProps {
   title: string;
+  className?: string;
 }
 
-const ProjectCard = ({ title }: ProjectCardProps) => {
+const ProjectCard = ({ title, className = "" }: ProjectCardProps) => {
   return (
     // <div
     //   className="bg-blue-300 flex justify-center"
@@ -41,8 +42,11 @@ const ProjectCard = ({ title }: ProjectCardProps) => {
     // >
     //   item 1
     // </div>
-    <div className="group flex flex-col cursor-pointer">
-      <div className="h-96 flex items-center justify-center bg-blue-400">
+    <div className={`group flex flex-col cursor-pointer h-full ${className}`}>
+      <div
+        className="h-full flex items-center justify-center bg-blue-400"
+        style={{ minHeight: "25rem" }}
+      >
         IMG
       </div>
       <div className="flex justify-between pt-10">
