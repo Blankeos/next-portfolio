@@ -2,6 +2,8 @@ import React from "react";
 import Container from "./Container";
 import SectionHeading from "./SectionHeading";
 
+import { BsArrowRight as Arrow } from "react-icons/bs";
+
 const Projects = () => {
   return (
     <section className="bg-blue-50 w-full py-16">
@@ -39,7 +41,7 @@ const ProjectCard = ({ title }: ProjectCardProps) => {
     // >
     //   item 1
     // </div>
-    <div className=" flex flex-col">
+    <div className="group flex flex-col cursor-pointer">
       <div className="h-96 flex items-center justify-center bg-blue-400">
         IMG
       </div>
@@ -47,7 +49,13 @@ const ProjectCard = ({ title }: ProjectCardProps) => {
         <h3 className="font-semibold text-3xl text-gray-800">
           Project {title}
         </h3>
-        <div className="rounded-full h-10 w-10 bg-blue-600">&rarr;</div>
+        <div className="relative flex items-center justify-center">
+          <div className="absolute h-0 w-0 group-hover:h-12 group-hover:w-12 rounded-full transition-all duration-200 bg-blue-400 flex items-center justify-center"></div>
+          <Arrow
+            size="2rem"
+            className="relative group-hover:-rotate-45 transform transition duration-300"
+          />
+        </div>
       </div>
       <p className="pt-3 text-gray-600">Short description</p>
     </div>
