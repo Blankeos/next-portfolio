@@ -46,7 +46,7 @@ const Hero = () => {
               </p>
             </div>
             <div className="flex space-x-3">
-              <button className="bg-gray-400 rounded-md px-5 py-2 text-white relative z-10">
+              <button className="bg-gray-600 rounded-md px-5 py-2 text-white relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40">
                 Get in Touch
               </button>
               <button className="bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10">
