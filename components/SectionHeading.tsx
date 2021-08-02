@@ -10,7 +10,11 @@ const SectionHeading = ({
   return (
     <h2 className={`flex flex-col ${className}`}>
       {text.map((stringVal, i) => {
-        return <span className={i === 1 ? "ml-16" : ""}>{stringVal}</span>;
+        return (
+          <span key={i} className={i === 1 ? "ml-16" : ""}>
+            {stringVal}
+          </span>
+        );
       })}
     </h2>
   );
