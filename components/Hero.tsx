@@ -6,6 +6,8 @@ import { HiOutlineDocumentDownload as ResumeIcon } from "react-icons/hi";
 // React
 import React, { CSSProperties, HTMLAttributes, useEffect } from "react";
 
+import { motion } from "framer-motion";
+
 import Particles, {
   IOptions,
   particlesJS,
@@ -34,10 +36,37 @@ const Hero = () => {
           <div className="flex flex-col py-40 flex-grow space-y-5">
             <div>
               <p className="relative z-10 text-gray-800">
-                👋 Hello there! I am
+                <motion.div
+                  className="flex space-x-2"
+                  initial={{ y: 15, opacity: 0 }}
+                  animate={{
+                    y: 0,
+                    opacity: 1,
+                  }}
+                  transition={{ duration: 0.3, delay: 0.5, ease: "easeOut" }}
+                >
+                  <motion.div
+                    initial={{ rotate: 0 }}
+                    animate={{
+                      scale: [1, 1.5, 1.5, 1.5, 1],
+                      rotate: [0, 30, 0, 30, 0],
+                    }}
+                    transition={{ delay: 1.5 }}
+                  >
+                    👋
+                  </motion.div>
+                  <span>Hello there! I am</span>
+                </motion.div>
               </p>
-              <h1 className="font-bold text-9xl text-gray-800 relative z-10">
-                Carlo Taleon
+              <h1 className="font-bold text-9xl text-gray-800 relative z-10 overflow-hidden">
+                <motion.div
+                  className=""
+                  initial={{ y: 150 }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.75, delay: 0.8, ease: "easeOut" }}
+                >
+                  Carlo Taleon
+                </motion.div>
               </h1>
               <p className="mt-5 max-w-md text-gray-500 relative z-10">
                 I make games during my free time and I enjoy building web apps
