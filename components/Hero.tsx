@@ -56,14 +56,22 @@ const Hero = () => {
                 </span>
               </motion.p>
               <h1 className="font-bold text-9xl text-gray-800 relative z-10 overflow-hidden">
-                <motion.div
-                  className=""
-                  initial={{ y: 150 }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.75, delay: 0.8, ease: "easeOut" }}
-                >
-                  Carlo Taleon
-                </motion.div>
+                <span className="flex flex-wrap space-x-10">
+                  <motion.div
+                    initial={{ y: 250 }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.75, delay: 1, ease: "easeOut" }}
+                  >
+                    Carlo
+                  </motion.div>
+                  <motion.div
+                    initial={{ y: 250 }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.75, delay: 1.2, ease: "easeOut" }}
+                  >
+                    Taleon
+                  </motion.div>
+                </span>
               </h1>
               <p className="mt-5 max-w-md text-gray-500 relative z-10">
                 I make games during my free time and I enjoy building web apps
