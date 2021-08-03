@@ -39,38 +39,46 @@ const Hero = () => {
                 className="relative z-10 text-gray-800"
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, ease: "easeOut" }}
+                transition={{ delay: 0.5, ease: "easeOut", duration: 0.5 }}
               >
                 <span className="flex space-x-2">
                   <motion.div
                     initial={{ rotate: 0 }}
                     animate={{
-                      scale: [1, 1.6, 1.6, 1.6, 1],
-                      rotate: [0, 30, 0, 30, 0],
+                      scale: [1, 1.6, 1.6, 1.5, 1.6, 1.6, 1.5, 1.6, 1],
+                      rotate: [0, 30, 0, 30, 0, 30, 0, 30, 0],
                     }}
-                    transition={{ delay: 1.5 }}
+                    transition={{ delay: 1.5, duration: 1.8 }}
                   >
                     👋
                   </motion.div>
                   <div>Hello there! I am</div>
                 </span>
               </motion.p>
-              <h1 className="font-bold text-9xl text-gray-800 relative z-10 overflow-hidden">
+              <h1 className="font-bold text-9xl text-gray-800 relative z-10">
                 <span className="flex flex-wrap space-x-10">
-                  <motion.div
-                    initial={{ y: 250 }}
-                    animate={{ y: 0 }}
-                    transition={{ duration: 0.75, delay: 1, ease: "easeOut" }}
-                  >
-                    Carlo
-                  </motion.div>
-                  <motion.div
-                    initial={{ y: 250 }}
-                    animate={{ y: 0 }}
-                    transition={{ duration: 0.75, delay: 1.2, ease: "easeOut" }}
-                  >
-                    Taleon
-                  </motion.div>
+                  <span className="overflow-hidden">
+                    <motion.div
+                      initial={{ y: 250 }}
+                      animate={{ y: 0 }}
+                      transition={{ duration: 0.75, delay: 1, ease: "easeOut" }}
+                    >
+                      Carlo
+                    </motion.div>
+                  </span>
+                  <span className="overflow-hidden">
+                    <motion.div
+                      initial={{ y: 250 }}
+                      animate={{ y: 0 }}
+                      transition={{
+                        duration: 0.75,
+                        delay: 1.2,
+                        ease: "easeOut",
+                      }}
+                    >
+                      Taleon
+                    </motion.div>
+                  </span>
                 </span>
               </h1>
               <p className="mt-5 max-w-md text-gray-500 relative z-10">
@@ -80,10 +88,10 @@ const Hero = () => {
               </p>
             </div>
             <div className="flex space-x-3">
-              <button className="bg-gray-600 rounded-md px-5 py-2 text-white relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40">
+              <button className="select-none bg-gray-600 rounded-md px-5 py-2 text-white relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40">
                 Get in Touch
               </button>
-              <button className="bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10">
+              <button className="select-none bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10">
                 <ResumeIcon size="1.2rem" />
                 <span>Resume</span>
               </button>
