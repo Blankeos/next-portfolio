@@ -28,11 +28,7 @@ const Container: React.FC<Props> = ({
   maxWidth = "9xl",
 }) => {
   return (
-    <div
-      className={`${getMaxWidth(
-        maxWidth
-      )} mx-auto p-5 px-12 h-full ${className}`}
-    >
+    <div className={`${getMaxWidth(maxWidth)} mx-auto p-5 px-12 ${className}`}>
       {children}
     </div>
   );
