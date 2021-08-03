@@ -20,7 +20,7 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <div className="relative pb-5">
+    <section className="relative pb-5">
       <div className="w-full h-full absolute overflow-hidden">
         <div className="particle-wrapper absolute w-full h-full">
           <Particles
@@ -35,29 +35,26 @@ const Hero = () => {
         <div className="flex">
           <div className="flex flex-col py-40 flex-grow space-y-5">
             <div>
-              <p className="relative z-10 text-gray-800">
-                <motion.div
-                  className="flex space-x-2"
-                  initial={{ y: 15, opacity: 0 }}
-                  animate={{
-                    y: 0,
-                    opacity: 1,
-                  }}
-                  transition={{ duration: 0.3, delay: 0.5, ease: "easeOut" }}
-                >
+              <motion.p
+                className="relative z-10 text-gray-800"
+                initial={{ y: 15, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, ease: "easeOut" }}
+              >
+                <span className="flex space-x-2">
                   <motion.div
                     initial={{ rotate: 0 }}
                     animate={{
-                      scale: [1, 1.5, 1.5, 1.5, 1],
+                      scale: [1, 1.6, 1.6, 1.6, 1],
                       rotate: [0, 30, 0, 30, 0],
                     }}
                     transition={{ delay: 1.5 }}
                   >
                     👋
                   </motion.div>
-                  <span>Hello there! I am</span>
-                </motion.div>
-              </p>
+                  <div>Hello there! I am</div>
+                </span>
+              </motion.p>
               <h1 className="font-bold text-9xl text-gray-800 relative z-10 overflow-hidden">
                 <motion.div
                   className=""
@@ -112,7 +109,7 @@ const Hero = () => {
           />
         </FloatingCircle>
       </Container>
-    </div>
+    </section>
   );
 };
 

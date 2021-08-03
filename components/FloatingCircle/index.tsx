@@ -63,7 +63,7 @@ const Nucleus: React.FC<NucleusProps> = ({
     <motion.div
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      transition={{ delay: 1, duration: 0.8, type: "spring" }}
+      transition={{ delay: 1.8, duration: 0.8, type: "spring" }}
       className="nucleus absolute rounded-full group cursor-pointer flex items-center justify-center z-10 h-20 w-20"
     >
       <span
