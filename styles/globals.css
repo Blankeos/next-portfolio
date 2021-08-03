@@ -23,6 +23,6 @@ a {
 
 .nucleus:hover ~ .orbit {
   @apply transition-all duration-300;
-  width: 10rem !important;
-  height: 10rem !important;
+  width: 12rem !important;
+  height: 12rem !important;
 }
