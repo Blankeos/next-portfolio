@@ -18,9 +18,12 @@ import particlesConfig from "../particles/particles-config.js";
 import Container from "../components/Container";
 import Image from "next/image";
 
-const Hero = () => {
+interface HeroProps {
+  sectionRef?: React.LegacyRef<HTMLElement>;
+}
+const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
-    <section className="relative pb-5">
+    <section ref={sectionRef} className="relative pb-5">
       <div className="w-full h-full absolute overflow-hidden">
         <div className="particle-wrapper absolute w-full h-full">
           <Particles
@@ -48,7 +51,7 @@ const Hero = () => {
                       scale: [1, 1.6, 1.6, 1.5, 1.6, 1.6, 1.5, 1.6, 1],
                       rotate: [0, 30, 0, 30, 0, 30, 0, 30, 0],
                     }}
-                    transition={{ delay: 1.5, duration: 1.8 }}
+                    transition={{ delay: 3.5, duration: 1.8 }}
                   >
                     👋
                   </motion.div>
@@ -97,14 +100,25 @@ const Hero = () => {
               </button>
             </div>
           </div>
-          <div
-            className="w-96"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
+          <div className="relative w-96">
+            <motion.div
+              initial={{ height: "0%" }}
+              animate={{ height: "100%" }}
+              transition={{ ease: "easeOut", delay: 2.5, duration: 0.75 }}
+              className="bg-blue-500 h-full w-full absolute top-0 left-0"
+            ></motion.div>
+            <motion.div
+              initial={{ height: "0%" }}
+              animate={{ height: "100%" }}
+              transition={{ delay: 3, duration: 0.75, ease: "easeOut" }}
+              className="w-full h-1/2 relative"
+              style={{
+                backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          </div>
         </div>
         <FloatingCircle
           style={{ right: "50rem", top: "5rem" }}
