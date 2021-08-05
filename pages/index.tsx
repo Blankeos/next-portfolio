@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import Container from "../components/Container";
 import Hero from "../components/Hero";
 import Projects from "../components/Projects";
 import SideNav from "../components/SideNav";
@@ -8,6 +7,8 @@ import SideNav from "../components/SideNav";
 import { useInView } from "react-intersection-observer";
 import React, { useEffect } from "react";
 import Skills from "../components/Skills";
+import About from "../components/About";
+import Contact from "../components/Contact";
 const Home: React.FC = () => {
   const { ref, inView } = useInView();
 
@@ -30,6 +31,8 @@ const Home: React.FC = () => {
         </div>
         <Projects />
         <Skills />
+        <About />
+        <Contact />
       </div>
     </>
   );
