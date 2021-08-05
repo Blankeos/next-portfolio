@@ -34,7 +34,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           />
         </div>
       </div>
-      <Container className="relative" maxWidth="9xl">
+      <Container className="relative" maxWidth="8xl">
         <div className="flex">
           <div className="flex flex-col py-40 flex-grow space-y-5">
             <div>
@@ -59,7 +59,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 </span>
               </motion.p>
               <h1 className="font-bold text-9xl text-gray-800 relative z-10">
-                <span className="flex flex-wrap space-x-10">
+                <span className="flex flex-wrap">
                   <span className="overflow-hidden">
                     <motion.div
                       initial={{ y: 250 }}
@@ -79,7 +79,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                         ease: "easeOut",
                       }}
                     >
-                      Taleon
+                      &nbsp;Taleon
                     </motion.div>
                   </span>
                 </span>
