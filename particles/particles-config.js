@@ -93,7 +93,7 @@ const particlesConfig = {
         enable: false,
         frequency: 1,
       },
-      width: 1,
+      width: 1.5,
       warp: false,
     },
     move: {
@@ -263,7 +263,7 @@ const particlesConfig = {
       },
       value: {
         min: 1,
-        max: 3,
+        max: 3.5,
       },
       animation: {
         count: 0,
