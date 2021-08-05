@@ -26,3 +26,15 @@ a {
   width: 12rem !important;
   height: 12rem !important;
 }
+
+.project-card {
+  @apply h-full;
+}
+
+.project-card:nth-child(1) {
+  @apply pt-40;
+}
+
+.project-card:nth-child(4) {
+  @apply pb-40;
+}
