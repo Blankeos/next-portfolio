@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.nucleus:hover ~ .orbit {
+  @apply transition-all duration-300;
+  width: 12rem !important;
+  height: 12rem !important;
+}
+
+.project-card {
+  @apply h-full;
+}
+
+.project-card:nth-child(1) {
+  @apply pt-40;
+}
+
+.project-card:nth-child(4) {
+  @apply pb-40;
+}
