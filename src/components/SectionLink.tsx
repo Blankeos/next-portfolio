@@ -16,16 +16,18 @@ const SectionLink: React.FC<SectionLinkProps> = ({
       smooth={true}
       offset={5}
       duration={500}
-      className="select-none relative group cursor-pointer"
+      className="select-none relative group cursor-pointer px-1 py-0.5"
     >
-      <span className="relative group-hover:text-blue-500 transition-all duration-500 ease-out">
-        {children}
-      </span>
-      <span
-        className={`group-hover:w-full group-hover:bg-blue-500 block absolute w-0 h-0.5 bg-gray-500 transition-all duration-500 ease-out ${
-          active && "w-full"
-        }`}
-      ></span>
+      <div className="relative">
+        <span className="relative group-hover:text-blue-500 transition-all duration-500 ease-out">
+          {children}
+        </span>
+        <span
+          className={`group-hover:w-full group-hover:bg-blue-500 block absolute w-0 h-0.5 bg-gray-500 transition-all duration-500 ease-out ${
+            active && "w-full"
+          }`}
+        ></span>
+      </div>
     </Link>
   );
 };
