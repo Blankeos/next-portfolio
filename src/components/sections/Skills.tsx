@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import skills, { Skill } from "../../../data/skills";
 import Container from "../Container";
 import SectionHeading from "../SectionHeading";
 import { SectionProps } from "./types";
+
+import { motion, useAnimation, Variants } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
 
 interface SkillsProps extends SectionProps {}
 
@@ -35,31 +42,74 @@ const GrayCircle = () => {
     </div>
   );
 };
+
+const skillsGridVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+const skillItemVariants: Variants = {
+  hidden: {
+    filter: "blur(1.2rem)",
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    filter: "blur(0px)",
+    y: 0,
+    opacity: 1,
+    transition: {
+      ease: "easeOut",
+    },
+  },
+};
+
 const SkillsGrid = () => {
+  const [ref, inView] = useInView({
+    threshold: 0.8,
+    rootMargin: "150px 0px",
+    root: null,
+  });
+
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [inView]);
+
   return (
-    <div className="grid grid-cols-4 place-self-center gap-10">
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-      <SkillItem />
-    </div>
+    <motion.div
+      variants={skillsGridVariants}
+      initial="hidden"
+      animate={controls}
+      ref={ref}
+      className="grid grid-cols-4 place-self-center gap-10"
+    >
+      {skills.map((skill, i) => {
+        return <SkillItem key={i} name={skill.name} Icon={skill.Icon} />;
+      })}
+    </motion.div>
   );
 };
 
-const SkillItem = () => {
-  return <div className="bg-indigo-600 rounded-full h-20 w-20"></div>;
+interface SkillItem extends Skill {}
+const SkillItem: React.FC<SkillItem> = ({ name, Icon }) => {
+  return (
+    <Tippy content={name}>
+      <motion.div
+        variants={skillItemVariants}
+        className="h-20 w-20 flex justify-center items-center text-6xl"
+      >
+        <Icon className="text-blue-500" />
+      </motion.div>
+    </Tippy>
+  );
 };
 
 export default Skills;
