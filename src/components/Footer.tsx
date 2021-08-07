@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
 import Container from "./Container";
 
+import { animateScroll as scroll } from "react-scroll";
 // const Footer = () => {
 //   return (
 //     <footer className="bg-blue-500 text-white">
@@ -30,12 +32,32 @@ const Footer = () => {
           CATT
         </a>
         <div className="flex space-x-10">
-          <span>Home</span>
+          <HomeLinkButton>Home</HomeLinkButton>
           <span>More Projects</span>
         </div>
         <span>2021 © Carlo Taleon • All Rights Reserved.</span>
       </Container>
     </footer>
+  );
+};
+
+interface HomeLinkButton {
+  className?: string;
+}
+const HomeLinkButton: React.FC<HomeLinkButton> = ({ className, children }) => {
+  const router = useRouter();
+  return (
+    <button
+      onClick={() => {
+        if (router.pathname === "/") {
+          scroll.scrollToTop();
+        } else {
+          router.push("/");
+        }
+      }}
+    >
+      {children}
+    </button>
   );
 };
 export default Footer;
