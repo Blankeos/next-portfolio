@@ -6,7 +6,7 @@ import sections from "../../data/sections";
 
 const Nav = () => {
   return (
-    <nav className="h-20 w-full">
+    <nav className="h-32 w-full">
       <Container
         maxWidth="8xl"
         className="flex items-center justify-between h-full"
