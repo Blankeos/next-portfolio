@@ -24,7 +24,7 @@ const Skills: React.FC<SkillsProps> = ({ sectionRef }) => {
           <div className="relative">
             <GrayCircle />
             <SectionHeading
-              className="relative font-light text-5xl"
+              className="relative font-light text-5xl z-10"
               text={["Skills", "& Technologies"]}
             />
           </div>
@@ -71,7 +71,6 @@ const skillItemVariants: Variants = {
 const SkillsGrid = () => {
   const [ref, inView] = useInView({
     threshold: 0.8,
-    rootMargin: "150px 0px",
     root: null,
   });
 
@@ -89,7 +88,7 @@ const SkillsGrid = () => {
       initial="hidden"
       animate={controls}
       ref={ref}
-      className="grid grid-cols-4 place-self-center gap-10"
+      className="grid grid-cols-4 place-self-center gap-10 z-10"
     >
       {skills.map((skill, i) => {
         return <SkillItem key={i} name={skill.name} Icon={skill.Icon} />;

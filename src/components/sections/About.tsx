@@ -12,7 +12,7 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
       ref={sectionRef}
       className="bg-blue-50 w-full py-48 border-t"
     >
-      <Container maxWidth="7xl">
+      <Container maxWidth="7xl" className="relative z-10">
         <SectionHeading
           className="relative font-light text-5xl"
           text={["About", "Me"]}
