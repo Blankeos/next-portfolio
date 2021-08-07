@@ -1,22 +1,73 @@
+import { motion, useAnimation, Variant } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import { FaSyringe } from "react-icons/fa";
+
 interface SectionHeadingProps {
   text: [string] | [string, string];
   className?: string;
 }
 
+const headingVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+const childVariants = {
+  hidden: {
+    y: 50,
+  },
+  visible: {
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
+
 const SectionHeading = ({
   text,
   className = "font-light text-5xl",
 }: SectionHeadingProps) => {
+  const [ref, inView] = useInView({
+    threshold: 1,
+    root: null,
+    rootMargin: "-150px 0px",
+  });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [inView]);
+
   return (
-    <h2 className={`flex flex-col ${className}`}>
+    <motion.h2
+      variants={headingVariants}
+      initial="hidden"
+      animate={controls}
+      className={`flex flex-col ${className}`}
+      ref={ref}
+    >
       {text.map((stringVal, i) => {
         return (
-          <span key={i} className={i === 1 ? "ml-16" : ""}>
-            {stringVal}
+          <span
+            key={i}
+            className={`${i === 1 ? "ml-16" : ""} overflow-hidden pb-2`}
+          >
+            <motion.span variants={childVariants} className="block">
+              {stringVal}
+            </motion.span>
           </span>
         );
       })}
-    </h2>
+    </motion.h2>
   );
 };
 
