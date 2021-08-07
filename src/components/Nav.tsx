@@ -12,7 +12,7 @@ const Nav = () => {
         className="flex items-center justify-between h-full"
       >
         <Link href="/">
-          <a className="font-extrabold select-none cursor-pointer h-full flex items-center px-5">
+          <a className="font-extrabold select-none cursor-pointer h-full flex items-center pr-5">
             CATT
           </a>
         </Link>
