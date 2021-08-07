@@ -16,7 +16,7 @@ const Nav = () => {
             CATT
           </a>
         </Link>
-        <div className="text-sm text-gray-700 flex space-x-10">
+        <div className="text-sm text-gray-600 flex space-x-10">
           {sections.map((section, i) => (
             <SectionLink key={i} href={section.href}>
               {section.name}
