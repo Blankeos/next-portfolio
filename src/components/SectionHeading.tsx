@@ -1,4 +1,4 @@
-import { motion, useAnimation, Variant } from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { FaSyringe } from "react-icons/fa";
@@ -8,16 +8,16 @@ interface SectionHeadingProps {
   className?: string;
 }
 
-const headingVariants = {
+const headingVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.2,
     },
   },
 };
 
-const childVariants = {
+const childVariants: Variants = {
   hidden: {
     y: 50,
   },
@@ -25,7 +25,7 @@ const childVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: "easeOut",
+      ease: "circOut",
     },
   },
 };
