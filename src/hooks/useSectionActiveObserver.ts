@@ -13,8 +13,6 @@ export const useSectionActiveObserver: useSectionActiveObserverArgs = (
   const [activeIndex, setActiveIndex] = useState(-1);
 
   useEffect(() => {
-    console.log(noActiveSection);
-
     if (!noActiveSection) {
       inViews.every((inView, i) => {
         if (inView === true) {
