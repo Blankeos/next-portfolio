@@ -39,7 +39,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
         <div className="flex">
           <div className="flex flex-col py-40 flex-grow space-y-5">
             <div>
-              <motion.p
+              <motion.div
                 className="relative z-10 text-gray-800"
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -58,7 +58,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   </motion.div>
                   <div>Hello there! I am</div>
                 </span>
-              </motion.p>
+              </motion.div>
               <h1 className="font-bold text-9xl text-gray-800 relative z-10">
                 <span className="flex flex-wrap">
                   <span className="overflow-hidden">
