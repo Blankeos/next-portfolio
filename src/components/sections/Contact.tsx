@@ -7,6 +7,11 @@ import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { GrInstagram } from "react-icons/gr";
 import { SectionProps } from "./types";
 
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
+import socials, { Social } from "../../../data/socials";
+import { icons } from "react-icons/lib";
+
 interface ContactProps extends SectionProps {}
 
 const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
@@ -27,13 +32,39 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
           <p>carloantonioct@gmail.com</p>
           <p>(+63) 123-456-7890</p>
           <div className="pt-5 flex space-x-5 text-3xl text-blue-500">
-            <FaGithub />
+            {socials.map((social, i) => {
+              return (
+                <SocialLink
+                  key={i}
+                  name={social.name}
+                  url={social.url}
+                  Icon={social.Icon}
+                />
+              );
+            })}
+            {/* <Tippy content="GitHub">
+              <span>
+                <FaGithub />
+              </span>
+            </Tippy>
             <GrInstagram />
-            <FaLinkedinIn />
+            <FaLinkedinIn /> */}
           </div>
         </div>
       </Container>
     </section>
+  );
+};
+
+interface SocialLink extends Social {}
+
+const SocialLink: React.FC<SocialLink> = ({ name, Icon, url }) => {
+  return (
+    <Link href={url}>
+      <a target="_blank">
+        <Icon />
+      </a>
+    </Link>
   );
 };
 
