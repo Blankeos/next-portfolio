@@ -1,4 +1,4 @@
-import FloatingCircle from "../FloatingCircle";
+import FloatingCircle, { getContainerVariants } from "../FloatingCircle";
 // Icons
 import { FaReact, FaDiscord } from "react-icons/fa";
 import { HiOutlineDocumentDownload as ResumeIcon } from "react-icons/hi";
@@ -65,7 +65,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                     <motion.div
                       initial={{ y: 250 }}
                       animate={{ y: 0 }}
-                      transition={{ duration: 0.75, delay: 1, ease: "easeOut" }}
+                      transition={{ duration: 0.75, delay: 1, ease: "circOut" }}
                     >
                       Carlo
                     </motion.div>
@@ -75,9 +75,9 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                       initial={{ y: 250 }}
                       animate={{ y: 0 }}
                       transition={{
-                        duration: 0.75,
+                        duration: 1,
                         delay: 1.2,
-                        ease: "easeOut",
+                        ease: "circOut",
                       }}
                     >
                       &nbsp;Taleon
@@ -105,13 +105,13 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             <motion.div
               initial={{ height: "0%" }}
               animate={{ height: "100%" }}
-              transition={{ ease: "easeOut", delay: 2.5, duration: 0.75 }}
+              transition={{ ease: "circOut", delay: 2.5, duration: 0.75 }}
               className="bg-blue-500 h-full w-full absolute top-0 left-0"
             ></motion.div>
             <motion.div
               initial={{ height: "0%" }}
               animate={{ height: "100%" }}
-              transition={{ delay: 3, duration: 0.75, ease: "easeOut" }}
+              transition={{ delay: 3, duration: 0.75, ease: "circOut" }}
               className="w-full h-1/2 relative"
               style={{
                 backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
@@ -121,24 +121,36 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             />
           </div>
         </div>
-        <FloatingCircle
-          style={{ right: "50rem", top: "5rem" }}
-          animationDelay={1}
+        <motion.div
+          variants={getContainerVariants(0.4, 3.5)}
+          initial="hidden"
+          animate="visible"
         >
-          <FaReact className="text-blue-400" size="2rem" />
-        </FloatingCircle>
-        <FloatingCircle
-          style={{ right: "30rem", bottom: "10rem" }}
-          orbitSize="25rem"
-          orbitClass="border-indigo-400"
-          nucleusClass="bg-indigo-400"
-        >
-          <Image
-            src="https://static.wikia.nocookie.net/spartaremix/images/e/ec/Discord-new-logo.png"
-            height="48"
-            width="48"
-          />
-        </FloatingCircle>
+          <FloatingCircle
+            style={{ right: "50rem", top: "5rem" }}
+            floatDelay={1.5}
+          >
+            <FaReact className="text-blue-400" size="2rem" />
+          </FloatingCircle>
+          <FloatingCircle
+            style={{ right: "30rem", bottom: "10rem" }}
+            orbitSize="25rem"
+            orbitClass="border-indigo-400"
+            nucleusClass="bg-indigo-400"
+          >
+            <Image
+              src="https://static.wikia.nocookie.net/spartaremix/images/e/ec/Discord-new-logo.png"
+              height="48"
+              width="48"
+            />
+          </FloatingCircle>
+          <FloatingCircle
+            style={{ left: "5rem", bottom: "5rem" }}
+            floatDelay={4.5}
+          >
+            <FaReact className="text-blue-400" size="2rem" />
+          </FloatingCircle>
+        </motion.div>
       </Container>
     </section>
   );
