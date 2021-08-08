@@ -121,28 +121,33 @@ const ProjectCard = ({
     <Link href={demoURL ? demoURL : "/project-not-found"}>
       <a className="project-card" target="_blank">
         <div className="group flex flex-col h-full cursor-pointer">
-          <div
-            ref={imageRef}
-            className="h-full flex bg-gray-200 relative overflow-hidden rounded"
-            style={{ minHeight: "25rem" }}
-          >
-            <span className="absolute w-full h-full">
-              {imageURL && (
-                <Image
-                  src={imageURL}
-                  priority
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-                />
-              )}
-            </span>
-            <motion.div
-              initial={{ height: "100%" }}
-              animate={imageControls}
-              className="relative bg-blue-50 self-start w-full"
-            ></motion.div>
+          <div className="inline-block relative w-full h-full">
+            <div style={{ marginTop: "75%" }}></div>
+            <div className="absolute inset-0 bg-blue-300">
+              <div
+                ref={imageRef}
+                className="h-full w-full flex bg-gray-200 relative overflow-hidden rounded"
+              >
+                <span className="absolute w-full h-full">
+                  {imageURL && (
+                    <Image
+                      src={imageURL}
+                      priority
+                      layout="fill"
+                      objectFit="cover"
+                      objectPosition="center"
+                    />
+                  )}
+                </span>
+                <motion.div
+                  initial={{ height: "100%" }}
+                  animate={imageControls}
+                  className="relative bg-blue-50 self-start w-full"
+                ></motion.div>
+              </div>
+            </div>
           </div>
+
           <motion.div
             variants={textParentVariants}
             initial="hidden"
