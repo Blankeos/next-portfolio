@@ -38,6 +38,7 @@ const SectionHeading = ({
     threshold: 1,
     root: null,
     rootMargin: "-150px 0px",
+    triggerOnce: true,
   });
   const controls = useAnimation();
 

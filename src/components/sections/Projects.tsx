@@ -67,11 +67,13 @@ const ProjectCard = ({
     threshold: 0.3,
     root: null,
     rootMargin: "-100px 0px",
+    triggerOnce: true,
   });
   const [textRef, textInView] = useInView({
     threshold: 1,
     root: null,
     rootMargin: "-100px 0px",
+    triggerOnce: true,
   });
 
   const imageControls = useAnimation();

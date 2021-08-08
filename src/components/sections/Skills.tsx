@@ -72,6 +72,7 @@ const SkillsGrid = () => {
   const [ref, inView] = useInView({
     threshold: 0.8,
     root: null,
+    triggerOnce: true,
   });
 
   const controls = useAnimation();
@@ -80,6 +81,7 @@ const SkillsGrid = () => {
     if (inView) {
       controls.start("visible");
     }
+    console.log(inView);
   }, [inView]);
 
   return (

@@ -23,6 +23,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
     threshold: 0.8,
     root: null,
     rootMargin: "-150px 0px",
+    triggerOnce: true,
   });
 
   useEffect(() => {
