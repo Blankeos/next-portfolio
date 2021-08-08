@@ -15,7 +15,7 @@ type Projects = Project[];
 const projects: Projects = [
   {
     title: "Cafe.ly",
-    shortDesc: "A Full-Stack Social Product Review App",
+    shortDesc: "A Full-Stack Social Product Review App for coffee!",
     slug: "cafely",
     imageURL: "/imgs/cafely_featured-project-img.jpg",
     demoURL: "https://cafely.vercel.app/",
