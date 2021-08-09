@@ -14,17 +14,16 @@ interface SkillsProps extends SectionProps {}
 
 const Skills: React.FC<SkillsProps> = ({ sectionRef }) => {
   return (
-    <section
-      id="skills-section"
-      ref={sectionRef}
-      className="w-full py-48 border-t"
-    >
-      <Container maxWidth="7xl" className="relative grid grid-cols-2">
+    <section id="skills-section" ref={sectionRef} className="w-full py-48">
+      <Container
+        maxWidth="7xl"
+        className="relative grid lg:grid-cols-2 grid-cols-1"
+      >
         <div className="flex items-center">
           <div className="relative">
             <GrayCircle />
             <SectionHeading
-              className="relative font-light text-5xl z-10"
+              className="relative font-light text-4xl sm:text-5xl z-10"
               text={["Skills", "& Technologies"]}
             />
           </div>
@@ -47,7 +46,7 @@ const skillsGridVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.15,
     },
   },
 };
@@ -90,7 +89,7 @@ const SkillsGrid = () => {
       initial="hidden"
       animate={controls}
       ref={ref}
-      className="grid grid-cols-4 place-self-center gap-10 z-10"
+      className="grid grid-cols-4 justify-items-center lg:place-self-center md:gap-10 z-10 mt-16 lg:mt-0"
     >
       {skills.map((skill, i) => {
         return <SkillItem key={i} name={skill.name} Icon={skill.Icon} />;
@@ -105,7 +104,7 @@ const SkillItem: React.FC<SkillItem> = ({ name, Icon }) => {
     <Tippy content={name}>
       <motion.div
         variants={skillItemVariants}
-        className="h-20 w-20 flex justify-center items-center text-6xl"
+        className="h-20 w-20 flex justify-center items-center text-5xl md:text-6xl"
       >
         <Icon className="text-blue-500" />
       </motion.div>
