@@ -40,6 +40,9 @@ const Home: React.FC = () => {
         <meta property="og:type" content="website" />
         <meta
           name="image"
+          content="https://carlo.vercel.app/imgs/image-meta.jpg"
+        />
+        <meta
           property="og:image"
           content="https://carlo.vercel.app/imgs/image-meta.jpg"
         />
