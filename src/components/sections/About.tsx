@@ -15,14 +15,14 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
     <section
       id="about-section"
       ref={sectionRef}
-      className="bg-blue-50 w-full py-48 border-t"
+      className="bg-gray-50 w-full py-48"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="relative font-light text-5xl z-10"
+          className="relative font-light text-4xl sm:text-5xl z-10"
           text={["About", "Me"]}
         />
-        <div className="relative grid grid-cols-2 mt-20 z-10">
+        <div className="relative grid grid-cols-1 md:grid-cols-2 mt-20 z-10 gap-8">
           <ProfileImage />
           <ProfileInfo />
         </div>
@@ -53,13 +53,30 @@ const ProfileImage = () => {
   return (
     <div
       ref={ref}
-      className="relative flex flex-col h-96 w-96 bg-blue-200 overflow-hidden"
+      className="relative flex flex-col
+     md:h-96 md:w-96 bg-blue-500"
     >
-      <motion.div
-        initial={{ width: "100%" }}
-        animate={controls}
-        className="relative bg-blue-50 h-full self-end"
-      ></motion.div>
+      <div
+        className="relative bg-red-400"
+        style={{
+          marginTop: "100%",
+        }}
+      ></div>
+      <div className="absolute inset-0">
+        <div
+          className="absolute w-full h-full"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
+          }}
+        ></div>
+        <motion.div
+          initial={{ width: "100%" }}
+          animate={controls}
+          className="absolute bg-gray-50 w-full h-full self-end"
+        ></motion.div>
+      </div>
     </div>
   );
 };
@@ -113,7 +130,7 @@ const ProfileInfo = () => {
     >
       <motion.h2
         variants={profileInfoChildVariants}
-        className="font-semibold text-6xl text-gray-800"
+        className="font-semibold text-3xl md:text-6xl text-gray-700"
       >
         Carlo Antonio T. Taleon
       </motion.h2>
