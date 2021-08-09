@@ -36,11 +36,11 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
         </div>
       </div>
       <Container className="relative" maxWidth="8xl">
-        <div className="flex">
+        <div className="flex md:flex-row flex-col-reverse">
           <div className="flex flex-col py-40 flex-grow space-y-5">
             <div>
               <motion.div
-                className="relative z-10 text-gray-800"
+                className="relative z-10 text-gray-800 text-sm md:text-base"
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5, ease: "easeOut", duration: 0.5 }}
@@ -59,36 +59,11 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   <div>Hello there! I am</div>
                 </span>
               </motion.div>
-              <h1 className="font-bold text-9xl text-gray-800 relative z-10">
-                <span className="flex flex-wrap">
-                  <span className="overflow-hidden">
-                    <motion.div
-                      initial={{ y: 250 }}
-                      animate={{ y: 0 }}
-                      transition={{ duration: 0.75, delay: 1, ease: "circOut" }}
-                    >
-                      Carlo
-                    </motion.div>
-                  </span>
-                  <span className="overflow-hidden">
-                    <motion.div
-                      initial={{ y: 250 }}
-                      animate={{ y: 0 }}
-                      transition={{
-                        duration: 1,
-                        delay: 1.2,
-                        ease: "circOut",
-                      }}
-                    >
-                      &nbsp;Taleon
-                    </motion.div>
-                  </span>
-                </span>
-              </h1>
-              <p className="mt-5 max-w-md text-gray-500 relative z-10">
+              <HeroHeading />
+              <p className="mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base">
                 I make games during my free time and I enjoy building web apps
-                using React. I&apos;m also a student at West Visayas State
-                University studying Computer Science.
+                using <b>React</b>. I&apos;m also a student at West Visayas
+                State University studying Computer Science.
               </p>
             </div>
             <div className="flex space-x-3">
@@ -125,6 +100,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           variants={getContainerVariants(0.4, 3.5)}
           initial="hidden"
           animate="visible"
+          className="md:block hidden"
         >
           <FloatingCircle
             style={{ right: "50rem", top: "5rem" }}
@@ -156,4 +132,38 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   );
 };
 
+const HeroHeading: React.FC = () => {
+  return (
+    <h1 className="hero-text font-extrabold lg:text-9xl text-gray-700 relative z-10 leading-none">
+      <span className="overflow-hidden inline-block">
+        <motion.span
+          initial={{ y: 250 }}
+          animate={{ y: 0 }}
+          transition={{
+            duration: 0.75,
+            delay: 1,
+            ease: "circOut",
+          }}
+          className="block"
+        >
+          Carlo
+        </motion.span>
+      </span>
+      <span className="overflow-hidden inline-block pl-5 md:pl-10">
+        <motion.span
+          initial={{ y: 250 }}
+          animate={{ y: 0 }}
+          transition={{
+            duration: 1,
+            delay: 1.2,
+            ease: "circOut",
+          }}
+          className="block"
+        >
+          Taleon
+        </motion.span>
+      </span>
+    </h1>
+  );
+};
 export default Hero;
