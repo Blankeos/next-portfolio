@@ -24,6 +24,7 @@ module.exports = {
       width: ["hover", "group-hover"],
       height: ["hover", "group-hover"],
       rotate: ["group-hover"],
+      translate: ["group-hover"],
     },
   },
   plugins: [],
