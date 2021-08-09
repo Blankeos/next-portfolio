@@ -40,11 +40,11 @@ const Home: React.FC = () => {
         <meta property="og:type" content="website" />
         <meta
           name="image"
-          content="https://carlo.vercel.app/imgs/image-meta.jpg"
+          content="https://github.com/Blankeos/next-portfolio/blob/main/public/imgs/image-meta.jpg"
         />
         <meta
           property="og:image"
-          content="https://carlo.vercel.app/imgs/image-meta.jpg"
+          content="https://github.com/Blankeos/next-portfolio/blob/main/public/imgs/image-meta.jpg"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="Carlo Taleon" />
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
         />
         <meta
           name="twitter:image"
-          content="https://carlo.vercel.app/imgs/image-meta.jpg"
+          content="https://github.com/Blankeos/next-portfolio/blob/main/public/imgs/image-meta.jpg"
         />
       </Head>
       <Hero sectionRef={heroRef} />
