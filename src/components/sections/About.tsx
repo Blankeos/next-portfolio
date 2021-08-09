@@ -17,12 +17,12 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
       ref={sectionRef}
       className="bg-blue-50 w-full py-48 border-t"
     >
-      <Container maxWidth="7xl" className="relative z-10">
+      <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="relative font-light text-5xl"
+          className="relative font-light text-5xl z-10"
           text={["About", "Me"]}
         />
-        <div className="relative grid grid-cols-2 mt-20">
+        <div className="relative grid grid-cols-2 mt-20 z-10">
           <ProfileImage />
           <ProfileInfo />
         </div>

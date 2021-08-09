@@ -21,9 +21,9 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
       ref={sectionRef}
       className="bg-blue-50 w-full py-16 border-t"
     >
-      <Container maxWidth="7xl" className="relative z-10">
+      <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="font-light text-5xl absolute"
+          className="font-light text-5xl absolute z-10"
           text={["Featured", "Projects"]}
         />
         <ProjectsGrid />
@@ -34,7 +34,7 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
 
 const ProjectsGrid = () => {
   return (
-    <div className="grid grid-cols-2 gap-16 mt-12 items-end">
+    <div className="relative grid grid-cols-1 pt-28 md:pt-0 md:grid-cols-2 gap-16 mt-12 items-end z-10">
       {projects.map((project, i) => {
         return (
           <ProjectCard
@@ -118,62 +118,71 @@ const ProjectCard = ({
     },
   };
   return (
-    <Link href={demoURL ? demoURL : "/project-not-found"}>
-      <a className="project-card" target="_blank">
-        <div className="group flex flex-col h-full cursor-pointer">
-          <div className="inline-block relative w-full h-full">
-            <div style={{ marginTop: "75%" }}></div>
-            <div className="absolute inset-0 bg-blue-300">
-              <div
-                ref={imageRef}
-                className="h-full w-full flex bg-gray-200 relative overflow-hidden rounded"
-              >
-                <span className="absolute w-full h-full">
-                  {imageURL && (
-                    <Image
-                      src={imageURL}
-                      priority
-                      layout="fill"
-                      objectFit="cover"
-                      objectPosition="center"
-                    />
-                  )}
-                </span>
-                <motion.div
-                  initial={{ height: "100%" }}
-                  animate={imageControls}
-                  className="relative bg-blue-50 self-start w-full"
-                ></motion.div>
+    <div className="project-card">
+      <Link href={demoURL ? demoURL : "/project-not-found"}>
+        <a className="project-card" target="_blank">
+          <div className="group flex flex-col h-full cursor-pointer">
+            <div className="inline-block relative w-full h-full">
+              <div style={{ marginTop: "75%" }}></div>
+              <div className="absolute inset-0">
+                <div
+                  ref={imageRef}
+                  className="h-full w-full flex bg-gray-200 relative overflow-hidden rounded"
+                >
+                  <span className="absolute w-full h-full">
+                    {imageURL && (
+                      <Image
+                        src={imageURL}
+                        priority
+                        layout="fill"
+                        objectFit="cover"
+                        objectPosition="center"
+                      />
+                    )}
+                  </span>
+                  <motion.div
+                    initial={{ height: "100%" }}
+                    animate={imageControls}
+                    className="relative bg-blue-50 self-start w-full"
+                  ></motion.div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <motion.div
-            variants={textParentVariants}
-            initial="hidden"
-            animate={textControls}
-            ref={textRef}
-          >
             <motion.div
-              variants={textChildVariants}
-              className="flex justify-between pt-10"
+              variants={textParentVariants}
+              initial="hidden"
+              animate={textControls}
+              ref={textRef}
             >
-              <h3 className="font-semibold text-3xl text-gray-800">{title}</h3>
-              <div className="relative flex items-center justify-center h-12 w-12">
-                <div className="absolute h-0 w-0 group-hover:h-12 group-hover:w-12 rounded-full transition-all ease-out duration-300 bg-blue-500 flex items-center justify-center"></div>
-                <Arrow
-                  size="2rem"
-                  className="relative group-hover:-rotate-45 transform transition duration-300 ease-out text-gray-800 group-hover:text-white"
-                />
-              </div>
+              <motion.div
+                variants={textChildVariants}
+                className="flex justify-between pt-10"
+              >
+                <div className="flex flex-col space-y-3">
+                  <h3 className="font-semibold text-3xl text-gray-800">
+                    {title}
+                  </h3>
+                  <motion.p
+                    variants={textChildVariants}
+                    className="text-gray-500"
+                  >
+                    {shortDesc ? shortDesc.toLowerCase() : "short description"}
+                  </motion.p>
+                </div>
+                <div className="relative flex items-center justify-center h-12 w-12">
+                  <div className="absolute h-0 w-0 group-hover:h-12 group-hover:w-12 rounded-full transition-all ease-out duration-300 bg-blue-500 flex items-center justify-center"></div>
+                  <Arrow
+                    size="2rem"
+                    className="relative group-hover:-rotate-45 transform transition duration-300 ease-out text-gray-800 group-hover:text-white"
+                  />
+                </div>
+              </motion.div>
             </motion.div>
-            <motion.p variants={textChildVariants} className="text-gray-500">
-              {shortDesc ? shortDesc.toLowerCase() : "short description"}
-            </motion.p>
-          </motion.div>
-        </div>
-      </a>
-    </Link>
+          </div>
+        </a>
+      </Link>
+    </div>
   );
 };
 
