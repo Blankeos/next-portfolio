@@ -19,11 +19,11 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
     <section
       id="projects-section"
       ref={sectionRef}
-      className="bg-blue-50 w-full py-16 border-t"
+      className="bg-gray-50 w-full py-16"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="font-light text-5xl absolute z-10"
+          className="font-light text-4xl sm:text-5xl absolute z-10"
           text={["Featured", "Projects"]}
         />
         <ProjectsGrid />
@@ -143,7 +143,7 @@ const ProjectCard = ({
                   <motion.div
                     initial={{ height: "100%" }}
                     animate={imageControls}
-                    className="relative bg-blue-50 self-start w-full"
+                    className="relative bg-gray-50 self-start w-full"
                   ></motion.div>
                 </div>
               </div>
@@ -160,12 +160,12 @@ const ProjectCard = ({
                 className="flex justify-between pt-10"
               >
                 <div className="flex flex-col space-y-3">
-                  <h3 className="font-semibold text-3xl text-gray-800">
+                  <h3 className="font-semibold text-2xl md:text-3xl text-gray-800">
                     {title}
                   </h3>
                   <motion.p
                     variants={textChildVariants}
-                    className="text-gray-500"
+                    className="text-gray-500 text-sm md:text-base"
                   >
                     {shortDesc ? shortDesc.toLowerCase() : "short description"}
                   </motion.p>
