@@ -46,3 +46,9 @@ a {
     @apply hidden;
   }
 }
+
+@media (max-width: 1024px) {
+  .hero-text {
+    font-size: 12vw;
+  }
+}
