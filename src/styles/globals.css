@@ -31,10 +31,18 @@ a {
   @apply h-full;
 }
 
-.project-card:nth-child(1) {
-  @apply pt-40;
+@media (min-width: 768px) {
+  .project-card:nth-child(1) {
+    @apply pt-40;
+  }
+
+  .project-card:nth-child(4) {
+    @apply pb-40;
+  }
 }
 
-.project-card:nth-child(4) {
-  @apply pb-40;
+@media (max-width: 1450px) {
+  .side-nav {
+    @apply hidden;
+  }
 }
