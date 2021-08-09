@@ -38,7 +38,10 @@ const Home: React.FC = () => {
           content="I enjoy building web apps using React. I'm also a student at West Visayas State University studying Computer Science."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/imgs/image-meta.jpg" />
+        <meta
+          property="og:image"
+          content="https://carlo.vercel.app/imgs/image-meta.jpg"
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="Carlo Taleon" />
         <meta name="twitter:title" content="Carlo Taleon - Portfolio" />
