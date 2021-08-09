@@ -16,7 +16,7 @@ const SideNav: React.FC<SideNavProps> = ({ isVisible = true, activeIndex }) => {
   return (
     <>
       <Container
-        className={`items-start w-full sticky top-0 flex transition ease-out duration-300 z-10 ${
+        className={`side-nav items-start w-full sticky top-0 transition ease-out duration-300 z-10 flex ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
