@@ -5,6 +5,7 @@ import SectionLink from "./SectionLink";
 import sections from "../../data/sections";
 
 import { motion, Variants } from "framer-motion";
+import socials from "../../data/socials";
 
 const navVariants: Variants = {
   hidden: {
@@ -53,15 +54,49 @@ const Nav = () => {
             </motion.span>
           </a>
         </Link>
-        <div className="text-sm text-gray-600 flex space-x-10">
-          {sections.map((section, i) => (
-            <motion.span variants={navChildVariants} key={i} className="block">
-              <SectionLink href={section.href}>{section.name}</SectionLink>
-            </motion.span>
-          ))}
+        <div className="flex space-x-10">
+          <div className="text-sm text-gray-600 flex space-x-10 items-center">
+            <>
+              {sections.map((section, i) => (
+                <motion.span
+                  variants={navChildVariants}
+                  key={i}
+                  className="block"
+                >
+                  <SectionLink href={section.href}>{section.name}</SectionLink>
+                </motion.span>
+              ))}
+            </>
+          </div>
+          <div className="text-sm text-gray-600 flex space-x-5 items-center">
+            {socials.map((social, i) => (
+              <motion.span
+                variants={navChildVariants}
+                key={i}
+                className="block"
+              >
+                <SocialLink href={social.url}>
+                  {<social.Icon size="1.1rem" />}
+                </SocialLink>
+              </motion.span>
+            ))}
+          </div>
         </div>
       </Container>
     </motion.nav>
+  );
+};
+
+interface SocialLinkProps {
+  href: string;
+}
+const SocialLink: React.FC<SocialLinkProps> = ({ href, children }) => {
+  return (
+    <Link href={href}>
+      <a className="select-none relative group cursor-pointer w-10 h-10 flex items-center justify-center hover:bg-blue-500 hover:text-white rounded-full transition ease-in-out">
+        {children}
+      </a>
+    </Link>
   );
 };
 
