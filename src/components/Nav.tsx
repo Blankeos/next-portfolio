@@ -55,7 +55,7 @@ const Nav = () => {
           </a>
         </Link>
         <div className="flex space-x-10">
-          <div className="text-sm text-gray-600 flex space-x-10 items-center">
+          <div className="text-sm text-gray-600 hidden lg:flex space-x-10 items-center">
             <>
               {sections.map((section, i) => (
                 <motion.span
