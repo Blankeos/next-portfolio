@@ -67,10 +67,10 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               </p>
             </div>
             <div className="flex space-x-3">
-              <button className="select-none bg-gray-600 rounded-md px-5 py-2 text-white relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40">
+              <button className="select-none bg-gray-600 rounded-md px-5 py-2 text-white relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 text-sm md:text-base">
                 Get in Touch
               </button>
-              <button className="select-none bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10">
+              <button className="select-none bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base">
                 <ResumeIcon size="1.2rem" />
                 <span>Resume</span>
               </button>
