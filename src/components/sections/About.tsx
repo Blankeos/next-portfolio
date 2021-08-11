@@ -5,6 +5,7 @@ import { SectionProps } from "./types";
 
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import about from "../../../data/about";
 
 interface AboutProps extends SectionProps {}
 
@@ -15,7 +16,7 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
     <section
       id="about-section"
       ref={sectionRef}
-      className="bg-gray-50 w-full py-48"
+      className="bg-gray-50 w-full py-40"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
@@ -51,31 +52,29 @@ const ProfileImage = () => {
     }
   }, [inView]);
   return (
-    <div
-      ref={ref}
-      className="relative flex flex-col
-     md:h-96 md:w-96 bg-blue-500"
-    >
-      <div
-        className="relative bg-red-400"
-        style={{
-          marginTop: "100%",
-        }}
-      ></div>
-      <div className="absolute inset-0">
+    <div className="relative w-full h-full flex flex-col">
+      <div ref={ref} className="inline-block relative md:w-5/6">
         <div
-          className="absolute w-full h-full"
+          className="relative"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center top",
+            marginTop: "100%",
           }}
         ></div>
-        <motion.div
-          initial={{ width: "100%" }}
-          animate={controls}
-          className="absolute bg-gray-50 w-full h-full self-end"
-        ></motion.div>
+        <div className="absolute inset-0">
+          <div
+            className="absolute w-full h-full"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center top",
+            }}
+          ></div>
+          <motion.div
+            initial={{ width: "100%" }}
+            animate={controls}
+            className="absolute bg-gray-50 w-full h-full self-end"
+          ></motion.div>
+        </div>
       </div>
     </div>
   );
@@ -126,11 +125,11 @@ const ProfileInfo = () => {
       variants={profileInfoVariants}
       initial={"hidden"}
       animate={controls}
-      className="flex flex-col space-y-5"
+      className="flex flex-col space-y-8 mt-5 md:mt-0"
     >
       <motion.h2
         variants={profileInfoChildVariants}
-        className="font-semibold text-3xl md:text-6xl text-gray-700"
+        className="font-semibold text-5xl md:text-6xl text-gray-700"
       >
         Carlo Antonio T. Taleon
       </motion.h2>
@@ -138,14 +137,15 @@ const ProfileInfo = () => {
         variants={profileInfoChildVariants}
         className="w-16 h-2 bg-blue-500"
       ></motion.span>
-      <motion.p
-        variants={profileInfoChildVariants}
-        className="text-lg text-gray-600"
-      >
-        IPO managed the lightning fast testnet when Tezos could be a REKT of
-        lots of bear trap. Blockchain froze denial of service attack when NFT
-        froze the provably fair peer-to-peer network.
-      </motion.p>
+      <div className="md:text-lg text-gray-600 flex flex-col space-y-5">
+        {about.bio.map((p, i) => {
+          return (
+            <motion.p key={i} variants={profileInfoChildVariants}>
+              {p}
+            </motion.p>
+          );
+        })}
+      </div>
     </motion.div>
   );
 };
