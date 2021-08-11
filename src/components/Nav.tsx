@@ -93,8 +93,9 @@ interface SocialLinkProps {
 const SocialLink: React.FC<SocialLinkProps> = ({ href, children }) => {
   return (
     <Link href={href}>
-      <a className="select-none relative group cursor-pointer w-10 h-10 flex items-center justify-center hover:bg-blue-500 hover:text-white rounded-full transition ease-in-out">
-        {children}
+      <a className="relative select-none group cursor-pointer h-10 w-10 flex items-center justify-center hover:text-white transition ease-out">
+        <span className="absolute w-0 h-0 group-hover:h-10 group-hover:w-10 bg-blue-500 rounded-full transition-all ease-in-out"></span>
+        <span className="relative">{children}</span>
       </a>
     </Link>
   );
