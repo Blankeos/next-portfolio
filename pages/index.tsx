@@ -60,7 +60,6 @@ const Home: React.FC = () => {
       </Head>
       <Hero sectionRef={heroRef} />
 
-      {/* <BreakPointHelper /> */}
       <div className="relative">
         <div className="absolute inset-0 ">
           <SideNav isVisible={!heroRefInView} activeIndex={activeIndex} />

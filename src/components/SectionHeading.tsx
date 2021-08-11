@@ -6,6 +6,7 @@ import { FaSyringe } from "react-icons/fa";
 interface SectionHeadingProps {
   text: [string] | [string, string];
   className?: string;
+  noOffset?: boolean;
 }
 
 const headingVariants: Variants = {
@@ -33,6 +34,7 @@ const childVariants: Variants = {
 const SectionHeading = ({
   text,
   className = "font-light text-5xl",
+  noOffset = false,
 }: SectionHeadingProps) => {
   const [ref, inView] = useInView({
     threshold: 1,
@@ -60,7 +62,9 @@ const SectionHeading = ({
         return (
           <span
             key={i}
-            className={`${i === 1 ? "ml-16" : ""} overflow-hidden pb-2`}
+            className={`${
+              !noOffset && (i === 1 ? "ml-16" : "")
+            } overflow-hidden pb-2`}
           >
             <motion.span variants={childVariants} className="block">
               {stringVal}
