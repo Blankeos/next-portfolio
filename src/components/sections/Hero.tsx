@@ -1,6 +1,7 @@
 import FloatingCircle, { getContainerVariants } from "../FloatingCircle";
 // Icons
 import { FaReact, FaDiscord } from "react-icons/fa";
+import { SiTypescript, SiJavascript } from "react-icons/si";
 import { HiOutlineDocumentDownload as ResumeIcon } from "react-icons/hi";
 
 // React
@@ -111,20 +112,25 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           <FloatingCircle
             style={{ right: "30rem", bottom: "10rem" }}
             orbitSize="25rem"
-            orbitClass="border-indigo-400"
-            nucleusClass="bg-indigo-400"
+            orbitClass="border-yellow-300"
+            nucleusClass="bg-yellow-200"
           >
-            <Image
-              src="https://static.wikia.nocookie.net/spartaremix/images/e/ec/Discord-new-logo.png"
-              height="48"
-              width="48"
-            />
+            <span
+              className="block overflow-hidden"
+              style={{ backgroundColor: "#323330" }}
+            >
+              <SiJavascript size="2rem" color="#f0db4f" />
+            </span>
           </FloatingCircle>
           <FloatingCircle
             style={{ left: "5rem", bottom: "5rem" }}
             floatDelay={4.5}
+            orbitClass="border-blue-500"
+            nucleusClass="bg-blue-500"
           >
-            <FaReact className="text-blue-400" size="2rem" />
+            <span className="block bg-white overflow-hidden">
+              <SiTypescript size="2rem" color="#007acc" />
+            </span>
           </FloatingCircle>
         </motion.div>
       </Container>
