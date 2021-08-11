@@ -31,11 +31,13 @@ const Footer = () => {
         <a className="font-extrabold select-none cursor-pointer flex items-center px-5 text-xl">
           CATT
         </a>
-        <div className="flex space-x-10">
+        <div className="flex space-x-10 text-gray-50">
           <HomeLinkButton>Home</HomeLinkButton>
-          <span>More Projects</span>
+          {/* <span>More Projects</span> */}
         </div>
-        <span>2021 © Carlo Taleon • All Rights Reserved.</span>
+        <span className="text-center">
+          2021 © Carlo Taleon • All Rights Reserved.
+        </span>
       </Container>
     </footer>
   );
