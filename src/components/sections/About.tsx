@@ -108,8 +108,7 @@ const ProfileInfo = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     root: null,
-    rootMargin: "-100px 0px",
-    threshold: 1,
+    threshold: 0.5,
   });
   const controls = useAnimation();
 
