@@ -62,7 +62,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
           variants={contactInfoVariants}
           initial="hidden"
           animate={controls}
-          className="text-2xl md:text-4xl text-gray-600 flex flex-col space-y-5 mt-20 md:mt-0 items-center md:items-start"
+          className="text-2xl lg:text-4xl text-gray-600 flex flex-col space-y-5 mt-20 md:mt-0 items-center md:items-start aoverflow-hidden"
         >
           <ClickableEmail />
           <div className="pt-5 flex space-x-8 text-blue-500">
@@ -106,7 +106,7 @@ const ClickableEmail = () => {
     >
       <p onClick={clickHandler} className="overflow-hidden pb-1">
         <motion.span variants={contactInfoChildVariants} className="block">
-          <span className="hover:bg-gray-800 hover:text-white transition">
+          <span className="hover:bg-gray-800 hover:text-white transition truncate">
             carloantonioct@gmail.com
           </span>
         </motion.span>
