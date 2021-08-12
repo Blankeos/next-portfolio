@@ -130,7 +130,7 @@ const ProfileInfo = () => {
         variants={profileInfoChildVariants}
         className="font-semibold text-5xl md:text-6xl text-gray-700"
       >
-        Carlo Antonio T. Taleon
+        {about.fullName}
       </motion.h2>
       <motion.span
         variants={profileInfoChildVariants}

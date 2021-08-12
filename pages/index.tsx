@@ -35,7 +35,7 @@ const Home: React.FC = () => {
           sizes="192x192"
           href="favicons/android-chrome-192x192.png"
         />
-        <link rel="apple-touch-icon" href="favicons/apple-touch-icon" />
+        <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" />
         <meta property="og:title" content="Carlo Taleon | Portfolio" />
         <meta property="og:site_name" content="Carlo Taleon | Portfolio" />
         <meta property="og:url" content="https://carlo.vercel.app/" />
