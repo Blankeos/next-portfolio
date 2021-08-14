@@ -52,7 +52,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
           <span className="md:hidden block">
             <SectionHeading
               noOffset
-              className="relative font-light text-4xl sm:text-5xl text-center"
+              className="relative font-light text-4xl sm:text-5xl text-center text-gray-800"
               text={["Let's work", "together"]}
             />
           </span>

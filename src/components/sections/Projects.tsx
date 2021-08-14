@@ -23,7 +23,7 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="font-light text-4xl sm:text-5xl absolute z-10"
+          className="font-light text-4xl sm:text-5xl absolute z-20 text-gray-800"
           text={["Featured", "Projects"]}
         />
         <ProjectsGrid />

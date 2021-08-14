@@ -23,7 +23,7 @@ const Skills: React.FC<SkillsProps> = ({ sectionRef }) => {
           <div className="relative">
             <GrayCircle />
             <SectionHeading
-              className="relative font-light text-4xl sm:text-5xl z-10"
+              className="relative font-light text-4xl sm:text-5xl z-10 text-gray-800"
               text={["Skills", "& Technologies"]}
             />
           </div>

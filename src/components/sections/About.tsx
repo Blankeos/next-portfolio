@@ -20,7 +20,7 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="relative font-light text-4xl sm:text-5xl z-10"
+          className="relative font-light text-4xl sm:text-5xl z-10 text-gray-800"
           text={["About", "Me"]}
         />
         <div className="relative grid grid-cols-1 md:grid-cols-2 mt-20 z-10 gap-8">
