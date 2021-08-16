@@ -36,20 +36,17 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
     <section
       id="contact-section"
       ref={sectionRef}
-      className="w-full md:py-96 py-24"
+      className="w-full md:py-72 py-24"
     >
-      <Container
-        maxWidth="7xl"
-        className="relative grid grid-cols-1 md:grid-cols-2 z-10"
-      >
+      <Container maxWidth="7xl" className="relative grid grid-cols-1 z-10">
         <div className="flex flex-col space-y-10">
-          <span className="md:block hidden">
+          {/* <span className="md:block hidden">
             <SectionHeading
               className="relative font-light text-4xl sm:text-5xl"
               text={["Let's work", "together"]}
             />
-          </span>
-          <span className="md:hidden block">
+          </span> */}
+          <span className="">
             <SectionHeading
               noOffset
               className="relative font-light text-4xl sm:text-5xl text-center text-gray-800"
@@ -62,7 +59,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
           variants={contactInfoVariants}
           initial="hidden"
           animate={controls}
-          className="text-2xl lg:text-4xl text-gray-600 flex flex-col space-y-5 mt-20 md:mt-0 items-center md:items-start aoverflow-hidden"
+          className="text-2xl lg:text-4xl text-gray-600 flex flex-col space-y-5 mt-20 items-center overflow-hidden"
         >
           <ClickableEmail />
           <div className="pt-5 flex space-x-8 text-blue-500">
@@ -119,7 +116,7 @@ const contactInfoVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.35,
+      staggerChildren: 0.3,
     },
   },
 };
