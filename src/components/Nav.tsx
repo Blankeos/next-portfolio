@@ -41,7 +41,7 @@ const Nav = () => {
       variants={navVariants}
       initial="hidden"
       animate="visible"
-      className="h-24 w-full"
+      className="h-24 w-full relative z-30"
     >
       <Container
         maxWidth="8xl"
