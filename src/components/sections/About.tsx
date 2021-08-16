@@ -136,7 +136,7 @@ const ProfileInfo = () => {
         variants={profileInfoChildVariants}
         className="w-16 h-2 bg-blue-500"
       ></motion.span>
-      <div className="md:text-lg text-gray-600 flex flex-col space-y-5">
+      <div className=" text-gray-600 flex flex-col space-y-5">
         {about.bio.map((p, i) => {
           return (
             <motion.p key={i} variants={profileInfoChildVariants}>
