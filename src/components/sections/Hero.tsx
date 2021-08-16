@@ -7,6 +7,7 @@ import { HiOutlineDocumentDownload as ResumeIcon } from "react-icons/hi";
 // React
 import React, { CSSProperties, HTMLAttributes, useEffect } from "react";
 
+import { Link as ScrollLink } from "react-scroll";
 import { motion } from "framer-motion";
 
 import Particles, {
@@ -68,10 +69,17 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               </p>
             </div>
             <div className="flex space-x-3">
-              <button className="select-none bg-gray-600 rounded-md px-5 py-2 text-white relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 text-sm md:text-base">
-                Get in Touch
-              </button>
-              <button className="select-none bg-blue-500 rounded-md px-5 py-2 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base">
+              <ScrollLink
+                to={"contact-section"}
+                smooth={true}
+                offset={5}
+                duration={500}
+              >
+                <button className="select-none bg-transparent border-blue-500 border px-6 py-3 text-blue-500 relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 text-sm md:text-base">
+                  Get in Touch
+                </button>
+              </ScrollLink>
+              <button className="select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base">
                 <ResumeIcon size="1.2rem" />
                 <span>Resume</span>
               </button>
@@ -106,13 +114,15 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           <FloatingCircle
             style={{ right: "50rem", top: "5rem" }}
             floatDelay={1.5}
+            orbitSize="45rem"
+            orbitClass="border-gray-300"
           >
             <FaReact className="text-blue-400" size="2rem" />
           </FloatingCircle>
           <FloatingCircle
             style={{ right: "30rem", bottom: "10rem" }}
             orbitSize="25rem"
-            orbitClass="border-yellow-300"
+            orbitClass="border-gray-300"
             nucleusClass="bg-yellow-200"
           >
             <span
@@ -125,7 +135,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           <FloatingCircle
             style={{ left: "5rem", bottom: "5rem" }}
             floatDelay={4.5}
-            orbitClass="border-blue-500"
+            orbitClass="border-gray-300"
             nucleusClass="bg-blue-500"
           >
             <span className="block bg-white overflow-hidden">
@@ -140,7 +150,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 
 const HeroHeading: React.FC = () => {
   return (
-    <h1 className="hero-text font-extrabold lg:text-9xl text-gray-700 relative z-10 leading-none">
+    <h1 className="hero-text font-extrabold lg:text-9xl text-blue-500 relative z-10 leading-none">
       <span className="overflow-hidden inline-block">
         <motion.span
           initial={{ y: 250 }}

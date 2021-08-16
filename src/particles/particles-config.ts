@@ -47,7 +47,8 @@ const particlesConfig = {
   },
   particles: {
     color: {
-      value: "#93C5FD",
+      value: "#E5E7EB",
+      // "#93C5FD",
       animation: {
         h: {
           count: 0,
@@ -263,7 +264,7 @@ const particlesConfig = {
       },
       value: {
         min: 1,
-        max: 3.5,
+        max: 3,
       },
       animation: {
         count: 0,
