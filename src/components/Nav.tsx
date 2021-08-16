@@ -48,7 +48,7 @@ const Nav = () => {
         className="flex items-center justify-between h-full"
       >
         <Link href="/">
-          <a className="font-extrabold select-none cursor-pointer h-full flex items-center pr-5">
+          <a className="font-extrabold select-none cursor-pointer h-full flex items-center pr-5 text-blue-500">
             <motion.span variants={navChildVariants} className="block">
               CATT
             </motion.span>
