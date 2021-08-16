@@ -79,9 +79,15 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   Get in Touch
                 </button>
               </ScrollLink>
-              <button className="select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base">
-                <ResumeIcon size="1.2rem" />
-                <span>Resume</span>
+              <button className="relative group">
+                <span
+                  className="select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5"
+                  style={{ willChange: "transform" }}
+                >
+                  <ResumeIcon size="1.2rem" className="relative" />
+                  <span className="relative">Resume</span>
+                </span>
+                <span className="bg-blue-600 absolute inset-0"></span>
               </button>
             </div>
           </div>
