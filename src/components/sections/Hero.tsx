@@ -75,8 +75,8 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 offset={5}
                 duration={500}
               >
-                <button className="select-none bg-transparent border-blue-500 border px-6 py-3 text-blue-500 relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 text-sm md:text-base">
-                  Get in Touch
+                <button className="select-none bg-transparent border-blue-500 border px-6 py-3 text-blue-500 relative z-10 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 text-sm md:text-base hover:text-white hover:bg-blue-500 transition ease-out hover:bg-opacity-90">
+                  Get In Touch
                 </button>
               </ScrollLink>
               <button className="relative group">
