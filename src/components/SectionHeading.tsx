@@ -1,7 +1,6 @@
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import { FaSyringe } from "react-icons/fa";
 
 interface SectionHeadingProps {
   text: [string] | [string, string];

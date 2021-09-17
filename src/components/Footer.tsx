@@ -1,28 +1,8 @@
-import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import Container from "./Container";
 
 import { animateScroll as scroll } from "react-scroll";
-// const Footer = () => {
-//   return (
-//     <footer className="bg-blue-500 text-white">
-//       <Container>
-//         <div>
-//           <h1 className="mb-5">Carlo Taleon Portfolio WIP</h1>
-//         </div>
-//         <Link href="https://www.figma.com/proto/3mchgUMnlaD0vim3jq0eAy/Portfolio-Project?node-id=103%3A7&scaling=min-zoom">
-//           <a
-//             target="_blank"
-//             className="text-6xl hover:bg-white hover:text-black transition"
-//           >
-//             Figma Prototype
-//           </a>
-//         </Link>
-//       </Container>
-//     </footer>
-//   );
-// };
 
 const Footer = () => {
   return (
@@ -33,7 +13,6 @@ const Footer = () => {
         </a>
         <div className="flex space-x-10 text-gray-50">
           <HomeLinkButton>Home</HomeLinkButton>
-          {/* <span>More Projects</span> */}
         </div>
         <span className="text-center">
           2021 © Carlo Taleon • All Rights Reserved.
@@ -46,6 +25,7 @@ const Footer = () => {
 interface HomeLinkButton {
   className?: string;
 }
+
 const HomeLinkButton: React.FC<HomeLinkButton> = ({ className, children }) => {
   const router = useRouter();
   return (

@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import Hero from "../src/components/sections/Hero";
 import Projects from "../src/components/sections/Projects";
 import SideNav from "../src/components/SideNav";
@@ -73,7 +72,6 @@ const Home: React.FC = () => {
         />
       </Head>
       <Hero sectionRef={heroRef} />
-
       <div className="relative">
         <div className="absolute inset-0 ">
           <SideNav isVisible={!heroRefInView} activeIndex={activeIndex} />

@@ -139,6 +139,7 @@ const ProjectCard = ({
                         objectPosition="center"
                       />
                     )}
+                    <span className="project-card-image-highlight"></span>
                   </span>
                   <motion.div
                     initial={{ height: "100%" }}

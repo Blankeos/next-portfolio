@@ -10,11 +10,7 @@ import React, { CSSProperties, HTMLAttributes, useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { motion } from "framer-motion";
 
-import Particles, {
-  IOptions,
-  particlesJS,
-  RecursivePartial,
-} from "react-tsparticles";
+import Particles, { IOptions, RecursivePartial } from "react-tsparticles";
 import particlesConfig from "../../particles/particles-config";
 
 import Container from "../Container";
@@ -45,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 className="relative z-10 text-gray-800 text-sm md:text-base"
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, ease: "easeOut", duration: 0.5 }}
+                transition={{ delay: 0.5, type: "spring" }}
               >
                 <span className="flex space-x-2">
                   <motion.div
@@ -62,7 +58,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 </span>
               </motion.div>
               <HeroHeading />
-              <p className="mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base">
+              <p className="c mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base">
                 I make games during my free time and I enjoy building web apps
                 using <b>React</b>. I&apos;m also a student at West Visayas
                 State University studying Computer Science.

@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 // import Link from "next/link";
-import { Link, animateScroll as scroll } from "react-scroll";
 import Container from "./Container";
-
-import { useInView } from "react-intersection-observer";
 import sections from "../../data/sections";
 import SectionLink from "./SectionLink";
 
