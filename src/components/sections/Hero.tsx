@@ -39,9 +39,14 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             <div>
               <motion.div
                 className="relative z-10 text-gray-800 text-sm md:text-base"
-                initial={{ y: 15, opacity: 0 }}
+                initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1, type: "spring" }}
+                transition={{
+                  delay: 1,
+                  type: "spring",
+                  bounce: 0.7,
+                  duration: 2,
+                }}
               >
                 <span className="flex space-x-2">
                   <motion.div
@@ -65,8 +70,9 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 className="c mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base"
               >
                 I make games during my free time and I enjoy building web apps
-                using <b>React</b>. I&apos;m also a student at West Visayas
-                State University studying Computer Science.
+                using <b className="text-blue-500">React</b>. I&apos;m also a
+                student at West Visayas State University studying Computer
+                Science.
               </motion.p>
             </div>
             <motion.div

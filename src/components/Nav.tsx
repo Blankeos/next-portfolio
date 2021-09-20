@@ -48,7 +48,7 @@ const Nav = () => {
         className="flex items-center justify-between h-full"
       >
         <Link href="/">
-          <a className="font-extrabold select-none cursor-pointer h-full flex items-center pr-5 text-blue-500">
+          <a className="text-xl lg:text-base font-extrabold select-none cursor-pointer h-full flex items-center pr-5 text-blue-500">
             <motion.span variants={navChildVariants} className="block">
               CATT
             </motion.span>
@@ -68,16 +68,14 @@ const Nav = () => {
               ))}
             </>
           </div>
-          <div className="text-sm text-gray-600 flex space-x-5 items-center">
+          <div className="text-2xl lg:text-xl text-gray-600 flex space-x-5 items-center">
             {socials.map((social, i) => (
               <motion.span
                 variants={navChildVariants}
                 key={i}
                 className="block"
               >
-                <SocialLink href={social.url}>
-                  {<social.Icon size="1.1rem" />}
-                </SocialLink>
+                <SocialLink href={social.url}>{<social.Icon />}</SocialLink>
               </motion.span>
             ))}
           </div>

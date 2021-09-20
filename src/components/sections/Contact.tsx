@@ -81,8 +81,8 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
 };
 
 const ClickableEmail = () => {
-  const copyMessage = "Copy";
-  const copiedMessage = "Copied!";
+  const copyMessage = "Copy 📝";
+  const copiedMessage = "Copied! ✔";
   const [content, setContent] = useState<string>(copyMessage);
 
   const clickHandler = () => {
@@ -103,8 +103,9 @@ const ClickableEmail = () => {
     >
       <p onClick={clickHandler} className="overflow-hidden pb-1">
         <motion.span variants={contactInfoChildVariants} className="block">
-          <span className="hover:bg-gray-800 hover:text-white transition truncate">
-            carloantonioct@gmail.com
+          <span className="group relative transition truncate">
+            <span className="absolute transition w-full group-hover:bg-blue-200 h-4/6 bottom-0"></span>
+            <span className="relative underline">carloantonioct@gmail.com</span>
           </span>
         </motion.span>
       </p>
