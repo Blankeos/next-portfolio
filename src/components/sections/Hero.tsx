@@ -41,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 className="relative z-10 text-gray-800 text-sm md:text-base"
                 initial={{ y: 15, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, type: "spring" }}
+                transition={{ delay: 1, type: "spring" }}
               >
                 <span className="flex space-x-2">
                   <motion.div
@@ -50,7 +50,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                       scale: [1, 1.6, 1.6, 1.5, 1.6, 1.6, 1.5, 1.6, 1],
                       rotate: [0, 30, 0, 30, 0, 30, 0, 30, 0],
                     }}
-                    transition={{ delay: 3.5, duration: 1.8 }}
+                    transition={{ delay: 5, duration: 2 }}
                   >
                     👋
                   </motion.div>
@@ -58,13 +58,23 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 </span>
               </motion.div>
               <HeroHeading />
-              <p className="c mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.7 }}
+                className="c mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base"
+              >
                 I make games during my free time and I enjoy building web apps
                 using <b>React</b>. I&apos;m also a student at West Visayas
                 State University studying Computer Science.
-              </p>
+              </motion.p>
             </div>
-            <div className="flex space-x-3">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3 }}
+              className="flex space-x-3"
+            >
               <ScrollLink
                 to={"contact-section"}
                 smooth={true}
@@ -85,7 +95,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 </span>
                 <span className="bg-blue-600 absolute inset-0"></span>
               </button>
-            </div>
+            </motion.div>
           </div>
           <div className="relative w-96">
             <motion.div
@@ -159,7 +169,7 @@ const HeroHeading: React.FC = () => {
           animate={{ y: 0 }}
           transition={{
             duration: 0.75,
-            delay: 1,
+            delay: 1.5,
             ease: "circOut",
           }}
           className="block"
@@ -173,7 +183,7 @@ const HeroHeading: React.FC = () => {
           animate={{ y: 0 }}
           transition={{
             duration: 1,
-            delay: 1.2,
+            delay: 1.7,
             ease: "circOut",
           }}
           className="block"
