@@ -127,7 +127,7 @@ const ProjectCard = ({
               <div className="absolute inset-0">
                 <div
                   ref={imageRef}
-                  className="h-full w-full flex bg-gray-200 relative overflow-hidden rounded"
+                  className="h-full w-full flex bg-gray-200 relative overflow-hidden"
                 >
                   <span className="absolute w-full h-full">
                     {imageURL && (
