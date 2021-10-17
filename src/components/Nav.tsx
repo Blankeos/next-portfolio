@@ -44,11 +44,11 @@ const Nav = () => {
       className="h-24 w-full relative z-30"
     >
       <Container
-        maxWidth="8xl"
+        maxWidth="7xl"
         className="flex items-center justify-between h-full"
       >
         <Link href="/">
-          <a className="text-xl lg:text-base font-extrabold select-none cursor-pointer h-full flex items-center pr-5 text-blue-500">
+          <a className="text-2xl lg:text-2xl font-black select-none cursor-pointer h-full flex items-center pr-5 text-blue-500 tracking-tight">
             <motion.span variants={navChildVariants} className="block">
               CATT
             </motion.span>

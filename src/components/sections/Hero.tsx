@@ -22,7 +22,7 @@ interface HeroProps extends SectionProps {}
 
 const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
-    <section id="hero-section" ref={sectionRef} className="relative pb-5">
+    <section id="hero-section" ref={sectionRef} className="relative">
       <div className="w-full h-full absolute overflow-hidden">
         <div className="particle-wrapper absolute w-full h-full">
           <Particles
@@ -33,10 +33,10 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           />
         </div>
       </div>
-      <Container className="relative" maxWidth="8xl">
-        <div className="flex md:flex-row flex-col-reverse">
-          <div className="flex flex-col py-36 flex-grow space-y-5">
-            <div>
+      <Container className="relative" maxWidth="7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 py-24">
+          <div className="flex flex-col py-0 flex-grow space-y-5">
+            <div className="flex flex-col space-y-5">
               <motion.div
                 className="relative z-10 text-gray-800 text-sm md:text-base"
                 initial={{ y: 20, opacity: 0 }}
@@ -103,7 +103,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               </button>
             </motion.div>
           </div>
-          <div className="relative w-96">
+          {/* <div className="relative w-96">
             <motion.div
               initial={{ height: "0%" }}
               animate={{ height: "100%" }}
@@ -121,7 +121,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 backgroundPosition: "center",
               }}
             />
-          </div>
+          </div> */}
         </div>
         <motion.div
           variants={getContainerVariants(0.4, 3.5)}
@@ -151,7 +151,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             </span>
           </FloatingCircle>
           <FloatingCircle
-            style={{ left: "5rem", bottom: "5rem" }}
+            style={{ left: "5rem", bottom: "1.5rem" }}
             floatDelay={4.5}
             orbitClass="border-gray-300"
             nucleusClass="bg-blue-500"
@@ -168,8 +168,46 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 
 const HeroHeading: React.FC = () => {
   return (
-    <h1 className="hero-text font-extrabold lg:text-9xl text-blue-500 relative z-10 leading-none">
-      <span className="overflow-hidden inline-block">
+    <h1 className="text-blue-500 relative z-10 flex flex-wrap">
+      <span className="overflow-hidden hero-text font-extrabold lg:text-8xl leading-none tracking-tight">
+        <motion.span
+          initial={{ y: 250 }}
+          animate={{ y: 0 }}
+          transition={{
+            duration: 0.75,
+            delay: 1.5,
+            ease: "circOut",
+          }}
+          className="block"
+        >
+          Carlo
+        </motion.span>
+        {/* <motion.span>Carlo</motion.span> */}
+      </span>
+      <span className="font-extrabold lg:text-8xl leading-none tracking-tight hero-text">
+        {" "}
+      </span>
+      <span className="overflow-hidden hero-text font-extrabold lg:text-8xl leading-none tracking-tight">
+        <motion.span
+          initial={{ y: 250 }}
+          animate={{ y: 0 }}
+          transition={{
+            duration: 1,
+            delay: 1.7,
+            ease: "circOut",
+          }}
+          className="block"
+        >
+          Taleon
+        </motion.span>
+      </span>
+    </h1>
+  );
+};
+export default Hero;
+
+{
+  /* <span className="overflow-hidden inline-block">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
@@ -196,8 +234,5 @@ const HeroHeading: React.FC = () => {
         >
           Taleon
         </motion.span>
-      </span>
-    </h1>
-  );
-};
-export default Hero;
+      </span> */
+}
