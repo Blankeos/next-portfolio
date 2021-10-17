@@ -34,8 +34,8 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
         </div>
       </div>
       <Container className="relative" maxWidth="7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 py-24">
-          <div className="flex flex-col py-0 flex-grow space-y-5">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
+          <div className="flex flex-col py-0 flex-grow space-y-5 bg-indigo-400">
             <div className="flex flex-col space-y-5">
               <motion.div
                 className="relative z-10 text-gray-800 text-sm md:text-base"
@@ -169,7 +169,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 const HeroHeading: React.FC = () => {
   return (
     <h1 className="text-blue-500 relative z-10 flex flex-wrap">
-      <span className="overflow-hidden hero-text font-extrabold lg:text-8xl leading-none tracking-tight">
+      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
@@ -184,10 +184,10 @@ const HeroHeading: React.FC = () => {
         </motion.span>
         {/* <motion.span>Carlo</motion.span> */}
       </span>
-      <span className="font-extrabold lg:text-8xl leading-none tracking-tight hero-text">
+      <span className="font-black lg:text-8xl leading-none tracking-tight hero-text">
         {" "}
       </span>
-      <span className="overflow-hidden hero-text font-extrabold lg:text-8xl leading-none tracking-tight">
+      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
