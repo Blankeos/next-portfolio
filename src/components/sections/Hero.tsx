@@ -91,7 +91,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   Get In Touch
                 </button>
               </ScrollLink>
-              <button className="relative group">
+              <button className="relative group z-20 hover:shadow-lg transition">
                 <span
                   className="select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5"
                   style={{ willChange: "transform" }}
@@ -178,7 +178,7 @@ const HeroHeading: React.FC = () => {
             delay: 1.5,
             ease: "circOut",
           }}
-          className="block"
+          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent"
         >
           Carlo
         </motion.span>
@@ -196,7 +196,7 @@ const HeroHeading: React.FC = () => {
             delay: 1.7,
             ease: "circOut",
           }}
-          className="block"
+          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent"
         >
           Taleon
         </motion.span>
