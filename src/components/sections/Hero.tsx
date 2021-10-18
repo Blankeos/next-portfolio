@@ -35,7 +35,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
       </div>
       <Container className="relative" maxWidth="7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
-          <div className="flex flex-col py-0 flex-grow space-y-5 bg-indigo-400">
+          <div className="flex flex-col py-0 flex-grow space-y-5">
             <div className="flex flex-col space-y-5">
               <motion.div
                 className="relative z-10 text-gray-800 text-sm md:text-base"
