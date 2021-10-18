@@ -120,8 +120,8 @@ const ProjectCard = ({
   return (
     <div className="project-card">
       <Link href={demoURL ? demoURL : "/project-not-found"}>
-        <a className="project-card" target="_blank">
-          <div className="group flex flex-col h-full cursor-pointer">
+        <a className="" target="_blank">
+          <div className="project-card-wrapper group flex flex-col h-full cursor-pointer">
             <div className="inline-block relative w-full h-full">
               <div style={{ marginTop: "75%" }}></div>
               <div className="absolute inset-0">
@@ -161,7 +161,7 @@ const ProjectCard = ({
                 className="flex justify-between pt-10"
               >
                 <div className="flex flex-col space-y-3">
-                  <h3 className="font-semibold text-2xl md:text-3xl text-gray-800">
+                  <h3 className="font-bold text-2xl md:text-3xl text-gray-800 tracking-tighter">
                     {title}
                   </h3>
                   <motion.p
@@ -172,7 +172,7 @@ const ProjectCard = ({
                   </motion.p>
                 </div>
                 <div className="relative flex items-center justify-center h-12 w-12">
-                  <div className="absolute h-0 w-0 group-hover:h-12 group-hover:w-12 rounded-full transition-all ease-out duration-300 bg-blue-500 flex items-center justify-center"></div>
+                  <div className="absolute h-0 w-0 group-hover:h-12 group-hover:w-12 rounded-full transition-all ease-out duration-300 bg-gradient-to-t from-[#1532ff] to-blue-500 flex items-center justify-center"></div>
                   <Arrow
                     size="2rem"
                     className="relative group-hover:-rotate-45 transform transition duration-300 ease-out text-gray-800 group-hover:text-white"
