@@ -65,7 +65,10 @@ const SectionHeading = ({
               !noOffset && (i === 1 ? "ml-16" : "")
             } overflow-hidden pb-2`}
           >
-            <motion.span variants={childVariants} className="block">
+            <motion.span
+              variants={childVariants}
+              className="block tracking-tighter"
+            >
               {stringVal}
             </motion.span>
           </span>
