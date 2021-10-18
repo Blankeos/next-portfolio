@@ -128,7 +128,7 @@ const ProfileInfo = () => {
     >
       <motion.h2
         variants={profileInfoChildVariants}
-        className="font-semibold text-5xl md:text-6xl text-gray-700"
+        className="font-bold text-5xl md:text-6xl text-gray-800 tracking-tighter"
       >
         {about.fullName}
       </motion.h2>
