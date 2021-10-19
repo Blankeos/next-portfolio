@@ -59,7 +59,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
           variants={contactInfoVariants}
           initial="hidden"
           animate={controls}
-          className="text-2xl lg:text-4xl text-gray-600 flex flex-col space-y-5 mt-20 items-center overflow-hidden"
+          className="text-2xl lg:text-4xl text-gray-800 flex flex-col space-y-5 mt-20 items-center overflow-hidden"
         >
           <ClickableEmail />
           <div className="pt-5 flex space-x-8 text-blue-500">
@@ -101,11 +101,13 @@ const ClickableEmail = () => {
       hideOnClick={false}
       onHidden={hoverExitHandler}
     >
-      <p onClick={clickHandler} className="overflow-hidden pb-1">
+      <p onClick={clickHandler} className="overflow-hidden pb-1 cursor-pointer">
         <motion.span variants={contactInfoChildVariants} className="block">
-          <span className="group relative transition truncate">
-            <span className="absolute transition w-full group-hover:bg-blue-200 h-4/6 bottom-0"></span>
-            <span className="relative underline">carloantonioct@gmail.com</span>
+          <span className="group relative transition truncate flex items-center">
+            <span className="absolute transition w-full group-hover:bg-blue-200 h-4/6"></span>
+            <span className="relative underline font-bold">
+              carloantonioct@gmail.com
+            </span>
           </span>
         </motion.span>
       </p>

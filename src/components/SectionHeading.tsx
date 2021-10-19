@@ -19,7 +19,7 @@ const headingVariants: Variants = {
 
 const childVariants: Variants = {
   hidden: {
-    y: 50,
+    y: 60,
   },
   visible: {
     y: 0,
