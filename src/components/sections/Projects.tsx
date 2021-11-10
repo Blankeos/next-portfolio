@@ -34,7 +34,7 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
 
 const ProjectsGrid = () => {
   return (
-    <div className="relative grid grid-cols-1 pt-28 md:pt-0 md:grid-cols-2 gap-16 mt-12 items-end z-10">
+    <div className="relative grid grid-cols-1 pt-28 md:pt-0 md:grid-cols-2 gap-5 md:gap-16 mt-12 items-end z-10">
       {projects.map((project, i) => {
         return (
           <ProjectCard
