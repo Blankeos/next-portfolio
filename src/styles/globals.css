@@ -129,18 +129,3 @@ a {
     height: 80rem;
   }
 }
-/* .project-card-image:hover::before {
-  content: "";
-  background-color: green;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100rem;
-  width: 100rem;
-  z-index: 10;
-  opacity: 100%;
-  border-radius: 50%;
-  transition: all 1000ms;
-} */

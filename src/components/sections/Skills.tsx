@@ -89,10 +89,10 @@ const SkillsGrid = () => {
       initial="hidden"
       animate={controls}
       ref={ref}
-      className="grid grid-cols-4 justify-items-center lg:place-self-center md:gap-10 z-10 mt-16 lg:mt-0"
+      className="grid grid-cols-3 lg:grid-cols-4 justify-items-center lg:place-self-center md:gap-10 gap-y-16 z-10 mt-16 lg:mt-0 text-gray-500"
     >
       {skills.map((skill, i) => {
-        return <SkillItem key={i} name={skill.name} Icon={skill.Icon} />;
+        return <span key={i}>{skill.name}</span>;
       })}
     </motion.div>
   );
