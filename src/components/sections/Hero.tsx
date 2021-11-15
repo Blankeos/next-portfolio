@@ -23,14 +23,11 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
     <section id="hero-section" ref={sectionRef} className="relative">
       <div className="w-full h-full absolute overflow-hidden">
-        <div className="particle-wrapper absolute w-full h-full">
-          <Particles
-            id="tsparticles"
-            options={particlesConfig}
-            className="h-full"
-            canvasClassName="object-cover"
-          />
-        </div>
+        <Particles
+          id="tsparticles"
+          options={particlesConfig}
+          canvasClassName="will-change-auto"
+        />
       </div>
       <Container className="relative" maxWidth="7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
@@ -58,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   >
                     👋
                   </motion.div>
-                  <div>Hello there! I am</div>
+                  <div>Hello there! I'm</div>
                 </span>
               </motion.div>
               <HeroHeading />

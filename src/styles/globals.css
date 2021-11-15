@@ -137,3 +137,7 @@ a {
 .will-change-height {
   will-change: height;
 }
+
+.will-change-auto {
+  will-change: auto;
+}
