@@ -3,5 +3,4 @@ module.exports = {
   images: {
     domains: ["static.wikia.nocookie.net", "raw.githubusercontent.com"],
   },
-  swcMinify: true,
 };
