@@ -129,3 +129,11 @@ a {
     height: 80rem;
   }
 }
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-height {
+  will-change: height;
+}
