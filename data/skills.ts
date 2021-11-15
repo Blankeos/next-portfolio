@@ -4,7 +4,7 @@ import {
   SiTypescript,
   SiJavascript,
   SiTailwindcss,
-  SiNextDotJs,
+  SiNextdotjs,
   SiRedux,
   SiMongodb,
   SiFirebase,
@@ -34,7 +34,7 @@ const skills: Skills = [
   },
   {
     name: "NextJS",
-    Icon: SiNextDotJs,
+    Icon: SiNextdotjs,
   },
   {
     name: "Redux",
