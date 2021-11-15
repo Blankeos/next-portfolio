@@ -21,25 +21,26 @@ const projects: Projects = [
     demoURL: "https://cafely.vercel.app/",
   },
   {
+    title: "LinkRoom",
+    shortDesc: "a beautiful link-bookmarking app with complex state.",
+    slug: "linkroom",
+    imageURL: "/imgs/linkroom_featured-project-img.png",
+    demoURL: "https://linkroom.live",
+  },
+  {
     title: "Cafe.ly Manual",
-    shortDesc: "An SSG documentation/blog site built with NextJS",
+    shortDesc: "An SSG documentation/blog site built with NextJS.",
     slug: "cafely-manual",
     imageURL: "/imgs/cafely-manual_featured-project-img.jpg",
     demoURL: "https://cafely-manual.vercel.app/",
   },
   {
-    title: "Cafe.ly",
-    shortDesc: "Full-Stack Social Product Review App",
-    slug: "cafely",
-    imageURL: "/imgs/cafely_featured-project-img.jpg",
-    demoURL: "https://cafely.vercel.app/",
-  },
-  {
-    title: "Cafe.ly Manual",
-    shortDesc: "An SSG documentation/blog site built with NextJS",
+    title: "Cybergence 2021 Event Portal",
+    shortDesc: "An event landing site I collaborated on with other students.",
     slug: "cafely-manual",
-    imageURL: "/imgs/cafely-manual_featured-project-img.jpg",
-    demoURL: "https://cafely-manual.vercel.app/",
+    imageURL:
+      "https://raw.githubusercontent.com/Blankeos/akwe-landing/main/public/photos/sc_0.png",
+    demoURL: "https://cybergence.vercel.app/",
   },
 ];
 
