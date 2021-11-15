@@ -1,20 +1,19 @@
 import FloatingCircle, { getContainerVariants } from "../FloatingCircle";
 // Icons
-import { FaReact, FaDiscord } from "react-icons/fa";
+import { FaReact } from "react-icons/fa";
 import { SiTypescript, SiJavascript } from "react-icons/si";
 import { HiOutlineDocumentDownload as ResumeIcon } from "react-icons/hi";
 
 // React
-import React, { CSSProperties, HTMLAttributes, useEffect } from "react";
+import React from "react";
 
 import { Link as ScrollLink } from "react-scroll";
 import { motion } from "framer-motion";
 
-import Particles, { IOptions, RecursivePartial } from "react-tsparticles";
+import Particles from "react-tsparticles";
 import particlesConfig from "../../particles/particles-config";
 
 import Container from "../Container";
-import Image from "next/image";
 
 import { SectionProps } from "./types";
 
@@ -24,14 +23,14 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
     <section id="hero-section" ref={sectionRef} className="relative">
       <div className="w-full h-full absolute overflow-hidden">
-        {/* <div className="particle-wrapper absolute w-full h-full">
+        <div className="particle-wrapper absolute w-full h-full">
           <Particles
             id="tsparticles"
-            options={particlesConfig as RecursivePartial<IOptions>}
+            options={particlesConfig}
             className="h-full"
             canvasClassName="object-cover"
           />
-        </div> */}
+        </div>
       </div>
       <Container className="relative" maxWidth="7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
