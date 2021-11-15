@@ -169,7 +169,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 const HeroHeading: React.FC = () => {
   return (
     <h1 className="text-blue-500 relative z-10 flex flex-wrap">
-      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
+      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight will-change-transform">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
@@ -182,12 +182,11 @@ const HeroHeading: React.FC = () => {
         >
           Carlo
         </motion.span>
-        {/* <motion.span>Carlo</motion.span> */}
       </span>
       <span className="font-black lg:text-8xl leading-none tracking-tight hero-text">
         {" "}
       </span>
-      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
+      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight will-change-transform">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
