@@ -24,9 +24,10 @@ const particlesConfigg: RecursivePartial<IOptions> = {
       grab: {
         distance: 100,
         links: {
+          color: "#E5E7EB",
+          opacity: 0.5,
           blink: false,
           consent: false,
-          opacity: 1,
         },
       },
     },
@@ -74,7 +75,7 @@ const particlesConfigg: RecursivePartial<IOptions> = {
       },
     },
   },
-  detectRetina: true,
+  detectRetina: false,
 };
 
 export default particlesConfigg;
