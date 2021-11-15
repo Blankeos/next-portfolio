@@ -47,7 +47,7 @@ const SectionHeading = ({
     if (inView) {
       controls.start("visible");
     }
-  }, [inView]);
+  }, [inView, controls]);
 
   return (
     <motion.h2
