@@ -2863,7 +2863,7 @@ react-scroll@^1.8.3:
     lodash.throttle "^4.1.1"
     prop-types "^15.7.2"
 
-react-tsparticles@^1.33.2:
+react-tsparticles@^1.37.3:
   version "1.37.3"
   resolved "https://registry.yarnpkg.com/react-tsparticles/-/react-tsparticles-1.37.3.tgz#056f74a5f3fbb089dc3a1f69de8b81367abca438"
   integrity sha512-PTbEvgKOBRcg9EG2bl8aPmRHqCyUsrTo4rx2y8hR2QK3vHIe2BbZsvh8aZnaXI8xZ8UH5Ymst9WojIMZXVGr2A==
@@ -3405,7 +3405,7 @@ tslib@^2.1.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
-tsparticles@^1.33.2, tsparticles@^1.37.3:
+tsparticles@^1.37.3:
   version "1.37.3"
   resolved "https://registry.yarnpkg.com/tsparticles/-/tsparticles-1.37.3.tgz#83bcacd97f44d1c9fef1657f7a3634e38b734def"
   integrity sha512-UoWvwsOOMHdUTfued7ALoxZ7OgejCeZfNQxq5sjm3wg3IkDvS6lXwtareojVTLHS58h7pCjIm5K68npE5Ol6ig==
