@@ -144,7 +144,7 @@ const ProjectCard = ({
                   <motion.div
                     initial={{ height: "100%" }}
                     animate={imageControls}
-                    className="relative bg-gray-50 self-start w-full will-change-height"
+                    className="relative bg-gray-50 self-start w-full"
                   ></motion.div>
                 </div>
               </div>
