@@ -62,7 +62,6 @@ const FloatingCircle: React.FC<FloatingCircleProps> = ({
 }) => {
   style = {
     ...style,
-    willChange: "transform",
   };
   return (
     <motion.div

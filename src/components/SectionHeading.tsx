@@ -67,7 +67,7 @@ const SectionHeading = ({
           >
             <motion.span
               variants={childVariants}
-              className="block tracking-tighter will-change-transform"
+              className="block tracking-tighter"
             >
               {stringVal}
             </motion.span>

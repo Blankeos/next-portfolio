@@ -91,10 +91,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 </button>
               </ScrollLink>
               <button className="relative group z-20 hover:shadow-lg transition">
-                <span
-                  className="select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5"
-                  style={{ willChange: "transform" }}
-                >
+                <span className="will-change-transform select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5">
                   <ResumeIcon size="1.2rem" className="relative" />
                   <span className="relative">Resume</span>
                 </span>
@@ -168,7 +165,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 const HeroHeading: React.FC = () => {
   return (
     <h1 className="text-blue-500 relative z-10 flex flex-wrap">
-      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight will-change-transform">
+      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
@@ -185,7 +182,7 @@ const HeroHeading: React.FC = () => {
       <span className="font-black lg:text-8xl leading-none tracking-tight hero-text">
         {" "}
       </span>
-      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight will-change-transform">
+      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
         <motion.span
           initial={{ y: 250 }}
           animate={{ y: 0 }}
