@@ -24,14 +24,14 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
     <section id="hero-section" ref={sectionRef} className="relative">
       <div className="w-full h-full absolute overflow-hidden">
-        <div className="particle-wrapper absolute w-full h-full">
+        {/* <div className="particle-wrapper absolute w-full h-full">
           <Particles
             id="tsparticles"
             options={particlesConfig as RecursivePartial<IOptions>}
             className="h-full"
             canvasClassName="object-cover"
           />
-        </div>
+        </div> */}
       </div>
       <Container className="relative" maxWidth="7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
