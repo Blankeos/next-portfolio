@@ -26,7 +26,7 @@ const SectionLink: React.FC<SectionLinkProps> = ({
           {children}
         </span>
         <span
-          className={`group-hover:w-full group-hover:bg-blue-500 block absolute h-0.5 bg-gray-500 transition-all duration-500 ease-out ${
+          className={`group-hover:w-full group-hover:bg-blue-500 block absolute h-[0.115rem] bg-gray-500 transition-all duration-500 ease-out ${
             active ? "w-full" : "w-0"
           }`}
         ></span>

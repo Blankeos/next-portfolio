@@ -55,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   >
                     👋
                   </motion.div>
-                  <div>Hello there! Im</div>
+                  <div>Hello there! I am</div>
                 </span>
               </motion.div>
               <HeroHeading />
