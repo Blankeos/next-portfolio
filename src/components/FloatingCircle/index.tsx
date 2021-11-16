@@ -65,7 +65,7 @@ const FloatingCircle: React.FC<FloatingCircleProps> = ({
   };
   return (
     <motion.div
-      className="h-20 w-20 p-2 flex items-center justify-center absolute"
+      className="h-20 w-20 p-2 flex items-center justify-center absolute will-change-transform"
       style={style}
       initial={{ y: 0 }}
       animate={{ y: -25 }}

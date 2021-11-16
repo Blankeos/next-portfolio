@@ -171,7 +171,7 @@ const HeroHeading: React.FC = () => {
             delay: 1.5,
             ease: "circOut",
           }}
-          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent"
+          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
         >
           Carlo
         </motion.span>
@@ -188,7 +188,7 @@ const HeroHeading: React.FC = () => {
             delay: 1.7,
             ease: "circOut",
           }}
-          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent"
+          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
         >
           Taleon
         </motion.span>
