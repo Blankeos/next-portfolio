@@ -24,7 +24,7 @@ const particlesConfigg: RecursivePartial<IOptions> = {
       grab: {
         distance: 100,
         links: {
-          color: "#E5E7EB",
+          color: "#D1D5DB",
           opacity: 0.5,
           blink: false,
           consent: false,
@@ -34,10 +34,10 @@ const particlesConfigg: RecursivePartial<IOptions> = {
   },
   particles: {
     color: {
-      value: "#E5E7EB",
+      value: "#D1D5DB",
     },
     links: {
-      color: "#E5E7EB",
+      color: "#D1D5DB",
       distance: 150,
       enable: true,
       opacity: 0.5,
@@ -51,7 +51,7 @@ const particlesConfigg: RecursivePartial<IOptions> = {
       enable: true,
       outMode: "out",
       random: false,
-      speed: 2,
+      speed: 1,
       straight: false,
     },
     number: {
@@ -59,7 +59,7 @@ const particlesConfigg: RecursivePartial<IOptions> = {
         enable: true,
         value_area: 1280,
       },
-      value: 60,
+      value: 20,
     },
     opacity: {
       value: 1,
@@ -68,11 +68,7 @@ const particlesConfigg: RecursivePartial<IOptions> = {
       type: "circle",
     },
     size: {
-      random: true,
-      value: {
-        min: 0.5,
-        max: 2.5,
-      },
+      value: 2,
     },
   },
   detectRetina: false,
