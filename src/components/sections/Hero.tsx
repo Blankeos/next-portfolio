@@ -22,13 +22,11 @@ interface HeroProps extends SectionProps {}
 const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
     <section id="hero-section" ref={sectionRef} className="relative">
-      <div className="w-full h-full absolute overflow-hidden">
-        <Particles
-          id="tsparticles"
-          options={particlesConfig as any}
-          canvasClassName="will-change-auto relative"
-        />
-      </div>
+      <Particles
+        className="h-full object-cover absolute w-full"
+        canvasClassName="will-change-auto h-full"
+        options={particlesConfig as any}
+      />
       <Container className="relative" maxWidth="7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
           <div className="flex flex-col py-0 flex-grow space-y-5">

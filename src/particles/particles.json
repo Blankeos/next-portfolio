@@ -1,4 +1,5 @@
 {
+  "fullScreen": false,
   "particles": {
     "number": {
       "value": 50,
@@ -8,7 +9,7 @@
       }
     },
     "color": {
-      "value": "#554b4b"
+      "value": "#6B7280"
     },
     "shape": {
       "type": "circle",
@@ -48,7 +49,7 @@
     "line_linked": {
       "enable": true,
       "distance": 80,
-      "color": "#554b4b",
+      "color": "#6B7280",
       "opacity": 0.4,
       "width": 1
     },
@@ -71,7 +72,7 @@
     "detect_on": "canvas",
     "events": {
       "onhover": {
-        "enable": true,
+        "enable": false,
         "mode": "grab"
       },
       "onclick": {
@@ -84,7 +85,7 @@
       "grab": {
         "distance": 100,
         "line_linked": {
-          "opacity": 1
+          "opacity": 0.5
         }
       },
       "bubble": {
