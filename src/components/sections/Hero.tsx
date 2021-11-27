@@ -25,8 +25,8 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
       <div className="w-full h-full absolute overflow-hidden">
         <Particles
           id="tsparticles"
-          options={particlesConfig}
-          canvasClassName="will-change-auto"
+          options={particlesConfig as any}
+          canvasClassName="will-change-auto relative"
         />
       </div>
       <Container className="relative" maxWidth="7xl">
