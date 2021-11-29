@@ -73,7 +73,7 @@ const Home: React.FC = () => {
       </Head>
       <Hero sectionRef={heroRef} />
       <div className="relative">
-        <div className="absolute inset-0 ">
+        <div className="absolute inset-0">
           <SideNav isVisible={!heroRefInView} activeIndex={activeIndex} />
         </div>
         <Projects sectionRef={projectsRef} />

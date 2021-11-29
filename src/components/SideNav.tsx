@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-// import Link from "next/link";
+import React from "react";
 import Container from "./Container";
 import sections from "../../data/sections";
 import SectionLink from "./SectionLink";
@@ -10,8 +9,6 @@ interface SideNavProps {
 }
 
 const SideNav: React.FC<SideNavProps> = ({ isVisible = true, activeIndex }) => {
-  const [clickedIndex, setClickedIndex] = useState<number>(-1);
-
   return (
     <>
       <Container

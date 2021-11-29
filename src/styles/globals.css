@@ -141,3 +141,12 @@ a {
 .will-change-auto {
   will-change: auto;
 }
+
+::-webkit-scrollbar-thumb {
+  background-color: #141c3a;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-left: 1px solid #d1d5db;
+}
