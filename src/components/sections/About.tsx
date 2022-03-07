@@ -64,7 +64,7 @@ const ProfileImage = () => {
           <div
             className="absolute w-full h-full"
             style={{
-              backgroundImage: `url('/imgs/carlo-about.png')`,
+              backgroundImage: `url("/imgs/carlo-about.png")`,
               backgroundSize: "cover",
               backgroundPosition: "center top",
             }}
