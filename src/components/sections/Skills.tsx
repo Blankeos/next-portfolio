@@ -80,7 +80,6 @@ const SkillsGrid = () => {
     if (inView) {
       controls.start("visible");
     }
-    console.log(inView);
   }, [inView]);
 
   return (

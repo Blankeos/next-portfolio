@@ -129,7 +129,7 @@ const ProjectCard = ({
                   ref={imageRef}
                   className="h-full w-full flex bg-gray-200 relative overflow-hidden"
                 >
-                  <span className="absolute w-full h-full">
+                  <span className="relative w-full h-full">
                     {imageURL && (
                       <Image
                         src={imageURL}
@@ -144,7 +144,7 @@ const ProjectCard = ({
                   <motion.div
                     initial={{ height: "100%" }}
                     animate={imageControls}
-                    className="relative bg-gray-50 self-start w-full will-change-height"
+                    className="absolute bg-gray-50 self-start w-full will-change-height"
                   ></motion.div>
                 </div>
               </div>

@@ -69,7 +69,12 @@ const FloatingCircle: React.FC<FloatingCircleProps> = ({
       style={style}
       initial={{ y: 0 }}
       animate={{ y: -25 }}
-      transition={{ yoyo: Infinity, duration: 2, delay: floatDelay }}
+      transition={{
+        duration: 2,
+        delay: floatDelay,
+        repeat: Infinity,
+        repeatType: "reverse",
+      }}
     >
       <Nucleus className={nucleusClass}>{children}</Nucleus>
       <Orbit orbitSize={orbitSize} className={orbitClass} />

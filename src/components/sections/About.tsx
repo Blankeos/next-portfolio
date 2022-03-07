@@ -64,7 +64,7 @@ const ProfileImage = () => {
           <div
             className="absolute w-full h-full"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
+              backgroundImage: `/images/carlo-about.png`,
               backgroundSize: "cover",
               backgroundPosition: "center top",
             }}
@@ -139,9 +139,9 @@ const ProfileInfo = () => {
       <div className=" text-gray-600 flex flex-col space-y-5">
         {about.bio.map((p, i) => {
           return (
-            <motion.p key={i} variants={profileInfoChildVariants}>
+            <motion.span key={i} variants={profileInfoChildVariants}>
               {p}
-            </motion.p>
+            </motion.span>
           );
         })}
       </div>

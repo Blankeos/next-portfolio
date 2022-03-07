@@ -2,6 +2,7 @@ import { Link } from "react-scroll";
 
 interface SectionLinkProps {
   active?: boolean;
+  clicked?: boolean;
   href: string;
   onClick?:
     | ((() => void) & React.MouseEventHandler<HTMLButtonElement>)
@@ -24,12 +25,16 @@ const SectionLink: React.FC<SectionLinkProps> = ({
       onClick={onClick}
     >
       <div className="relative">
-        <span className="relative group-hover:text-blue-500 transition-all duration-500 ease-out">
+        <span
+          className={`${
+            active && "text-blue-500"
+          } relative group-hover:text-blue-500 transition-all duration-500 ease-out`}
+        >
           {children}
         </span>
         <span
-          className={`group-hover:w-full group-hover:left-0 group-hover:bg-blue-500 block absolute right-0 h-[0.115rem] bg-gray-500 transition-all duration-500 ease-out ${
-            active ? "w-full left-0" : "w-0"
+          className={`group-hover:w-full group-hover:left-0 group-hover:bg-blue-500 block absolute right-0 h-[0.115rem] transition-all duration-500 ease-out ${
+            active ? "w-full left-0 bg-blue-500" : "w-0 bg-gray-500"
           }`}
         ></span>
       </div>
