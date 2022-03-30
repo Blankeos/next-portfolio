@@ -8,7 +8,7 @@ import { HiOutlineDocumentDownload as ResumeIcon } from "react-icons/hi";
 import React from "react";
 
 import { Link as ScrollLink } from "react-scroll";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 import Particles from "react-tsparticles";
 import particlesConfig from "../../particles/particles-config";
@@ -158,39 +158,80 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 };
 
 const HeroHeading: React.FC = () => {
+  const parentVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const childVariants: Variants = {
+    hidden: {
+      y: 250,
+    },
+    visible: {
+      y: 0,
+      transition: {
+        duration: 0.75,
+        ease: "circOut",
+      },
+    },
+  };
+
+  const parentVariants2: Variants = {
+    hidden: {
+    },
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.8,
+      },
+    }
+  }
+
   return (
     <h1 className="text-blue-500 relative z-10 flex flex-wrap">
-      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
-        <motion.span
-          initial={{ y: 250 }}
-          animate={{ y: 0 }}
-          transition={{
-            duration: 0.75,
-            delay: 1.5,
-            ease: "circOut",
-          }}
-          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
-        >
-          Carlo
-        </motion.span>
-      </span>
+      <motion.span
+        variants={parentVariants}
+        initial="hidden"
+        animate="visible"
+        className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight"
+      >
+        {"Carlo".split("").map((letter, i) => {
+          return (
+            <motion.span
+              key={i}
+              variants={childVariants}
+              className="inline-block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
+            >
+              {letter}
+            </motion.span>
+          );
+        })}
+      </motion.span>
       <span className="font-black lg:text-8xl leading-none tracking-tight hero-text">
         {" "}
       </span>
-      <span className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight">
-        <motion.span
-          initial={{ y: 250 }}
-          animate={{ y: 0 }}
-          transition={{
-            duration: 1,
-            delay: 1.7,
-            ease: "circOut",
-          }}
-          className="block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
-        >
-          Taleon
-        </motion.span>
-      </span>
+      <motion.span
+        variants={parentVariants2}
+        initial="hidden"
+        animate="visible"
+        className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight"
+      >
+        {"Taleon".split("").map((letter, i) => {
+          return (
+            <motion.span
+              key={i}
+              variants={childVariants}
+              className="inline-block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
+            >
+              {letter}
+            </motion.span>
+          );
+        })}
+      </motion.span>
     </h1>
   );
 };
