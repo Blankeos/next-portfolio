@@ -195,34 +195,3 @@ const HeroHeading: React.FC = () => {
   );
 };
 export default Hero;
-
-{
-  /* <span className="overflow-hidden inline-block">
-        <motion.span
-          initial={{ y: 250 }}
-          animate={{ y: 0 }}
-          transition={{
-            duration: 0.75,
-            delay: 1.5,
-            ease: "circOut",
-          }}
-          className="block"
-        >
-          Carlo
-        </motion.span>
-      </span>
-      <span className="overflow-hidden inline-block pl-5 md:pl-10">
-        <motion.span
-          initial={{ y: 250 }}
-          animate={{ y: 0 }}
-          transition={{
-            duration: 1,
-            delay: 1.7,
-            ease: "circOut",
-          }}
-          className="block"
-        >
-          Taleon
-        </motion.span>
-      </span> */
-}
