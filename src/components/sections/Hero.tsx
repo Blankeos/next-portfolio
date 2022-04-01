@@ -125,6 +125,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             floatDelay={1.5}
             orbitSize="45rem"
             orbitClass="border-gray-300"
+            toastMessage="Yes, I'm good at React!"
           >
             <FaReact className="text-blue-400" size="2rem" />
           </FloatingCircle>
@@ -133,6 +134,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             orbitSize="25rem"
             orbitClass="border-gray-300"
             nucleusClass="bg-yellow-200"
+            toastMessage="I'm pretty good at Javascript!"
           >
             <span
               className="block overflow-hidden"
@@ -146,6 +148,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             floatDelay={4.5}
             orbitClass="border-gray-300"
             nucleusClass="bg-blue-500"
+            toastMessage="Definitely a Typescript Expert here!"
           >
             <span className="block bg-white overflow-hidden">
               <SiTypescript size="2rem" color="#007acc" />
@@ -181,15 +184,14 @@ const HeroHeading: React.FC = () => {
   };
 
   const parentVariants2: Variants = {
-    hidden: {
-    },
+    hidden: {},
     visible: {
       transition: {
         staggerChildren: 0.2,
         delayChildren: 0.8,
       },
-    }
-  }
+    },
+  };
 
   return (
     <h1 className="text-blue-500 relative z-10 flex flex-wrap">

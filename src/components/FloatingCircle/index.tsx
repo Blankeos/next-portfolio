@@ -51,7 +51,9 @@ interface FloatingCircleProps {
   orbitClass?: string;
   nucleusClass?: string;
   floatDelay?: number;
+  toastMessage?: string;
 }
+import toast from "react-hot-toast";
 const FloatingCircle: React.FC<FloatingCircleProps> = ({
   style,
   orbitSize = "35rem",
@@ -59,6 +61,7 @@ const FloatingCircle: React.FC<FloatingCircleProps> = ({
   nucleusClass,
   children,
   floatDelay = 0,
+  toastMessage = "",
 }) => {
   style = {
     ...style,
@@ -76,7 +79,14 @@ const FloatingCircle: React.FC<FloatingCircleProps> = ({
         repeatType: "reverse",
       }}
     >
-      <Nucleus className={nucleusClass}>{children}</Nucleus>
+      <Nucleus
+        onClick={() => {
+          if (toastMessage) toast.success(toastMessage);
+        }}
+        className={nucleusClass}
+      >
+        {children}
+      </Nucleus>
       <Orbit orbitSize={orbitSize} className={orbitClass} />
     </motion.div>
   );
@@ -101,16 +111,19 @@ const Orbit: React.FC<OrbitProps> = ({
 
 interface NucleusProps {
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const Nucleus: React.FC<NucleusProps> = ({
   className = "bg-blue-300",
   children,
+  onClick = () => {},
 }) => {
   return (
     <motion.div
       variants={nucleusVariants}
       className="nucleus absolute rounded-full group cursor-pointer flex items-center justify-center z-10 h-20 w-20"
+      onClick={onClick}
     >
       <span
         className={`absolute opacity-40 w-20 h-20 group-hover:w-28 group-hover:h-28 transition-all rounded-full ${className}`}
