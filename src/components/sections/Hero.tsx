@@ -194,7 +194,7 @@ const HeroHeading: React.FC = () => {
   };
 
   return (
-    <h1 className="text-blue-500 relative z-10 flex flex-wrap">
+    <h1 className="text-blue-500 relative z-10 flex flex-wrap ">
       <motion.span
         variants={parentVariants}
         initial="hidden"
