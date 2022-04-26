@@ -25,52 +25,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Head>
-        <title>Carlo Taleon</title>
-        <meta
-          name="description"
-          content="I enjoy building web apps using React. I'm also a student at West Visayas State University studying Computer Science."
-        />
-        <meta
-          name="google-site-verification"
-          content="Xc9Om93PVgBy3xwN6aPgKLGs4UNRZXQ5WsqMqeOiBMQ"
-        />
-        <link rel="icon" type="image/png" href="favicons/favicon.png" />
-        <link
-          rel="icon"
-          sizes="192x192"
-          href="favicons/android-chrome-192x192.png"
-        />
-        <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" />
-        <meta property="og:title" content="Carlo Taleon | Portfolio" />
-        <meta property="og:site_name" content="Carlo Taleon | Portfolio" />
-        <meta property="og:url" content="https://carlo.vercel.app/" />
-        <meta
-          property="og:description"
-          content="I enjoy building web apps using React. I'm also a student at West Visayas State University studying Computer Science."
-        />
-        <meta name="theme-color" content="#3B82F6" />
-        <meta property="og:type" content="website" />
-        <meta
-          name="image"
-          content="https://raw.githubusercontent.com/Blankeos/next-portfolio/main/public/imgs/image-meta.jpg"
-        />
-        <meta
-          property="og:image"
-          content="https://raw.githubusercontent.com/Blankeos/next-portfolio/main/public/imgs/image-meta.jpg"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="Carlo Taleon" />
-        <meta name="twitter:title" content="Carlo Taleon - Portfolio" />
-        <meta
-          name="twitter:description"
-          content="I enjoy building web apps using React. I'm also a student at West Visayas State University studying Computer Science."
-        />
-        <meta
-          name="twitter:image"
-          content="https://raw.githubusercontent.com/Blankeos/next-portfolio/main/public/imgs/image-meta.jpg"
-        />
-      </Head>
       <Hero sectionRef={heroRef} />
       <div className="relative">
         <div className="absolute inset-0">
