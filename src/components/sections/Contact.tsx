@@ -36,7 +36,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
     <section
       id="contact-section"
       ref={sectionRef}
-      className="w-full md:py-72 py-24"
+      className="w-full md:py-52 py-24"
     >
       <Container maxWidth="7xl" className="relative grid grid-cols-1 z-10">
         <div className="flex flex-col space-y-10">
