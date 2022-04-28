@@ -40,12 +40,6 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
     >
       <Container maxWidth="7xl" className="relative grid grid-cols-1 z-10">
         <div className="flex flex-col space-y-10">
-          {/* <span className="md:block hidden">
-            <SectionHeading
-              className="relative font-light text-4xl sm:text-5xl"
-              text={["Let's work", "together"]}
-            />
-          </span> */}
           <span className="">
             <SectionHeading
               noOffset
