@@ -1,7 +1,11 @@
-import { NextPage } from "next";
+import { NextPage } from "next"; // named imports
 
 const AboutPage: NextPage = () => {
-  return <div>Wow About Page!</div>;
+  return (
+    <>
+      <div>Wow About Page!</div>
+    </>
+  );
 };
 
 export default AboutPage;
