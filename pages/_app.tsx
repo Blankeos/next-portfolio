@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           "computer science",
           "web development",
         ]}
-        imageUrl="https://raw.githubusercontent.com/Blankeos/next-portfolio/main/public/imgs/image-meta.jpg"
+        imageUrl="/imgs/image-meta.jpg"
         imageAlt="Carlo Taleon Portfolio Site Image"
         twitter={{
           cardSize: "large",
