@@ -10,23 +10,17 @@ import React from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { motion, Variants } from "framer-motion";
 
-import Particles from "react-tsparticles";
-import particlesConfig from "../../particles/particles-config";
-
 import Container from "../Container";
 
 import { SectionProps } from "./types";
+import ParticlesBackground from "../ParticlesBackground";
 
 interface HeroProps extends SectionProps {}
 
 const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
   return (
     <section id="hero-section" ref={sectionRef} className="relative">
-      <Particles
-        className="h-full object-cover absolute w-full"
-        canvasClassName="will-change-auto h-full"
-        options={particlesConfig as any}
-      />
+      <ParticlesBackground />
       <Container className="relative" maxWidth="7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
           <div className="flex flex-col py-0 flex-grow space-y-5">
