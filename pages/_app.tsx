@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           "computer science",
           "web development",
         ]}
-        imageUrl="imgs/image-meta.jpg"
+        imageUrl="imgs/image-meta.png"
         imageAlt="Carlo Taleon Portfolio Site Image"
         twitter={{
           cardSize: "large",
