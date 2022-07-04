@@ -1,4 +1,3 @@
-import { IOptions, RecursivePartial } from "react-tsparticles";
 import particlesConfig from "./particles.json";
 
 // console.log(particlesJSON);
