@@ -17,16 +17,11 @@ type MaxWidthTypes =
   | "full";
 
 interface Props {
-  children?: any;
   className?: string;
   maxWidth?: MaxWidthTypes;
 }
 
-const Container: React.FC<Props> = ({
-  children,
-  className,
-  maxWidth = "9xl",
-}) => {
+const Container: FCC<Props> = ({ children, className, maxWidth = "9xl" }) => {
   return (
     <div
       className={`${getMaxWidth(

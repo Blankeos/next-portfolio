@@ -26,7 +26,7 @@ interface HomeLinkButton {
   className?: string;
 }
 
-const HomeLinkButton: React.FC<HomeLinkButton> = ({ className, children }) => {
+const HomeLinkButton: FCC<HomeLinkButton> = ({ className, children }) => {
   const router = useRouter();
   return (
     <button

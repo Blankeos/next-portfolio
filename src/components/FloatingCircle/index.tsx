@@ -54,7 +54,7 @@ interface FloatingCircleProps {
   toastMessage?: string;
 }
 import toast from "react-hot-toast";
-const FloatingCircle: React.FC<FloatingCircleProps> = ({
+const FloatingCircle: FCC<FloatingCircleProps> = ({
   style,
   orbitSize = "35rem",
   orbitClass,
@@ -114,7 +114,7 @@ interface NucleusProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const Nucleus: React.FC<NucleusProps> = ({
+const Nucleus: FCC<NucleusProps> = ({
   className = "bg-blue-300",
   children,
   onClick = () => {},

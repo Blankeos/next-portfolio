@@ -88,7 +88,7 @@ const Nav = () => {
 interface SocialLinkProps {
   href: string;
 }
-const SocialLink: React.FC<SocialLinkProps> = ({ href, children }) => {
+const SocialLink: FCC<SocialLinkProps> = ({ href, children }) => {
   return (
     <Link href={href}>
       <a className="relative select-none group cursor-pointer h-10 w-10 flex items-center justify-center hover:text-white transition ease-out">
