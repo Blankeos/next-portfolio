@@ -14,6 +14,7 @@ import Container from "../Container";
 
 import { SectionProps } from "./types";
 import ParticlesBackground from "../ParticlesBackground";
+import Image from "next/image";
 
 interface HeroProps extends SectionProps {}
 
@@ -22,7 +23,8 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
     <section id="hero-section" ref={sectionRef} className="relative">
       <ParticlesBackground />
       <Container className="relative" maxWidth="7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] pb-24 pt-24">
+          {/* Left Side */}
           <div className="flex flex-col py-0 flex-grow space-y-5">
             <div className="flex flex-col space-y-5">
               <motion.div
@@ -88,25 +90,36 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               </button>
             </motion.div>
           </div>
-          {/* <div className="relative w-96">
+          {/* Right Side Container*/}
+          <div className="hidden lg:block">
+            {/* Image Div (Floaty Animation) */}
             <motion.div
-              initial={{ height: "0%" }}
-              animate={{ height: "100%" }}
-              transition={{ ease: "circOut", delay: 2.5, duration: 0.75 }}
-              className="bg-blue-500 h-full w-full absolute top-0 left-0"
-            ></motion.div>
-            <motion.div
-              initial={{ height: "0%" }}
-              animate={{ height: "100%" }}
-              transition={{ delay: 3, duration: 0.75, ease: "circOut" }}
-              className="w-full h-1/2 relative"
-              style={{
-                backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+              initial={{ y: -5 }}
+              animate={{ y: -15 }}
+              transition={{
+                duration: 1.8,
+                //  delay: floatDelay,
+                repeat: Infinity,
+                repeatType: "reverse",
               }}
-            />
-          </div> */}
+              className="flex"
+            >
+              <motion.div
+                initial={{
+                  scale: 0.8,
+                  opacity: 0,
+                }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  delay: 5,
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
+              >
+                <Image src="/imgs/hero_image.png" width={350} height={350} />
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
         <motion.div
           variants={getContainerVariants(0.4, 3.5)}
@@ -232,3 +245,26 @@ const HeroHeading: React.FC = () => {
   );
 };
 export default Hero;
+
+// OLD RIGHT SIDE IMAGE IN HERO
+{
+  /* <div className="relative w-96">
+            <motion.div
+              initial={{ height: "0%" }}
+              animate={{ height: "100%" }}
+              transition={{ ease: "circOut", delay: 2.5, duration: 0.75 }}
+              className="bg-blue-500 h-full w-full absolute top-0 left-0"
+            ></motion.div>
+            <motion.div
+              initial={{ height: "0%" }}
+              animate={{ height: "100%" }}
+              transition={{ delay: 3, duration: 0.75, ease: "circOut" }}
+              className="w-full h-1/2 relative"
+              style={{
+                backgroundImage: `url('https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          </div> */
+}
