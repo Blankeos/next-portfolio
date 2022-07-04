@@ -1,5 +1,4 @@
 import { Link } from "react-scroll";
-
 interface SectionLinkProps {
   active?: boolean;
   clicked?: boolean;
@@ -9,7 +8,7 @@ interface SectionLinkProps {
     | undefined;
 }
 
-const SectionLink: React.FC<SectionLinkProps> = ({
+const SectionLink: FCC<SectionLinkProps> = ({
   children,
   active = false,
   href,

@@ -46,7 +46,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           creatorUsername: "@carlo_taleon",
         }}
       />
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
       <Toaster />
     </>
   );
