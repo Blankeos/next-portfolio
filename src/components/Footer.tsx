@@ -7,7 +7,7 @@ import { animateScroll as scroll } from "react-scroll";
 const Footer = () => {
   return (
     <footer className="bg-blue-500 text-white">
-      <Container className="flex flex-col items-center space-y-5 py-10">
+      <Container className="flex flex-col items-center space-y-5 py-20">
         <a className="font-extrabold select-none cursor-pointer flex items-center px-5 text-xl">
           CATT
         </a>
