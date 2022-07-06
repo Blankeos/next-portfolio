@@ -14,6 +14,7 @@ import { icons } from "react-icons/lib";
 
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import toast from "react-hot-toast";
 
 interface ContactProps extends SectionProps {}
 
@@ -81,8 +82,16 @@ const ClickableEmail = () => {
 
   const clickHandler = () => {
     navigator.clipboard.writeText("carloantonioct@gmail.com");
-
     setContent(copiedMessage);
+    toast((t) => (
+      <span className="flex gap-x-4">
+        <span className="grid place-items-center text-2xl">👋</span>
+        <span className="flex flex-col gap-y-1">
+          <span className="font-semibold text-gray-800">Email Copied!</span>
+          <span className="text-gray-500">Hope to hear from you soon.</span>
+        </span>
+      </span>
+    ));
   };
 
   const hoverExitHandler = () => {
