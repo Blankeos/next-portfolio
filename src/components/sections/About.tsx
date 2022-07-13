@@ -6,6 +6,10 @@ import { SectionProps } from "./types";
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import about from "../../../data/about";
+import Link from "next/link";
+
+// Icons
+import { BsArrowRight as Arrow } from "react-icons/bs";
 
 interface AboutProps extends SectionProps {}
 
@@ -16,7 +20,7 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
     <section
       id="about-section"
       ref={sectionRef}
-      className="bg-gray-50 w-full py-40"
+      className="bg-gray-50 w-full pt-40 pb-28"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
@@ -124,7 +128,7 @@ const ProfileInfo = () => {
       variants={profileInfoVariants}
       initial={"hidden"}
       animate={controls}
-      className="flex flex-col space-y-8 mt-5 md:mt-0"
+      className="flex flex-col gap-y-8 mt-5 md:mt-0"
     >
       <motion.h2
         variants={profileInfoChildVariants}
@@ -145,6 +149,24 @@ const ProfileInfo = () => {
           );
         })}
       </div>
+
+      <motion.div
+        variants={profileInfoChildVariants}
+        className="flex justify-start"
+      >
+        <Link href="/about">
+          <a className="secondary-btn flex gap-x-2 group">
+            <span className="">More about me</span>
+            <Arrow className="transform group-hover:translate-x-1 translate-y-[3px] transition-transform" />
+          </a>
+        </Link>
+        {/* <Link href="/about">
+          <a className="text-gray-500 flex gap-x-2 items-center group hover:text-blue-500 text-sm">
+            <span className="transform translate-y-0.5">More About Me</span>
+            <Arrow className="transform group-hover:translate-x-1 transition-transform" />
+          </a>
+        </Link> */}
+      </motion.div>
     </motion.div>
   );
 };
