@@ -6,7 +6,7 @@ const about = {
   fullName: "Carlo Antonio T. Taleon",
   bio: [
     <p className="leading-relaxed">
-      ✍ I'm currently a Junior pursuing a BS in Computer Science, major in AI
+      ✍ I'm currently a Senior pursuing a BS in Computer Science, major in AI
       at West Visayas State University, Iloilo. I'm a developer by trade but I
       also have a deep knowledge of good design principles that keeps me focused
       on the goal of enhancing the human experience.
