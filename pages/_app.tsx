@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         siteTitle="Carlo Taleon"
         pageTitle="Home"
         titleTemplate="[siteTitle] | [pageTitle]"
-        description="I'm currently a Junior pursuing a BS in Computer Science, major in AI at West Visayas State University, Iloilo."
+        description="I'm currently a Senior pursuing a BS in Computer Science, major in AI at West Visayas State University, Iloilo."
         baseSiteUrl="https://carlo.vercel.app"
         pagePath=""
         keywords={[
