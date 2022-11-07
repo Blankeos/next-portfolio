@@ -80,7 +80,10 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               >
                 <button className="secondary-btn">Get In Touch</button>
               </ScrollLink>
-              <Link href="https://drive.google.com/file/d/16RJCE7jYzxW94XGc4f5CWk8G5z_mHWJr/view?usp=sharing">
+              <Link
+                href="/CarloTaleonResume_Nov2022.pdf"
+                // href="https://drive.google.com/file/d/16RJCE7jYzxW94XGc4f5CWk8G5z_mHWJr/view?usp=sharing"
+              >
                 <a
                   target="_blank"
                   className="relative group z-20 hover:shadow-lg transition"
