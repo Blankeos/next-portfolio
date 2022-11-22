@@ -60,10 +60,9 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 transition={{ delay: 2.7 }}
                 className="c mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base"
               >
-                I make games during my free time and I enjoy building web apps
-                using <b className="text-blue-500">React</b>. I&apos;m also a
-                student at West Visayas State University studying Computer
-                Science.
+                I&apos;m a senior Computer Science student specializing in
+                Artificial Intelligence at West Visayas University. I love
+                making games, web apps, and doing ML!
               </motion.p>
             </div>
             <motion.div
@@ -140,7 +139,11 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             floatDelay={1.5}
             orbitSize="45rem"
             orbitClass="border-gray-300"
-            toastMessage="Yes, I'm good at React!"
+            toastMessage={
+              <span>
+                Yes, I'm good at <b className="text-[#60a5fa]">React</b>!
+              </span>
+            }
           >
             <FaReact className="text-blue-400" size="2rem" />
           </FloatingCircle>
@@ -148,22 +151,46 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             style={{ right: "30rem", bottom: "10rem" }}
             orbitSize="25rem"
             orbitClass="border-gray-300"
-            nucleusClass="bg-yellow-200"
-            toastMessage="I'm pretty good at Javascript!"
+            nucleusClass="bg-[#ffe58e]"
+            toastMessage={
+              <span>
+                I also do <b>ML</b> with{" "}
+                <b className="text-[#ffca1d]">Python</b>!
+              </span>
+            }
           >
-            <span
+            <div
+              className="h-12 w-12"
+              style={{
+                backgroundImage: `url('/imgs/python-logo.svg')`,
+                backgroundPosition: "center",
+                backgroundSize: "contain",
+              }}
+            />
+            {/* <Image
+              alt="python-logo"
+              src="/imgs/python-logo.svg"
+              width={120}
+              height={120}
+            /> */}
+            {/* <span
               className="block overflow-hidden"
               style={{ backgroundColor: "#323330" }}
             >
               <SiJavascript size="2rem" color="#f0db4f" />
-            </span>
+            </span> */}
           </FloatingCircle>
           <FloatingCircle
             style={{ left: "5rem", bottom: "1.5rem" }}
             floatDelay={4.5}
             orbitClass="border-gray-300"
-            nucleusClass="bg-blue-500"
-            toastMessage="Definitely a Typescript Expert here!"
+            nucleusClass="bg-[#0044d0]"
+            toastMessage={
+              <span>
+                Definitely a <b className="text-[#007acc]">Typescript Expert</b>{" "}
+                here!
+              </span>
+            }
           >
             <span className="block bg-white overflow-hidden">
               <SiTypescript size="2rem" color="#007acc" />

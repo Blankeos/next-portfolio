@@ -32,7 +32,7 @@ const Home: React.FC = () => {
         <Projects sectionRef={projectsRef} />
         <Skills sectionRef={skillsRef} />
         <About sectionRef={aboutRef} />
-        {/* <Contact sectionRef={contactRef} /> */}
+        <Contact sectionRef={contactRef} />
       </div>
     </>
   );

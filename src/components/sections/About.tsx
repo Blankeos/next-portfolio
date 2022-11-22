@@ -20,7 +20,7 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
     <section
       id="about-section"
       ref={sectionRef}
-      className="bg-gray-50 w-full pt-40 pb-28"
+      className="bg-gray-50 w-full pt-28 pb-28"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
@@ -40,6 +40,7 @@ const ProfileImage = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     root: null,
+    rootMargin: "150px 0px",
     threshold: 1,
   });
   const controls = useAnimation();

@@ -3,14 +3,11 @@ import Container from "../Container";
 import SectionHeading from "../SectionHeading";
 
 import Link from "next/link";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
-import { GrInstagram } from "react-icons/gr";
 import { SectionProps } from "./types";
 
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import socials, { Social } from "../../../data/socials";
-import { icons } from "react-icons/lib";
 
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -23,7 +20,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
   const [ref, inView] = useInView({
     threshold: 0.8,
     root: null,
-    rootMargin: "-150px 0px",
+    rootMargin: "-100px 0px",
     triggerOnce: true,
   });
 
@@ -85,7 +82,17 @@ const ClickableEmail = () => {
     setContent(copiedMessage);
     toast((t) => (
       <span className="flex gap-x-4">
-        <span className="grid place-items-center text-2xl">👋</span>
+        <motion.span
+          animate={{ rotate: [-20, 30] }}
+          transition={{
+            repeat: Infinity,
+            duration: 0.35,
+            repeatType: "mirror",
+          }}
+          className="grid place-items-center text-2xl"
+        >
+          👋
+        </motion.span>
         <span className="flex flex-col gap-y-1">
           <span className="font-semibold text-gray-800">Email Copied!</span>
           <span className="text-gray-500">Hope to hear from you soon.</span>
@@ -122,7 +129,7 @@ const contactInfoVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.2,
     },
   },
 };

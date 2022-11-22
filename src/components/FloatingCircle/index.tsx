@@ -45,13 +45,15 @@ const nucleusChildVariants: Variants = {
     },
   },
 };
+
+import { Renderable } from "react-hot-toast/headless";
 interface FloatingCircleProps {
   style: CSSProperties | undefined;
   orbitSize?: string;
   orbitClass?: string;
   nucleusClass?: string;
   floatDelay?: number;
-  toastMessage?: string;
+  toastMessage?: Renderable;
 }
 import toast from "react-hot-toast";
 const FloatingCircle: FCC<FloatingCircleProps> = ({
