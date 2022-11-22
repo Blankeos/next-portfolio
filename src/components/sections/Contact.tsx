@@ -31,7 +31,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
     if (inView) {
       controls.start("visible");
     }
-  }, [inView]);
+  }, [inView, controls]);
 
   return (
     <section

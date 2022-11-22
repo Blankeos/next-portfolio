@@ -54,7 +54,7 @@ const ProfileImage = () => {
         },
       });
     }
-  }, [inView]);
+  }, [inView, controls]);
   return (
     <div className="relative w-full h-full flex flex-col">
       <div ref={ref} className="inline-block relative md:w-5/6">
@@ -120,7 +120,7 @@ const ProfileInfo = () => {
     if (inView) {
       controls.start("visible");
     }
-  }, [inView]);
+  }, [inView, controls]);
 
   return (
     <motion.div

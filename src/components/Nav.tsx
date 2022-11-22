@@ -14,7 +14,7 @@ const navVariants: Variants = {
   visible: {
     y: 0,
     transition: {
-      delay: 2.5,
+      delay: 1.5,
       staggerChildren: 0.25,
       when: "beforeChildren",
     },

@@ -10,8 +10,6 @@ export type Project = {
 
 type Projects = Project[];
 
-// Icons
-
 const projects: Projects = [
   {
     title: "Cafe.ly",

@@ -24,7 +24,7 @@ export const useSectionActiveObserver: useSectionActiveObserverArgs = (
     } else {
       setActiveIndex(-1);
     }
-  }, [...inViews, noActiveSection]);
+  }, [inViews, noActiveSection]);
 
   return [activeIndex];
 };

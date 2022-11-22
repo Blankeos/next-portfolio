@@ -119,7 +119,12 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   ease: "easeOut",
                 }}
               >
-                <Image src="/imgs/hero_image.png" width={350} height={350} />
+                <Image
+                  src="/imgs/hero_image.png"
+                  width={350}
+                  height={350}
+                  alt="Carlo's Picture"
+                />
               </motion.div>
             </motion.div>
           </div>

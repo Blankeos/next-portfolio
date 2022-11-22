@@ -86,13 +86,13 @@ const ProjectCard = ({
         transition: { duration: 1.2, ease: "circOut" },
       });
     }
-  }, [imageInView]);
+  }, [imageInView, imageControls]);
 
   useEffect(() => {
     if (textInView) {
       textControls.start("visible");
     }
-  }, [textInView]);
+  }, [textInView, textControls]);
 
   const textParentVariants: Variants = {
     hidden: {},
@@ -140,6 +140,7 @@ const ProjectCard = ({
                       layout="fill"
                       objectFit="cover"
                       objectPosition="center"
+                      alt={`${title} featured pic`}
                     />
                   )}
                   <span className="project-card-image-highlight"></span>
