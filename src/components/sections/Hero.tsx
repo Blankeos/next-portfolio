@@ -141,7 +141,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             orbitClass="border-gray-300"
             toastMessage={
               <span>
-                Yes, I'm good at <b className="text-[#60a5fa]">React</b>!
+                Yes, I&apos;m good at <b className="text-[#60a5fa]">React</b>!
               </span>
             }
           >
