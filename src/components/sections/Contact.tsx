@@ -144,15 +144,13 @@ interface SocialLink extends Social {}
 
 const SocialLink: React.FC<SocialLink> = ({ name, Icon, url }) => {
   return (
-    <Link href={url}>
-      <a target="_blank" className="group p-1 relative">
-        <div className="relative overflow-hidden transform group-hover:-translate-y-2 transition ease-in-out will-change">
-          <motion.span variants={contactInfoChildVariants} className="block">
-            <Icon />
-          </motion.span>
-        </div>
-        <span className="absolute bottom-0 left-0 right-0 bg-blue-500 mx-auto w-8/12 h-1.5 rounded-[50%] group-hover:opacity-70 opacity-0 transition"></span>
-      </a>
+    <Link href={url} target="_blank" className="group p-1 relative">
+      <div className="relative overflow-hidden transform group-hover:-translate-y-2 transition ease-in-out will-change">
+        <motion.span variants={contactInfoChildVariants} className="block">
+          <Icon />
+        </motion.span>
+      </div>
+      <span className="absolute bottom-0 left-0 right-0 bg-blue-500 mx-auto w-8/12 h-1.5 rounded-[50%] group-hover:opacity-70 opacity-0 transition"></span>
     </Link>
   );
 };

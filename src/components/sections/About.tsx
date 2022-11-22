@@ -154,11 +154,9 @@ const ProfileInfo = () => {
         variants={profileInfoChildVariants}
         className="flex justify-start"
       >
-        <Link href="/about">
-          <a className="secondary-btn flex group gap-x-2">
-            <span className="">More about me</span>
-            <Arrow className="transform translate-x-1 group-hover:translate-x-2 translate-y-[3px] transition-transform" />
-          </a>
+        <Link href="/about" className="secondary-btn flex group gap-x-2">
+          <span className="">More about me</span>
+          <Arrow className="transform translate-x-1 group-hover:translate-x-2 translate-y-[3px] transition-transform" />
         </Link>
         {/* Might not use this bottom one anymore */}
         {/* <Link href="/about">

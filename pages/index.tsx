@@ -1,10 +1,9 @@
-import Head from "next/head";
 import Hero from "../src/components/sections/Hero";
 import Projects from "../src/components/sections/Projects";
 import SideNav from "../src/components/SideNav";
 
 import { useInView } from "react-intersection-observer";
-import React, { useEffect } from "react";
+import React from "react";
 import Skills from "../src/components/sections/Skills";
 import About from "../src/components/sections/About";
 import Contact from "../src/components/sections/Contact";
@@ -33,7 +32,7 @@ const Home: React.FC = () => {
         <Projects sectionRef={projectsRef} />
         <Skills sectionRef={skillsRef} />
         <About sectionRef={aboutRef} />
-        <Contact sectionRef={contactRef} />
+        {/* <Contact sectionRef={contactRef} /> */}
       </div>
     </>
   );

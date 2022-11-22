@@ -1,9 +1,12 @@
 import { NextPage } from "next"; // named imports
+import Link from "next/link";
 
 const AboutPage: NextPage = () => {
   return (
     <>
-      <div>Wow About Page!</div>
+      <div>
+        <Link href="/">wow</Link>
+      </div>
     </>
   );
 };

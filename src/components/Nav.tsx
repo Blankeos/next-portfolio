@@ -47,12 +47,13 @@ const Nav = () => {
         maxWidth="7xl"
         className="flex items-center justify-between h-full"
       >
-        <Link href="/">
-          <a className="text-2xl lg:text-2xl font-black select-none cursor-pointer h-full flex items-center pr-5 text-blue-500 tracking-tight">
-            <motion.span variants={navChildVariants} className="block">
-              CATT
-            </motion.span>
-          </a>
+        <Link
+          href="/"
+          className="text-2xl lg:text-2xl font-black select-none cursor-pointer h-full flex items-center pr-5 text-blue-500 tracking-tight"
+        >
+          <motion.span variants={navChildVariants} className="block">
+            CATT
+          </motion.span>
         </Link>
         <div className="flex space-x-10">
           <div className="text-sm text-gray-600 hidden lg:flex space-x-10 items-center">
@@ -90,11 +91,12 @@ interface SocialLinkProps {
 }
 const SocialLink: FCC<SocialLinkProps> = ({ href, children }) => {
   return (
-    <Link href={href}>
-      <a className="relative select-none group cursor-pointer h-10 w-10 flex items-center justify-center hover:text-white transition ease-out">
-        <span className="absolute w-0 h-0 group-hover:h-10 group-hover:w-10 bg-blue-500 rounded-full transition-all ease-in-out"></span>
-        <span className="relative">{children}</span>
-      </a>
+    <Link
+      href={href}
+      className="relative select-none group cursor-pointer h-10 w-10 flex items-center justify-center hover:text-white transition ease-out"
+    >
+      <span className="absolute w-0 h-0 group-hover:h-10 group-hover:w-10 bg-blue-500 rounded-full transition-all ease-in-out"></span>
+      <span className="relative">{children}</span>
     </Link>
   );
 };

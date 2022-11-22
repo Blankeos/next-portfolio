@@ -22,10 +22,12 @@ const about = {
       interest in games like Minecraft. I later started learning programming
       seriously with C# back in 2016 and published my game in the same year
       called{" "}
-      <Link href="https://play.google.com/store/apps/details?id=com.DigikattStudios.Chromeleon&hl=en&gl=US">
-        <a className="text-blue-400 hover:text-blue-300" target="_blank">
-          Chromeleon
-        </a>
+      <Link
+        className="text-blue-400 hover:text-blue-300"
+        target="_blank"
+        href="https://play.google.com/store/apps/details?id=com.DigikattStudios.Chromeleon&hl=en&gl=US"
+      >
+        Chromeleon
       </Link>
       . Nowadays though, my development stack focuses more on making web apps
       with modern web technologies like React and Typescript.

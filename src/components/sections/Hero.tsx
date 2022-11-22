@@ -81,19 +81,15 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 <button className="secondary-btn">Get In Touch</button>
               </ScrollLink>
               <Link
+                target="_blank"
+                className="relative group z-20 hover:shadow-lg transition"
                 href="/CarloTaleonResume_Nov2022.pdf"
-                // href="https://drive.google.com/file/d/16RJCE7jYzxW94XGc4f5CWk8G5z_mHWJr/view?usp=sharing"
               >
-                <a
-                  target="_blank"
-                  className="relative group z-20 hover:shadow-lg transition"
-                >
-                  <span className="will-change-transform select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5">
-                    <ResumeIcon size="1.2rem" className="relative" />
-                    <span className="relative">Resume</span>
-                  </span>
-                  <span className="bg-blue-600 absolute inset-0"></span>
-                </a>
+                <span className="will-change-transform select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5">
+                  <ResumeIcon size="1.2rem" className="relative" />
+                  <span className="relative">Resume</span>
+                </span>
+                <span className="bg-blue-600 absolute inset-0"></span>
               </Link>
             </motion.div>
           </div>
