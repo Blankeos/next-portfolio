@@ -1,6 +1,7 @@
-# Next Portfolio
+# 🔼 Next Portfolio
 
-[carlo.vercel.app](https://carlo.vercel.app/)
+🚀 Carlo's Personal Web Portfolio built with **NextJS**!
 
-Just a better portfolio I built with NextJS
-j
+**VISIT:** [carlo.vercel.app](https://carlo.vercel.app/)
+
+![SomeImage](/docs/preview.png)
