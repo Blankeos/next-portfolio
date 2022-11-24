@@ -20,8 +20,9 @@
     "react-icons": "^4.6.0",
     "react-intersection-observer": "^9.4.1",
     "react-scroll": "^1.8.8",
-    "react-tsparticles": "2.5.2",
-    "tsparticles": "2.5.2"
+    "react-tsparticles": "^2.5.3",
+    "tsparticles": "^2.5.3",
+    "tsparticles-engine": "^2.5.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",

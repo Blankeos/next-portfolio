@@ -19,9 +19,10 @@ specifiers:
   react-icons: ^4.6.0
   react-intersection-observer: ^9.4.1
   react-scroll: ^1.8.8
-  react-tsparticles: 2.5.2
+  react-tsparticles: ^2.5.3
   tailwindcss: ^3.2.4
-  tsparticles: 2.5.2
+  tsparticles: ^2.5.3
+  tsparticles-engine: ^2.5.2
   typescript: ^4.9.3
   yarn-upgrade-all: ^0.7.1
 
@@ -37,8 +38,9 @@ dependencies:
   react-icons: 4.6.0_react@18.2.0
   react-intersection-observer: 9.4.1_react@18.2.0
   react-scroll: 1.8.8_biqbaboplfbrettd7655fr4n2y
-  react-tsparticles: 2.5.2_react@18.2.0
-  tsparticles: 2.5.2
+  react-tsparticles: 2.5.3_react@18.2.0
+  tsparticles: 2.5.3
+  tsparticles-engine: 2.5.2
 
 devDependencies:
   '@types/node': 18.11.9
@@ -2113,8 +2115,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /react-tsparticles/2.5.2_react@18.2.0:
-    resolution: {integrity: sha512-iDIpI9gaVBIKBErVEcHgt/sNQHEiBwOVfIY8DBTUC7uY7fPKXrKaPDUWPwNwiE5QpolJiFkmvgopV75y3jTVxA==}
+  /react-tsparticles/2.5.3_react@18.2.0:
+    resolution: {integrity: sha512-4wIq3wGcKnnMKz5fXWCQDPWnibCWRoUi/KO13l8vFATg7kcwSkDF52I5mzGFdiftM6d3Amy5x86wDuXGj3dGHg==}
     requiresBuild: true
     peerDependencies:
       react: '>=16'
@@ -2709,8 +2711,8 @@ packages:
       tsparticles-engine: 2.5.2
     dev: false
 
-  /tsparticles/2.5.2:
-    resolution: {integrity: sha512-YtoVBjhXBLlOQHQpuCki0Z8y5xvZHchTjkNhojwcA7VUF9gKUVjVJ6uVtKH3dsJ+lT6wP0dIm8t84pbu9YooEQ==}
+  /tsparticles/2.5.3:
+    resolution: {integrity: sha512-qp3WdOKLQsZUgR11biq5mK5njmD6bhDcK2XpsLenj0oNvz6A/lHn8fv9KgWmLka6sBBHwTpAPpnFGBII5GMaqA==}
     dependencies:
       tsparticles-engine: 2.5.2
       tsparticles-interaction-external-trail: 2.5.3
