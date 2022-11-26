@@ -156,7 +156,7 @@ const ProfileInfo = () => {
         className="flex justify-start"
       >
         <Link href="/about" className="secondary-btn flex group gap-x-2">
-          <span className="">More about me</span>
+          <span className="">More About Me</span>
           <Arrow className="transform translate-x-1 group-hover:translate-x-2 translate-y-[3px] transition-transform" />
         </Link>
         {/* Might not use this bottom one anymore */}
