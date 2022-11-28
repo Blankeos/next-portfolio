@@ -10,7 +10,9 @@ const AboutPage: NextPage = () => {
           There is nothing interesting about me!!{" "}
           <span className="text-blue-500">{"(╯•ᗣ•╰)"}</span>
         </h1>
-        <p className="mt-5">Just kidding! This page is under construction.</p>
+        <p className="mt-5 text-gray-700">
+          Just kidding! This page is under construction.
+        </p>
         <div className="h-12" />
       </div>
     </>
