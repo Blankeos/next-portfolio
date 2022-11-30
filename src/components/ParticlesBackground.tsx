@@ -20,7 +20,7 @@ const ParticlesBackground: React.FC = () => {
 
   return (
     <Particles
-      className="h-full object-cover absolute w-full"
+      className="h-full object-cover fixed w-full"
       canvasClassName="will-change-auto h-full"
       options={particlesConfig as any}
       init={particlesInit}

@@ -49,10 +49,13 @@ const Nav = () => {
       >
         <Link
           href="/"
-          className="text-2xl lg:text-2xl font-black select-none cursor-pointer h-full flex items-center pr-5 text-blue-500 tracking-tight"
+          className="group text-2xl lg:text-2xl font-black select-none cursor-pointer h-full flex items-center pr-5 text-blue-500 tracking-tight"
         >
-          <motion.span variants={navChildVariants} className="block">
-            CATT
+          <motion.span variants={navChildVariants} className="relative block">
+            <span className="block absolute text-[#1532ff]">CATT</span>
+            <span className="block relative group-hover:-translate-y-[0.20rem] will-change-transform transition">
+              CATT
+            </span>
           </motion.span>
         </Link>
         <div className="flex space-x-10">
