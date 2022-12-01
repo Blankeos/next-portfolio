@@ -62,7 +62,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               >
                 I&apos;m a senior Computer Science student specializing in
                 Artificial Intelligence at West Visayas University. I love
-                making games, web apps, and doing ML!
+                making games, web apps with <b>React</b>, and doing ML!
               </motion.p>
             </div>
             <motion.div

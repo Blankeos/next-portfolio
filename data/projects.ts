@@ -16,7 +16,7 @@ const projects: Projects = [
     shortDesc: "my undergrad thesis: automatic assessment of scoliosis",
     slug: "scoliovis",
     demoURL: "https://scoliovis.app/",
-    imageURL: "/imgs/scoliovis_featured-project-img.png",
+    imageURL: "/imgs/scoliovis_featured-project-img.webp",
   },
   {
     title: "LinkRoom",
