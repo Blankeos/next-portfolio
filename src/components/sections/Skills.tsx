@@ -46,19 +46,21 @@ const skillsGridVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.2,
     },
   },
 };
 
 const skillItemVariants: Variants = {
   hidden: {
-    filter: "blur(1.2rem)",
+    // filter: "blur(1.2rem)",
+    rotate: 5,
     opacity: 0,
-    y: 20,
+    y: 40,
   },
   visible: {
-    filter: "blur(0px)",
+    // filter: "blur(0px)",
+    rotate: 0,
     y: 0,
     opacity: 1,
     transition: {
@@ -91,7 +93,11 @@ const SkillsGrid = () => {
       className="grid grid-cols-3 lg:grid-cols-4 justify-items-center lg:place-self-center md:gap-10 gap-y-16 z-10 mt-16 lg:mt-0 text-gray-500"
     >
       {skills.map((skill, i) => {
-        return <span key={i}>{skill.name}</span>;
+        return (
+          <motion.span className="block" variants={skillItemVariants} key={i}>
+            {skill.name}
+          </motion.span>
+        );
       })}
     </motion.div>
   );
