@@ -185,7 +185,10 @@ const ProjectCard = ({
                 />
               </div>
             </motion.div>
-            <motion.div className="mt-2 h-7 flex items-end gap-x-1 overflow-hidden">
+            <motion.div
+              variants={textChildVariants}
+              className="mt-2 h-7 flex items-end gap-x-1 overflow-hidden"
+            >
               {tags &&
                 tags.map((tag, i) => (
                   <span

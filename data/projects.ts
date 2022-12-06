@@ -40,8 +40,7 @@ const projects: Projects = [
     title: "Cybergence 2021 Event Portal",
     shortDesc: "An event landing site I collaborated on with other students.",
     slug: "cybergence2021",
-    imageURL:
-      "https://raw.githubusercontent.com/Blankeos/akwe-landing/main/public/photos/sc_0.png",
+    imageURL: "/imgs/cybergence_featured-project-img.webp",
     demoURL: "https://cybergence.vercel.app/",
     tags: ["NextJS", "TailwindCSS"],
   },
