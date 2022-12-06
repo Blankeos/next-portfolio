@@ -6,6 +6,7 @@ export type Project = {
   slug: string;
   imageURL?: string;
   demoURL?: string;
+  tags?: string[];
 };
 
 type Projects = Project[];
@@ -17,6 +18,7 @@ const projects: Projects = [
     slug: "scoliovis",
     demoURL: "https://scoliovis.app/",
     imageURL: "/imgs/scoliovis_featured-project-img.webp",
+    tags: ["NextJS", "Typescript", "Python", "FastAPI", "PyTorch"],
   },
   {
     title: "LinkRoom",
@@ -24,6 +26,7 @@ const projects: Projects = [
     slug: "linkroom",
     imageURL: "/imgs/linkroom_featured-project-img.png",
     demoURL: "https://linkroom.vercel.app/",
+    tags: ["NextJS", "Typescript", "Zustand", "TailwindCSS"],
   },
   {
     title: "Cafe.ly",
@@ -31,6 +34,7 @@ const projects: Projects = [
     slug: "cafely",
     imageURL: "/imgs/cafely_featured-project-img.jpg",
     demoURL: "https://cafely.vercel.app/",
+    tags: ["ReactJS", "Express", "MongoDB", "Firebase", "TailwindCSS"],
   },
   {
     title: "Cybergence 2021 Event Portal",
@@ -39,6 +43,7 @@ const projects: Projects = [
     imageURL:
       "https://raw.githubusercontent.com/Blankeos/akwe-landing/main/public/photos/sc_0.png",
     demoURL: "https://cybergence.vercel.app/",
+    tags: ["NextJS", "TailwindCSS"],
   },
   {
     title: "Cafe.ly Manual",
@@ -46,6 +51,7 @@ const projects: Projects = [
     slug: "cafely-manual",
     imageURL: "/imgs/cafely-manual_featured-project-img.jpg",
     demoURL: "https://cafely-manual.vercel.app/",
+    tags: ["NextJS", "TailwindCSS"],
   },
 ];
 
