@@ -188,7 +188,10 @@ const ProjectCard = ({
             <motion.div className="mt-2 h-7 flex items-end gap-x-1 overflow-hidden">
               {tags &&
                 tags.map((tag, i) => (
-                  <span className="text-xs border px-2.5 py-1 rounded-full text-blue-500 border-blue-500 group-hover:bg-blue-500 group-hover:text-white transition">
+                  <span
+                    key={i}
+                    className="text-xs border px-2.5 py-1 rounded-full text-blue-500 border-blue-500 group-hover:bg-blue-500 group-hover:text-white transition"
+                  >
                     <span className="block transform translate-y-[0.10rem]">
                       {tag}
                     </span>
