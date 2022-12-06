@@ -9,6 +9,14 @@ module.exports = {
       "bebas-neue": ["Bebas Neue"],
     },
     extend: {
+      fontSize: {
+        xxs: [
+          "0.65rem",
+          {
+            lineHeight: "1rem",
+          },
+        ],
+      },
       maxWidth: {
         "8xl": "100rem",
         "9xl": "110rem",

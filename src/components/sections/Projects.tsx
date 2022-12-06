@@ -34,7 +34,7 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
 
 const ProjectsGrid = () => {
   return (
-    <div className="relative grid grid-cols-1 pt-28 md:pt-0 md:grid-cols-2 gap-5 md:gap-16 mt-12 items-end z-10">
+    <div className="relative grid grid-cols-1 pt-28 md:pt-0 md:grid-cols-2 gap-5 gap-y-8 md:gap-16 md:gap-x-5 lg:gap-16 mt-12 items-end z-10">
       {projects.map((project, i) => {
         return (
           <ProjectCard
@@ -44,6 +44,7 @@ const ProjectsGrid = () => {
             imageURL={project.imageURL}
             slug={project.slug}
             demoURL={project.demoURL && project.demoURL}
+            tags={project.tags}
           />
         );
       })}
@@ -62,6 +63,7 @@ const ProjectCard = ({
   shortDesc,
   slug,
   demoURL,
+  tags,
 }: ProjectCardProps) => {
   const [imageRef, imageInView] = useInView({
     threshold: 0.3,
@@ -153,16 +155,16 @@ const ProjectCard = ({
               </div>
             </div>
           </div>
-
           <motion.div
             variants={textParentVariants}
             initial="hidden"
             animate={textControls}
             ref={textRef}
           >
+            <div className="spacer-element h-10" />
             <motion.div
               variants={textChildVariants}
-              className="flex justify-between pt-10"
+              className="flex justify-between"
             >
               <div className="flex flex-col space-y-3">
                 <h3 className="font-bold text-2xl md:text-3xl text-gray-800 tracking-tighter">
@@ -182,6 +184,16 @@ const ProjectCard = ({
                   className="relative group-hover:-rotate-45 transform transition duration-300 ease-out text-gray-800 group-hover:text-white"
                 />
               </div>
+            </motion.div>
+            <motion.div className="mt-2 h-7 flex items-end gap-x-1 overflow-hidden">
+              {tags &&
+                tags.map((tag, i) => (
+                  <span className="text-xs border px-2.5 py-1 rounded-full text-blue-500 border-blue-500 group-hover:bg-blue-500 group-hover:text-white transition">
+                    <span className="block transform translate-y-[0.10rem]">
+                      {tag}
+                    </span>
+                  </span>
+                ))}
             </motion.div>
           </motion.div>
         </div>
