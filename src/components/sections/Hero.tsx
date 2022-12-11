@@ -82,7 +82,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
               <Link
                 target="_blank"
                 className="relative group z-20 hover:shadow-lg transition"
-                href="/CarloTaleonResume_Nov2022.pdf"
+                href="/CarloTaleonResume_Dec2022.pdf"
               >
                 <span className="will-change-transform select-none bg-blue-500 px-6 py-3 text-white flex space-x-1 items-center relative z-10 text-sm md:text-base transform transition ease-out group-hover:-translate-y-1.5">
                   <ResumeIcon size="1.2rem" className="relative" />
