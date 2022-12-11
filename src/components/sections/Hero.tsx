@@ -217,7 +217,7 @@ const HeroHeading: React.FC = () => {
       y: 250,
     },
     visible: {
-      y: 0,
+      y: -1,
       transition: {
         duration: 0.75,
         ease: "circOut",
@@ -236,46 +236,60 @@ const HeroHeading: React.FC = () => {
   };
 
   return (
-    <h1 className="text-blue-500 relative z-10 flex flex-wrap ">
-      <motion.span
+    <h1 className="text-blue-500 relative z-10 flex flex-wrap">
+      <motion.div
         variants={parentVariants}
         initial="hidden"
         animate="visible"
-        className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight"
+        className="flex overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight pt-2 pr-1"
       >
         {"Carlo".split("").map((letter, i) => {
           return (
-            <motion.span
+            <motion.div
               key={i}
               variants={childVariants}
-              className="inline-block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
+              className="block will-change-transform"
             >
-              {letter}
-            </motion.span>
+              <div className="relative">
+                <div className="select-none absolute inset-0 text-[#1229d5] hero-letter-bg">
+                  {letter}
+                </div>
+                <div className="relative bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent hero-letter">
+                  {letter}
+                </div>
+              </div>
+            </motion.div>
           );
         })}
-      </motion.span>
+      </motion.div>
       <span className="font-black lg:text-8xl leading-none tracking-tight hero-text">
         {" "}
       </span>
-      <motion.span
+      <motion.div
         variants={parentVariants2}
         initial="hidden"
         animate="visible"
-        className="overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight"
+        className="flex overflow-hidden hero-text font-black lg:text-8xl leading-none tracking-tight pt-2 pr-1"
       >
         {"Taleon".split("").map((letter, i) => {
           return (
-            <motion.span
+            <motion.div
               key={i}
               variants={childVariants}
-              className="inline-block bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent will-change-transform"
+              className="block will-change-transform"
             >
-              {letter}
-            </motion.span>
+              <div className="relative">
+                <div className="select-none absolute inset-0 text-[#1229d5] hero-letter-bg">
+                  {letter}
+                </div>
+                <div className="relative bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent hero-letter">
+                  {letter}
+                </div>
+              </div>
+            </motion.div>
           );
         })}
-      </motion.span>
+      </motion.div>
     </h1>
   );
 };

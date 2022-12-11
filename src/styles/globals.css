@@ -20,6 +20,25 @@ a {
   box-sizing: border-box;
 }
 
+/* START: HeroLetter */
+.hero-letter {
+  transition-duration: 500ms;
+  transform: TranslateY(0px);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-letter-bg {
+  transition-duration: 800ms;
+  transform: TranslateY(0px);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-letter:hover {
+  transition-duration: 100ms;
+  transform: TranslateY(-0.375rem);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* END: HeroLetter */
 .nucleus:hover ~ .orbit {
   @apply transition-all duration-300;
   width: 12rem !important;
