@@ -33,6 +33,10 @@ const skills: Skills = [
     Icon: SiTailwindcss,
   },
   {
+    name: "Sass",
+    Icon: SiUnity,
+  },
+  {
     name: "NextJS",
     Icon: SiNextdotjs,
   },
@@ -45,6 +49,10 @@ const skills: Skills = [
     Icon: SiMongodb,
   },
   {
+    name: "PostgreSQL",
+    Icon: FaDatabase,
+  },
+  {
     name: "Firebase",
     Icon: SiFirebase,
   },
@@ -53,12 +61,40 @@ const skills: Skills = [
     Icon: FaNodeJs,
   },
   {
-    name: "SQL",
-    Icon: FaDatabase,
-  },
-  {
     name: "Git & GitHub",
     Icon: FaGitAlt,
+  },
+  {
+    name: "Ruby on Rails",
+    Icon: SiUnity,
+  },
+  {
+    name: "Python",
+    Icon: SiUnity,
+  },
+  {
+    name: "Pytorch/Tensorflow",
+    Icon: SiUnity,
+  },
+  {
+    name: "FastAPI",
+    Icon: SiUnity,
+  },
+  {
+    name: "VPS and Linux",
+    Icon: SiUnity,
+  },
+  {
+    name: "Google Analytics",
+    Icon: SiUnity,
+  },
+  {
+    name: "OpenAI",
+    Icon: SiUnity,
+  },
+  {
+    name: "C#",
+    Icon: SiUnity,
   },
   {
     name: "Unity",
