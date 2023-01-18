@@ -77,11 +77,15 @@ const skills: Skills = [
     Icon: SiUnity,
   },
   {
+    name: "Docker",
+    Icon: SiUnity,
+  },
+  {
     name: "FastAPI",
     Icon: SiUnity,
   },
   {
-    name: "VPS and Linux",
+    name: "Linux & VPS",
     Icon: SiUnity,
   },
   {
