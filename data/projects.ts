@@ -50,7 +50,7 @@ const projects: Projects = [
     slug: "kaugmaon",
     imageURL: "/imgs/kaugmaon_featured-project-img.gif",
     demoURL: "https://kaugmaon.vercel.app/",
-    tags: ["NextJS", "TailwindCSS"],
+    tags: ["NextJS", "TailwindCSS", "PlanetScale"],
   },
   {
     title: "Cafe.ly Manual",
@@ -58,7 +58,7 @@ const projects: Projects = [
     slug: "cafely-manual",
     imageURL: "/imgs/cafely-manual_featured-project-img.jpg",
     demoURL: "https://cafely-manual.vercel.app/",
-    tags: ["NextJS", "TailwindCSS", "PlanetScale"],
+    tags: ["NextJS", "TailwindCSS"],
   },
 ];
 
