@@ -45,6 +45,14 @@ const projects: Projects = [
     tags: ["NextJS", "TailwindCSS"],
   },
   {
+    title: "Kaugmaon",
+    shortDesc: "An event-landing site with a cool ticket",
+    slug: "kaugmaon",
+    imageURL: "/imgs/kaugmaon_featured-project-img.gif",
+    demoURL: "https://kaugmaon.vercel.app/",
+    tags: ["NextJS", "TailwindCSS", "PlanetScale"],
+  },
+  {
     title: "Cafe.ly Manual",
     shortDesc: "An SSG documentation/blog site built with NextJS.",
     slug: "cafely-manual",
