@@ -46,7 +46,7 @@ const skillsGridVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -94,7 +94,11 @@ const SkillsGrid = () => {
     >
       {skills.map((skill, i) => {
         return (
-          <motion.span className="block text-center" variants={skillItemVariants} key={i}>
+          <motion.span
+            className="block text-center"
+            variants={skillItemVariants}
+            key={i}
+          >
             {skill.name}
           </motion.span>
         );

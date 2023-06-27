@@ -97,7 +97,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
             {/* Image Div (Floaty Animation) */}
             <motion.div
               initial={{ y: -5 }}
-              animate={{ y: -15 }}
+              animate={{ y: 5 }}
               transition={{
                 duration: 1.8,
                 //  delay: floatDelay,
@@ -113,16 +113,17 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{
-                  delay: 5,
+                  delay: 4.5,
                   duration: 0.6,
                   ease: "easeOut",
                 }}
               >
                 <Image
-                  src="/imgs/hero_image.png"
-                  width={350}
-                  height={350}
+                  src="/imgs/hero_img.png"
+                  width={320}
+                  height={320}
                   alt="Carlo's Picture"
+                  className="select-none"
                 />
               </motion.div>
             </motion.div>

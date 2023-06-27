@@ -1,23 +1,46 @@
 // Icons
 
+import Tippy from "@tippyjs/react";
 import Link from "next/link";
 
 const about = {
   fullName: "Carlo Antonio T. Taleon",
   bio: [
-    <p className="leading-relaxed">
-      ✍ I'm currently a Senior pursuing a BS in Computer Science, major in AI
-      at West Visayas State University, Iloilo. I'm a developer by trade but I
-      also have a deep knowledge of good design principles that keeps me focused
-      on the goal of enhancing the human experience.
+    <p key={"1"} className="leading-relaxed">
+      ✍ I graduated from{" "}
+      <Tippy
+        placement="bottom"
+        content={
+          <div className="flex flex-col p-1">
+            <div className="font-semibold">Notable Awards I got:</div>
+            <div className="h-2" />
+            <div className="text-xs text-gray-200">
+              🏆 Summa Cum Laude (1.12 GWA)
+            </div>
+            <div className="text-xs text-gray-200">
+              🏆 Most Outstanding CICT Student
+            </div>
+          </div>
+        }
+      >
+        <span className="font-semibold">West Visayas State University</span>
+      </Tippy>{" "}
+      with a CS degree and a major in Artificial Intelligence. I&apos;m a
+      software engineer by trade: making apps, games, and solving problems that
+      frustrate me.
     </p>,
-    <p className="leading-relaxed">
-      🎨 I have a huge passion for creating beautiful, responsive, and
-      comfortable experiences through the applications and websites I make. I'm
-      also interested in AI, Machine Learning, Data Science, Finance, and
-      Entrepreneurship.
+    <p key={"2"} className="leading-relaxed">
+      🎨 I pride myself in creating beautiful and pleasing experiences through
+      the applications and websites I make. I love learning new technologies
+      having worked on multiple projects with varied stacks.
     </p>,
-    <p className="leading-relaxed">
+    <p key={"3"}>
+      🎮 There&apos;s a genuine person behind this profile, too! Outside of
+      work, you may find me: playing games, working out, reading personal
+      development, watching youtube, and anime. I&apos;m also interested in AI,
+      Machine Learning, Data Science, Finance, and Entrepreneurship.
+    </p>,
+    <p key={"4"} className="leading-relaxed">
       🚀 I started learning how to code small games when I was 10 because of my
       interest in games like Minecraft. I later started learning programming
       seriously with C# back in 2016 and published my game in the same year
