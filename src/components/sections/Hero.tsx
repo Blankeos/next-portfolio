@@ -60,9 +60,9 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 transition={{ delay: 2.7 }}
                 className="c mt-1 max-w-sm lg:max-w-md text-gray-600 relative z-10 text-sm md:text-base"
               >
-                I&apos;m a senior Computer Science student specializing in
-                Artificial Intelligence at West Visayas University. I love
-                making games, web apps with <b>React</b>, and doing ML!
+                A code-slinging <b>Software Engineer</b> from the Philippines
+                who&apos;s on a quest to touch people&apos;s lives, one app at a
+                time. 🚀
               </motion.p>
             </div>
             <motion.div
