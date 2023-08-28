@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@phntms/react-share": "^1.0.1",
+    "@studio-freight/lenis": "^1.0.19",
     "@tippyjs/react": "^4.2.6",
     "@types/react-scroll": "^1.8.5",
     "framer-motion": "^6.5.1",
@@ -17,7 +18,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
-    "react-icons": "^4.6.0",
+    "react-icons": "^4.10.1",
     "react-intersection-observer": "^9.4.1",
     "react-scroll": "^1.8.8",
     "react-tsparticles": "^2.5.3",
@@ -33,7 +34,6 @@
     "eslint-config-next": "^13.0.4",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4",
-    "typescript": "^4.9.3",
-    "yarn-upgrade-all": "^0.7.1"
+    "typescript": "^4.9.5"
   }
 }

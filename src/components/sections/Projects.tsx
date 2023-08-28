@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Container from "../Container";
 import SectionHeading from "../SectionHeading";
 
-import { BsArrowRight as Arrow } from "react-icons/bs";
+import { RiArrowUpLine as Arrow } from "react-icons/ri";
 import { SectionProps } from "./types";
 
 import { useAnimation, motion, Variants } from "framer-motion";
@@ -167,12 +167,12 @@ const ProjectCard = ({
               className="flex justify-between"
             >
               <div className="flex flex-col space-y-3">
-                <h3 className="font-bold text-2xl md:text-3xl text-gray-800 tracking-tighter">
+                <h3 className="font-bold text-2xl md:text-3xl text-gray-800 tracking-tighter group-hover:pl-2 transition-[padding] duration-500">
                   {title}
                 </h3>
                 <motion.p
                   variants={textChildVariants}
-                  className="text-gray-500 text-sm md:text-base"
+                  className="text-gray-500 text-sm md:text-base group-hover:pl-2 transition-[padding] duration-500 delay-100"
                 >
                   {shortDesc ? shortDesc.toLowerCase() : "short description"}
                 </motion.p>
@@ -181,13 +181,13 @@ const ProjectCard = ({
                 <div className="absolute h-0 w-0 group-hover:h-12 group-hover:w-12 rounded-full transition-all ease-out duration-300 bg-gradient-to-t from-[#1532ff] to-blue-500 flex items-center justify-center"></div>
                 <Arrow
                   size="2rem"
-                  className="relative group-hover:-rotate-45 transform transition duration-300 ease-out text-gray-800 group-hover:text-white"
+                  className="relative rotate-90 group-hover:rotate-45 transform transition duration-500 ease-out text-gray-800 group-hover:text-white"
                 />
               </div>
             </motion.div>
             <motion.div
               variants={textChildVariants}
-              className="mt-2 h-7 flex items-end gap-x-1 overflow-hidden"
+              className="mt-2 h-7 flex items-end gap-x-1 overflow-hidden group-hover:pl-2 transition-[padding] duration-500 delay-200 "
             >
               {tags &&
                 tags.map((tag, i) => (

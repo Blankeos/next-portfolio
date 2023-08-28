@@ -5,8 +5,10 @@ import Layout from "../src/components/Layout";
 import { Toaster } from "react-hot-toast";
 import NextHead from "next/head";
 import MetaHeadEmbed from "@phntms/react-share/lib/components/MetaHeadEmbed";
+import useLenis from "@/hooks/useLenis";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useLenis();
   return (
     <>
       <NextHead>

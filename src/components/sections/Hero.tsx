@@ -205,10 +205,17 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 
 const HeroHeading: React.FC = () => {
   const parentVariants: Variants = {
-    hidden: {},
+    hidden: {
+      skewX: -8,
+    },
     visible: {
+      skewX: 0,
       transition: {
-        staggerChildren: 0.2,
+        skewX: {
+          duration: 1.5,
+          ease: "circOut",
+        },
+        staggerChildren: 0.1,
       },
     },
   };
@@ -220,18 +227,20 @@ const HeroHeading: React.FC = () => {
     visible: {
       y: -1,
       transition: {
-        duration: 0.75,
+        duration: 0.9,
         ease: "circOut",
       },
     },
   };
 
   const parentVariants2: Variants = {
-    hidden: {},
+    ...parentVariants,
     visible: {
+      ...parentVariants.visible,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.8,
+        ...(parentVariants.visible as any).transition,
+        staggerChildren: 0.05,
+        delayChildren: 0.4,
       },
     },
   };
