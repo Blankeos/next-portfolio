@@ -206,14 +206,14 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 const HeroHeading: React.FC = () => {
   const parentVariants: Variants = {
     hidden: {
-      skewX: -12,
+      skewX: -16,
     },
     visible: {
       skewX: 0,
       transition: {
         skewX: {
-          duration: 1.5,
-          ease: "circOut",
+          duration: 2.5,
+          ease: "backOut",
         },
         staggerChildren: 0.1,
       },
