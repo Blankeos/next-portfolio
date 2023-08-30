@@ -206,7 +206,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
 const HeroHeading: React.FC = () => {
   const parentVariants: Variants = {
     hidden: {
-      skewX: -8,
+      skewX: -12,
     },
     visible: {
       skewX: 0,
