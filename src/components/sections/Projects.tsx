@@ -7,7 +7,7 @@ import { SectionProps } from "./types";
 
 import { useAnimation, motion, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import projects, { Project } from "../../../data/projects";
 
 import Link from "next/link";

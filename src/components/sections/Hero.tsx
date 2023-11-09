@@ -14,7 +14,7 @@ import Container from "../Container";
 
 import { SectionProps } from "./types";
 import ParticlesBackground from "../ParticlesBackground";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 
 interface HeroProps extends SectionProps {}
