@@ -14,7 +14,7 @@ import Container from "../Container";
 
 import { SectionProps } from "./types";
 import ParticlesBackground from "../ParticlesBackground";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 
 interface HeroProps extends SectionProps {}
@@ -124,7 +124,10 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   height={320}
                   alt="Carlo's Picture"
                   className="select-none"
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               </motion.div>
             </motion.div>
           </div>

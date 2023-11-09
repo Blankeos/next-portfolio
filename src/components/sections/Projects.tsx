@@ -7,7 +7,7 @@ import { SectionProps } from "./types";
 
 import { useAnimation, motion, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import projects, { Project } from "../../../data/projects";
 
 import Link from "next/link";
@@ -139,11 +139,13 @@ const ProjectCard = ({
                     <Image
                       src={imageURL}
                       priority
-                      layout="fill"
-                      objectFit="cover"
-                      objectPosition="center"
                       alt={`${title} featured pic`}
-                    />
+                      fill
+                      sizes="100vw"
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "center"
+                      }} />
                   )}
                   <span className="project-card-image-highlight"></span>
                 </span>
