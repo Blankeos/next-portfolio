@@ -123,7 +123,7 @@ const ProjectCard = ({
     <div className="project-card">
       <Link
         href={demoURL ? demoURL : "/project-not-found"}
-        className=""
+        className="relative"
         target="_blank"
       >
         <div className="project-card-wrapper group flex flex-col h-full cursor-pointer">
@@ -144,8 +144,9 @@ const ProjectCard = ({
                       sizes="100vw"
                       style={{
                         objectFit: "cover",
-                        objectPosition: "center"
-                      }} />
+                        objectPosition: "center",
+                      }}
+                    />
                   )}
                   <span className="project-card-image-highlight"></span>
                 </span>

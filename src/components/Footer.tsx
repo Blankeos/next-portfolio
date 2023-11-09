@@ -1,9 +1,8 @@
-import { useRouter } from "next/dist/client/router";
-import React from "react";
-import Container from "./Container";
+import React from 'react'
+import Container from './Container'
 
-import { animateScroll as scroll } from "react-scroll";
-import Link from "next/link";
+import Link from 'next/link'
+import HomeLinkButton from './HomeLinkButton'
 
 const Footer = () => {
   return (
@@ -11,12 +10,12 @@ const Footer = () => {
       <Container className="flex flex-col items-center space-y-5 py-20">
         <Link
           href="/"
-          className="relative group font-extrabold select-none cursor-pointer flex items-center px-5 text-xl"
+          className="group relative flex cursor-pointer select-none items-center px-5 text-xl font-extrabold"
         >
-          <span className="absolute group-hover:opacity-100 text-blue-600">
+          <span className="absolute text-blue-600 group-hover:opacity-100">
             CATT
           </span>
-          <span className="relative group-hover:-translate-y-1 transition">
+          <span className="relative transition group-hover:-translate-y-1">
             CATT
           </span>
         </Link>
@@ -28,27 +27,7 @@ const Footer = () => {
         </span>
       </Container>
     </footer>
-  );
-};
-
-interface HomeLinkButton {
-  className?: string;
+  )
 }
 
-const HomeLinkButton: FCC<HomeLinkButton> = ({ className, children }) => {
-  const router = useRouter();
-  return (
-    <button
-      onClick={() => {
-        if (router.pathname === "/") {
-          scroll.scrollToTop();
-        } else {
-          router.push("/");
-        }
-      }}
-    >
-      {children}
-    </button>
-  );
-};
-export default Footer;
+export default Footer

@@ -1,11 +1,14 @@
-import React from "react";
-import Container from "./Container";
-import Link from "next/link";
-import SectionLink from "./SectionLink";
-import sections from "../../data/sections";
+'use client'
 
-import { motion, Variants } from "framer-motion";
-import socials from "../../data/socials";
+import React from 'react'
+import Container from './Container'
+import Link from 'next/link'
+import SectionLink from './SectionLink'
+import sections from '../../data/sections'
+
+import { motion, Variants } from 'framer-motion'
+import socials from '../../data/socials'
+import { pageRoutes } from '@/lib/pageRoutes'
 
 const navVariants: Variants = {
   hidden: {
@@ -16,10 +19,10 @@ const navVariants: Variants = {
     transition: {
       delay: 1.5,
       staggerChildren: 0.25,
-      when: "beforeChildren",
+      when: 'beforeChildren',
     },
   },
-};
+}
 
 const navChildVariants: Variants = {
   hidden: {
@@ -30,36 +33,61 @@ const navChildVariants: Variants = {
     y: 0,
     opacity: 1,
     transition: {
-      ease: "easeOut",
+      ease: 'easeOut',
       duration: 0.8,
     },
   },
-};
+}
+
+const navLinks = [
+  {
+    label: 'About',
+    href: pageRoutes.about,
+  },
+  {
+    label: 'Blog',
+    href: pageRoutes.blog,
+  },
+]
+
 const Nav = () => {
   return (
     <motion.nav
       variants={navVariants}
       initial="hidden"
       animate="visible"
-      className="h-24 w-full relative z-30"
+      className="relative z-30 h-24 w-full"
     >
       <Container
         maxWidth="7xl"
-        className="flex items-center justify-between h-full"
+        className="flex h-full items-center justify-between"
       >
         <Link
           href="/"
-          className="group text-2xl lg:text-2xl font-black select-none cursor-pointer h-full flex items-center pr-5 text-blue-500 tracking-tight"
+          className="group flex h-full cursor-pointer select-none items-center pr-5 text-2xl font-black tracking-tight text-blue-500 lg:text-2xl"
         >
           <motion.span variants={navChildVariants} className="relative block">
-            <span className="block absolute text-[#1532ff]">CATT</span>
-            <span className="block relative group-hover:-translate-y-[0.20rem] will-change-transform transition">
+            <span className="absolute block text-[#1532ff]">CATT</span>
+            <span className="relative block transition will-change-transform group-hover:-translate-y-[0.20rem]">
               CATT
             </span>
           </motion.span>
         </Link>
         <div className="flex space-x-10">
-          <div className="text-sm text-gray-600 hidden lg:flex space-x-10 items-center">
+          <div className="flex items-center space-x-10 text-sm text-gray-600">
+            <>
+              {navLinks.map((navLink, i) => (
+                <motion.span
+                  variants={navChildVariants}
+                  key={i}
+                  className="block"
+                >
+                  <Link href={navLink.href}>{navLink.label}</Link>
+                </motion.span>
+              ))}
+            </>
+          </div>
+          {/* <div className="hidden items-center space-x-10 text-sm text-gray-600 lg:flex">
             <>
               {sections.map((section, i) => (
                 <motion.span
@@ -71,8 +99,8 @@ const Nav = () => {
                 </motion.span>
               ))}
             </>
-          </div>
-          <div className="text-2xl lg:text-xl text-gray-600 flex space-x-5 items-center">
+          </div> */}
+          {/* <div className="flex items-center space-x-5 text-2xl text-gray-600 lg:text-xl">
             {socials.map((social, i) => (
               <motion.span
                 variants={navChildVariants}
@@ -82,26 +110,26 @@ const Nav = () => {
                 <SocialLink href={social.url}>{<social.Icon />}</SocialLink>
               </motion.span>
             ))}
-          </div>
+          </div> */}
         </div>
       </Container>
     </motion.nav>
-  );
-};
+  )
+}
 
 interface SocialLinkProps {
-  href: string;
+  href: string
 }
 const SocialLink: FCC<SocialLinkProps> = ({ href, children }) => {
   return (
     <Link
       href={href}
-      className="relative select-none group cursor-pointer h-10 w-10 flex items-center justify-center hover:text-white transition ease-out"
+      className="group relative flex h-10 w-10 cursor-pointer select-none items-center justify-center transition ease-out hover:text-white"
     >
-      <span className="absolute w-0 h-0 group-hover:h-10 group-hover:w-10 bg-blue-500 rounded-full transition-all ease-in-out"></span>
+      <span className="absolute h-0 w-0 rounded-full bg-blue-500 transition-all ease-in-out group-hover:h-10 group-hover:w-10"></span>
       <span className="relative">{children}</span>
     </Link>
-  );
-};
+  )
+}
 
-export default Nav;
+export default Nav
