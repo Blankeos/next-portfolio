@@ -4,6 +4,8 @@ import Footer from '@/components/Footer'
 import { Toaster } from 'react-hot-toast'
 
 import { FC, ReactNode } from 'react'
+import ClientLayout from '@/components/ClientLayout'
+import { createStyleStringFromTheme, themes } from '@/styles/themes'
 
 type RootLayoutProps = {
   children: ReactNode
@@ -11,12 +13,14 @@ type RootLayoutProps = {
 
 const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
-    <html lang="en">
+    <html lang="en" style={{ ...(themes.light as any) }}>
       <body className="flex min-h-screen flex-col">
-        <Nav />
-        <main className="flex-grow">{props.children}</main>
-        <Footer />
-        <Toaster />
+        <ClientLayout>
+          <Nav />
+          <main className="flex-grow">{props.children}</main>
+          <Footer />
+          <Toaster />
+        </ClientLayout>
       </body>
     </html>
   )

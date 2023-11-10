@@ -1,14 +1,27 @@
+import { colorVars } from './src/styles/themes'
+
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/styles/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: 'class', // or 'media' or 'class'
   theme: {
-    fontFamily: {
-      'bebas-neue': ['Bebas Neue'],
-    },
     extend: {
+      colors: {
+        primary: {
+          500: `rgb(var(${colorVars.primary500}) / <alpha-value>)`,
+        },
+        secondary: {
+          500: `rgb(var(${colorVars.secondary500}) / <alpha-value>)`,
+        },
+        typography: {
+          300: `rgb(var(${colorVars.typography300}) / <alpha-value>)`,
+          400: `rgb(var(${colorVars.typography400}) / <alpha-value>)`,
+          500: `rgb(var(${colorVars.typography500}) / <alpha-value>)`,
+        },
+        background: `rgb(var(${colorVars.background}) / <alpha-value>)`,
+      },
       fontSize: {
         xxs: [
           '0.65rem',

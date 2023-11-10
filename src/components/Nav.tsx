@@ -45,6 +45,10 @@ const navLinks = [
     href: pageRoutes.about,
   },
   {
+    label: 'Projects',
+    href: pageRoutes.projects,
+  },
+  {
     label: 'Blog',
     href: pageRoutes.blog,
   },
