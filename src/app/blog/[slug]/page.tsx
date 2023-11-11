@@ -56,7 +56,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
   return (
     <div className="flex flex-1 flex-col">
       {/* The Back Button (Complicated 😔) */}
-      <div className="relative mx-auto w-full max-w-5xl px-7">
+      <div className="relative z-20 mx-auto w-full max-w-5xl px-7">
         <div className={cn('absolute -left-10', 'pb-5 max-[1148px]:static')}>
           <ShadowButton
             className="group"
