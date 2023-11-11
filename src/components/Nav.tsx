@@ -56,6 +56,9 @@ const navLinks = [
 const Nav = () => {
   const pathname = usePathname()
 
+  const [linksContainerIsHovered, setLinksContainerIsHovered] =
+    useState<boolean>(false)
+
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
   return (
@@ -84,33 +87,54 @@ const Nav = () => {
 
         <div className="flex space-x-10">
           <div
-            className="flex items-center text-sm text-gray-600"
-            onMouseLeave={() => setHoveredLink(null)}
+            className="flex items-center gap-x-10 text-sm text-gray-600"
+            onMouseEnter={() => setLinksContainerIsHovered(true)}
+            onMouseLeave={() => {
+              setLinksContainerIsHovered(false)
+            }}
           >
             {navLinks.map((navLink, index) => (
               <motion.span
                 variants={navChildVariants}
                 key={index}
-                className={cn(
-                  'relative block',
-                  pathname.split('/').at(1) === navLink.href.split('/').at(1)
-                    ? 'text-primary-500'
-                    : ''
-                )}
+                className="relative block"
                 onMouseEnter={() => setHoveredLink(navLink.label)}
               >
-                <Link href={navLink.href} className={cn('relative mx-5 h-5')}>
-                  {hoveredLink === navLink.label && (
+                <Link href={navLink.href} className={cn('relative h-5')}>
+                  {hoveredLink === navLink.label ? (
                     <motion.span
+                      key={hoveredLink}
                       layoutId="navlink-hover"
                       layout
-                      className={cn(
-                        'absolute -bottom-1.5 -left-2.5 -right-2.5 -top-1.5 rounded bg-blue-50'
-                      )}
-                    />
-                  )}
+                      className="absolute -bottom-1.5 -top-1.5 left-0 right-0 flex justify-center will-change-transform"
+                      // animate={{
+                      //   opacity: linksContainerIsHovered ? 1 : 0,
+                      //   y: linksContainerIsHovered ? 0 : -15,
+                      // }}
+                      // className={cn(
+                      //   'absolute -bottom-1.5 -left-2.5 -right-2.5 -top-1.5 rounded bg-blue-50'
+                      // )}
+                    >
+                      <motion.span
+                        animate={{
+                          width: linksContainerIsHovered ? undefined : 0,
+                        }}
+                        className="absolute -bottom-1 h-[1px] w-full bg-blue-500 will-change-auto"
+                      />
+                    </motion.span>
+                  ) : null}
 
-                  <span className="relative z-10">{navLink.label}</span>
+                  <span
+                    className={cn(
+                      'relative z-10',
+                      pathname.split('/').at(1) ===
+                        navLink.href.split('/').at(1)
+                        ? 'text-primary-500 transition'
+                        : ''
+                    )}
+                  >
+                    {navLink.label}
+                  </span>
                 </Link>
               </motion.span>
             ))}

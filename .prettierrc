@@ -7,11 +7,5 @@
   "printWidth": 80,
   "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindConfig": "./tailwind.config.js",
-  "pluginSearchDirs": ["."],
-  "overrides": [
-    {
-      "files": "*.svelte",
-      "options": { "parser": "svelte" }
-    }
-  ]
+  "pluginSearchDirs": ["."]
 }
