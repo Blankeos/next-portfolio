@@ -10,7 +10,9 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          400: `rgb(var(${colorVars.primary400}) / <alpha-value>)`,
           500: `rgb(var(${colorVars.primary500}) / <alpha-value>)`,
+          600: `rgb(var(${colorVars.primary600}) / <alpha-value>)`,
         },
         secondary: {
           500: `rgb(var(${colorVars.secondary500}) / <alpha-value>)`,

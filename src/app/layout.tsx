@@ -17,7 +17,7 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
       <body className="flex min-h-screen flex-col">
         <ClientLayout>
           <Nav />
-          <main className="flex-grow">{props.children}</main>
+          <main className="flex flex-grow flex-col">{props.children}</main>
           <Footer />
           <Toaster />
         </ClientLayout>

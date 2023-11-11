@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/formatDate'
 import { motion } from 'framer-motion'
 import ShadowButton from './ShadowButton'
 import { cn } from '@/lib/cn'
+import { isMobile } from 'react-device-detect'
 
 type BlogCardProps = {
   slug: string
@@ -19,7 +20,12 @@ type BlogCardProps = {
 
 const BlogCard: FC<BlogCardProps> = (props) => {
   return (
-    <ShadowButton interactivity={{ flatOnMouseEnter: false }}>
+    <ShadowButton
+      interactivity={{
+        // Goes flat when hover on PC, Doesn't go flat on hover on Mobile
+        flatOnMouseEnter: !isMobile,
+      }}
+    >
       <Link
         href={`${pageRoutes.blog}/${props.slug}`}
         className={cn(

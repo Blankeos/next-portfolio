@@ -1,3 +1,6 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { FC, MouseEventHandler, PropsWithChildren, useState } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/cn'
@@ -24,6 +27,8 @@ type ShadowButtonProps = {
 
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined
 
+  href?: string
+
   /** @defaultValue 7px */
   elevation?: number
 
@@ -40,13 +45,16 @@ type ShadowButtonProps = {
 
 const ShadowButton: FC<ShadowButtonProps> = (props) => {
   const {
+    href,
     onClick,
     className,
-    shadowClassName = 'bg-primary-500 bottom-0 absolute left-0 right-0',
+    shadowClassName,
     children,
     elevation = 7,
     interactivity,
   } = props
+
+  const router = useRouter()
 
   const [isFlat, setIsFlat] = useState<boolean>(false)
 
@@ -56,6 +64,8 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
     <button
       onClick={(e) => {
         onClick?.(e)
+
+        href && router.push(href)
       }}
       onMouseEnter={() => {
         setIsFlat(spreadInteractivity.flatOnMouseEnter)
@@ -73,7 +83,13 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
     >
       <div style={{ height: elevation }} />
 
-      <div style={{ height: 50 }} className={cn(shadowClassName)} />
+      <div
+        style={{ height: elevation + elevation * 0.8 }}
+        className={cn(
+          'bg-primary-500 absolute bottom-0 left-0 right-0',
+          shadowClassName
+        )}
+      />
 
       <motion.div
         className="relative"

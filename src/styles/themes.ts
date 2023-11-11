@@ -1,6 +1,8 @@
 /** String representations of CSS Variables stored in this object. */
 export const colorVars = {
+  primary400: '--color-primary-400',
   primary500: '--color-primary-500',
+  primary600: '--color-primary-600',
   secondary500: '--color-secondary-500',
   typography300: '--color-typography-300',
   typography400: '--color-typography-400',
@@ -16,7 +18,9 @@ type ThemeType = Record<(typeof colorVars)[keyof typeof colorVars], string>
 
 /** This is the default theme ☀️! */
 const light: ThemeType = {
+  '--color-primary-400': '96 165 250',
   '--color-primary-500': '59 130 246',
+  '--color-primary-600': '37 99 235',
   '--color-background': '255 255 255',
   '--color-secondary-500': '',
   '--color-typography-300': '163 163 163',
@@ -26,7 +30,9 @@ const light: ThemeType = {
 
 /** Dark theme 😎! */
 const dark: ThemeType = {
+  '--color-primary-400': 'green',
   '--color-primary-500': 'green',
+  '--color-primary-600': 'green',
   '--color-background': 'black',
   '--color-secondary-500': '',
   '--color-typography-300': 'green',

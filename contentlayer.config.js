@@ -39,8 +39,14 @@ export const Project = defineDocumentType(() => ({
   contentType: 'mdx',
   fields: {
     title: { type: 'string', required: true },
-    shortDescription: { type: 'string', required: true },
+    description: { type: 'string', required: true },
     date: { type: 'date', required: true },
+    featuredImage: { type: 'string', required: true },
+    isFeatured: {
+      type: 'boolean',
+      description:
+        "True to include on the 'featured projects' in the home page.",
+    },
   },
   computedFields: {
     slug: {
