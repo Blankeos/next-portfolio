@@ -1,14 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Container from './Container'
 import Link from 'next/link'
-import SectionLink from './SectionLink'
-import sections from '../../data/sections'
 
-import { motion, Variants } from 'framer-motion'
-import socials from '../../data/socials'
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { pageRoutes } from '@/lib/pageRoutes'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/cn'
 
 const navVariants: Variants = {
   hidden: {
@@ -55,10 +54,15 @@ const navLinks = [
 ]
 
 const Nav = () => {
+  const pathname = usePathname()
+
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+
   return (
     <motion.nav
       variants={navVariants}
-      initial="hidden"
+      // 👇 Only show animation when on `/home`
+      initial={pathname === pageRoutes.home ? 'hidden' : 'visible'}
       animate="visible"
       className="relative z-30 h-24 w-full"
     >
@@ -77,20 +81,41 @@ const Nav = () => {
             </span>
           </motion.span>
         </Link>
+
         <div className="flex space-x-10">
-          <div className="flex items-center space-x-10 text-sm text-gray-600">
-            <>
-              {navLinks.map((navLink, i) => (
-                <motion.span
-                  variants={navChildVariants}
-                  key={i}
-                  className="block"
-                >
-                  <Link href={navLink.href}>{navLink.label}</Link>
-                </motion.span>
-              ))}
-            </>
+          <div
+            className="flex items-center text-sm text-gray-600"
+            onMouseLeave={() => setHoveredLink(null)}
+          >
+            {navLinks.map((navLink, index) => (
+              <motion.span
+                variants={navChildVariants}
+                key={index}
+                className={cn(
+                  'relative block',
+                  pathname.split('/').at(1) === navLink.href.split('/').at(1)
+                    ? 'text-primary-500'
+                    : ''
+                )}
+                onMouseEnter={() => setHoveredLink(navLink.label)}
+              >
+                <Link href={navLink.href} className={cn('relative mx-5 h-5')}>
+                  {hoveredLink === navLink.label && (
+                    <motion.span
+                      layoutId="navlink-hover"
+                      layout
+                      className={cn(
+                        'absolute -bottom-1.5 -left-2.5 -right-2.5 -top-1.5 rounded bg-blue-50'
+                      )}
+                    />
+                  )}
+
+                  <span className="relative z-10">{navLink.label}</span>
+                </Link>
+              </motion.span>
+            ))}
           </div>
+
           {/* <div className="hidden items-center space-x-10 text-sm text-gray-600 lg:flex">
             <>
               {sections.map((section, i) => (
