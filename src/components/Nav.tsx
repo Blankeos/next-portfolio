@@ -16,7 +16,7 @@ const navVariants: Variants = {
   visible: {
     y: 0,
     transition: {
-      delay: 1.5,
+      delay: 0.8,
       staggerChildren: 0.25,
       when: 'beforeChildren',
     },
@@ -106,7 +106,7 @@ const Nav = () => {
                       key={hoveredLink}
                       layoutId="navlink-hover"
                       layout
-                      className="absolute -bottom-1.5 -top-1.5 left-0 right-0 flex justify-center will-change-transform"
+                      className="absolute -bottom-2 -top-1.5 left-0 right-0 flex justify-center will-change-transform"
                       // animate={{
                       //   opacity: linksContainerIsHovered ? 1 : 0,
                       //   y: linksContainerIsHovered ? 0 : -15,
@@ -119,7 +119,7 @@ const Nav = () => {
                         animate={{
                           width: linksContainerIsHovered ? undefined : 0,
                         }}
-                        className="absolute -bottom-1 h-[1px] w-full bg-blue-500 will-change-auto"
+                        className="absolute bottom-0 h-[1px] w-full bg-blue-500 will-change-auto"
                       />
                     </motion.span>
                   ) : null}

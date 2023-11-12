@@ -79,20 +79,20 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
       onMouseUp={() => {
         setIsFlat(spreadInteractivity.flatOnMouseUp)
       }}
-      className={cn('relative outline-none', className)}
+      className={cn('relative flex flex-col outline-none', className)}
     >
       <div style={{ height: elevation }} />
 
       <div
         style={{ height: elevation + elevation * 0.8 }}
         className={cn(
-          'bg-primary-500 absolute bottom-0 left-0 right-0',
+          'absolute bottom-0 left-0 right-0 bg-primary-500',
           shadowClassName
         )}
       />
 
       <motion.div
-        className="relative"
+        className="relative w-full flex-1 flex-grow"
         animate={{
           y: isFlat ? 0 : -1 * elevation,
         }}
