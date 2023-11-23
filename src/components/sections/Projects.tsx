@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import Container from '../Container'
 import SectionHeading from '../SectionHeading'
 
@@ -8,10 +8,16 @@ import { SectionProps } from './types'
 import { useAnimation, motion, Variants } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
-import projects, { Project } from '../../../data/projects'
+import projects from '../../../data/projects'
 
 import Link from 'next/link'
+import { Project, allProjects } from 'contentlayer/generated'
+import { orderAndDate } from '@/lib/sortUtils'
+import { pageRoutes } from '@/lib/pageRoutes'
 
+// ===========================================================================
+// Main component (It has two subcomponents)
+// ===========================================================================
 interface ProjectsProps extends SectionProps {}
 
 const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
@@ -32,45 +38,52 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
   )
 }
 
+export default Projects
+
+// ===========================================================================
+// 1. Subcomponent: Projects Grid
+// ===========================================================================
 const ProjectsGrid = () => {
   return (
     <div className="relative z-10 mt-12 grid grid-cols-1 items-end gap-5 gap-y-8 pt-28 md:grid-cols-2 md:gap-16 md:gap-x-5 md:pt-0 lg:gap-16">
-      {projects.map((project, i) => {
-        return (
-          <ProjectCard
-            key={i}
-            title={project.title}
-            shortDesc={project.shortDesc}
-            imageURL={project.imageURL}
-            slug={project.slug}
-            demoURL={project.demoURL && project.demoURL}
-            tags={project.tags}
-          />
-        )
-      })}
+      {allProjects
+        ?.sort(orderAndDate<Project>('featureOrder', 'date'))
+        ?.slice(0, 4)
+        ?.map?.((project, i) => {
+          return (
+            <ProjectCard
+              key={i}
+              title={project.title}
+              description={project.description}
+              featuredImage={project.featuredImage}
+              href={`${pageRoutes.projects}/${project.slug}`}
+              tags={project.tags}
+            />
+          )
+        })}
     </div>
   )
 }
 
-interface ProjectCardProps extends Project {
-  title: string
+// ===========================================================================
+// 2. Subcomponent ProjectCard
+// ===========================================================================
+interface ProjectCardProps
+  extends Pick<Project, 'title' | 'featuredImage' | 'description' | 'tags'> {
+  href: string
   className?: string
 }
 
-const ProjectCard = ({
-  title,
-  imageURL,
-  shortDesc,
-  slug,
-  demoURL,
-  tags,
-}: ProjectCardProps) => {
+const ProjectCard: FC<ProjectCardProps> = (props) => {
+  const { title, featuredImage, description, href, tags } = props
+
   const [imageRef, imageInView] = useInView({
     threshold: 0.3,
     root: null,
     rootMargin: '-100px 0px',
     triggerOnce: true,
   })
+
   const [textRef, textInView] = useInView({
     threshold: 1,
     root: null,
@@ -121,11 +134,7 @@ const ProjectCard = ({
   }
   return (
     <div className="project-card">
-      <Link
-        href={demoURL ? demoURL : '/project-not-found'}
-        className="relative"
-        target="_blank"
-      >
+      <Link href={href ? href : '/project-not-found'} className="relative">
         <div className="project-card-wrapper group flex h-full cursor-pointer flex-col">
           <div className="relative inline-block h-full w-full">
             <div style={{ marginTop: '75%' }}></div>
@@ -135,10 +144,10 @@ const ProjectCard = ({
                 className="relative flex h-full w-full overflow-hidden bg-gray-200"
               >
                 <span className="relative h-full w-full">
-                  {imageURL && (
+                  {featuredImage && (
                     <Image
                       loading="lazy"
-                      src={imageURL}
+                      src={featuredImage}
                       alt={`${title} featured pic`}
                       fill
                       sizes="100vw"
@@ -177,7 +186,7 @@ const ProjectCard = ({
                   variants={textChildVariants}
                   className="text-sm text-gray-500 transition-[padding] delay-100 duration-500 group-hover:pl-2 md:text-base"
                 >
-                  {shortDesc ? shortDesc.toLowerCase() : 'short description'}
+                  {description?.toLowerCase() ?? 'short description'}
                 </motion.p>
               </div>
               <div className="relative flex h-12 w-12 items-center justify-center">
@@ -210,5 +219,3 @@ const ProjectCard = ({
     </div>
   )
 }
-
-export default Projects

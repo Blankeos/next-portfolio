@@ -17,6 +17,7 @@
     "clsx": "^2.0.0",
     "contentlayer": "^0.3.4",
     "dayjs": "^1.11.10",
+    "flexsearch": "^0.7.21",
     "framer-motion": "^6.5.1",
     "next": "^14.0.2",
     "next-contentlayer": "^0.3.4",
@@ -39,6 +40,7 @@
     "tsparticles-engine": "^2.5.2"
   },
   "devDependencies": {
+    "@types/flexsearch": "^0.7.6",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "autoprefixer": "^10.4.16",

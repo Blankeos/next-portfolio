@@ -1,15 +1,20 @@
+import { Metadata } from 'next'
 import { FC } from 'react'
 import { AiFillWarning as IconWarning } from 'react-icons/ai'
 
 type AboutPageProps = {}
 
+export const metadata: Metadata = {
+  title: 'About | Carlo Taleon',
+}
+
 const AboutPage: FC<AboutPageProps> = () => {
   return (
     <>
       <div className="mx-auto w-full max-w-7xl px-7 md:px-12">
-        <div className="from-primary-600 to-primary-500/80 mt-10 h-56 rounded-2xl bg-gradient-to-tl "></div>
+        <div className="mt-10 h-56 rounded-2xl bg-gradient-to-tl from-primary-600 to-primary-500/80 "></div>
 
-        <p className="text-typography-400 mt-5 flex items-center gap-x-3 rounded-xl border-2 border-yellow-500 bg-yellow-400 p-6">
+        <p className="mt-5 flex items-center gap-x-3 rounded-xl border-2 border-yellow-500 bg-yellow-400 p-6 text-typography-400">
           <IconWarning size="1.2rem" className="text-yellow-800" />
           <span>This page is under construction.</span>
         </p>

@@ -3,6 +3,11 @@ import { FC } from 'react'
 import dayjs from 'dayjs'
 import { allPosts } from 'contentlayer/generated'
 import BlogCard from '@/components/BlogCard'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Blog | Carlo Taleon',
+}
 
 type BlogPageProps = {}
 
