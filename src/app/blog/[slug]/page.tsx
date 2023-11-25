@@ -9,6 +9,7 @@ import { cn } from '@/lib/cn'
 import GiscusComments from '@/components/GiscusComments'
 import { Metadata } from 'next'
 import BackButton from '@/components/Buttons/BackButton'
+import Link from 'next/link'
 
 /// ===========================================================================
 // Static Params (Generate all the pages)
@@ -105,6 +106,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
         </div>
 
         <div className="h-12" />
+
         {/*
           Use this for .md files.
           <div

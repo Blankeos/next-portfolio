@@ -52,7 +52,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
           />
         </div>
 
-        {/* Uncomment this when tag filters are on. */}
+        {/* Uncomment this when "tag" filters are on. */}
         {/* <div className="mt-4 flex flex-wrap gap-2">
           <button className="border border-primary-500 px-3 py-2 text-xs text-primary-500">
             AI

@@ -10,7 +10,7 @@ const useFlexSearch = <T>(options = {}, data: T[]) => {
     const index = new Document({
       tokenize: 'full',
       language: 'en',
-      preset: 'match',
+      preset: 'performance',
       cache: true,
       context: true,
       document: {

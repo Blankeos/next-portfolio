@@ -61,6 +61,7 @@ export const Project = defineDocumentType(() => ({
     featureOrder: { type: 'number' },
     demoURL: { type: 'string' },
     featuredYoutubeURL: { type: 'string' },
+    githubURL: { type: 'string' },
     tags: { type: 'list', of: { type: 'string' } },
   },
   computedFields: {

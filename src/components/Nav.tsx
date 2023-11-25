@@ -103,10 +103,13 @@ const Nav = () => {
                 <Link href={navLink.href} className={cn('relative h-5')}>
                   {hoveredLink === navLink.label ? (
                     <motion.span
-                      key={hoveredLink}
                       layoutId="navlink-hover"
                       layout
                       className="absolute -bottom-2 -top-1.5 left-0 right-0 flex justify-center will-change-transform"
+                      transition={{
+                        duration: 0.3,
+                        ease: 'easeOut',
+                      }}
                       // animate={{
                       //   opacity: linksContainerIsHovered ? 1 : 0,
                       //   y: linksContainerIsHovered ? 0 : -15,

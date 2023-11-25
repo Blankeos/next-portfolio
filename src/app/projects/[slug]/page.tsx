@@ -5,7 +5,12 @@ import { cn } from '@/lib/cn'
 import { allProjects } from 'contentlayer/generated'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FC, useMemo } from 'react'
+import { FaGithubAlt as IconSourceCode } from 'react-icons/fa'
+import { CgWebsite as IconDemo } from 'react-icons/cg'
+import { formatDate } from '@/lib/formatDate'
+
 /// ===========================================================================
 // Static Params (Generate all the pages)
 // ===========================================================================
@@ -71,8 +76,58 @@ const ProjectPost: FC<ProjectPostProps> = (props) => {
             width={400}
             alt={`${project.title} feature`}
             src={project.featuredImage}
+            className="object-cover"
           />
         </div>
+
+        <div className="h-10" />
+
+        <div className="flex items-center justify-between gap-x-2">
+          <div className="flex gap-x-2">
+            {project.demoURL && (
+              <Link
+                target="_blank"
+                href={project.demoURL}
+                className="flex items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
+              >
+                <IconDemo />
+                <span>Demo</span>
+              </Link>
+            )}
+            {project.githubURL && (
+              <Link
+                target="_blank"
+                href={project.githubURL}
+                className="flex items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
+              >
+                <IconSourceCode />
+                <span>Source Code</span>
+              </Link>
+            )}
+          </div>
+
+          <span className="text-sm text-primary-400 opacity-70">
+            Made on {formatDate(project.date)}
+          </span>
+        </div>
+
+        <div className="h-10" />
+
+        {project.featuredYoutubeURL && (
+          <div className="flex flex-col items-center justify-center gap-y-5">
+            <iframe
+              width="560"
+              height="315"
+              src={project.featuredYoutubeURL}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="rounded-md"
+            ></iframe>
+            <h2 className="text-primary-400">👆 Watch my video about it!</h2>
+          </div>
+        )}
 
         <div className="h-10" />
 

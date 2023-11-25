@@ -43,6 +43,10 @@ const BlogPage: FC<BlogPageProps> = (props) => {
               description={post.description}
             />
           ))}
+
+        {allPosts?.length === 0 && (
+          <p className="text-sm text-gray-300">No blog posts found 😔...</p>
+        )}
       </Container>
     </>
   )
