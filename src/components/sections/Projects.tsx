@@ -1,6 +1,7 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useMemo, useRef } from 'react'
 import Container from '../Container'
 import SectionHeading from '../SectionHeading'
+import Marquee from 'react-fast-marquee'
 
 import { RiArrowUpLine as Arrow } from 'react-icons/ri'
 import { SectionProps } from './types'
@@ -8,12 +9,12 @@ import { SectionProps } from './types'
 import { useAnimation, motion, Variants } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
-import projects from '../../../data/projects'
 
 import Link from 'next/link'
 import { Project, allProjects } from 'contentlayer/generated'
 import { orderAndDate } from '@/lib/sortUtils'
 import { pageRoutes } from '@/lib/pageRoutes'
+import { useElementSize } from '@/hooks/useElementSize'
 
 // ===========================================================================
 // Main component (It has two subcomponents)
@@ -77,6 +78,17 @@ interface ProjectCardProps
 const ProjectCard: FC<ProjectCardProps> = (props) => {
   const { title, featuredImage, description, href, tags } = props
 
+  // For activating marquee when the tags are too wide.
+  const [marqueeWidthRef, marqueWidthSize] = useElementSize<HTMLDivElement>()
+  const [tagsWidthRef, tagsWidthSize] = useElementSize<HTMLDivElement>()
+
+  const marqueeSpeed = useMemo(() => {
+    if (tagsWidthSize.width >= marqueWidthSize.width) return 30
+
+    /** The default is 0. */
+    return 0
+  }, [marqueWidthSize, tagsWidthSize])
+
   const [imageRef, imageInView] = useInView({
     threshold: 0.3,
     root: null,
@@ -132,6 +144,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
       },
     },
   }
+
   return (
     <div className="project-card">
       <Link href={href ? href : '/project-not-found'} className="relative">
@@ -197,21 +210,25 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
                 />
               </div>
             </motion.div>
-            <motion.div
-              variants={textChildVariants}
-              className="mt-2 flex h-7 items-end gap-x-1 overflow-hidden transition-[padding] delay-200 duration-500 group-hover:pl-2 "
-            >
-              {tags &&
-                tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="rounded-full border border-blue-500 px-2.5 py-1 text-xs text-blue-500 transition group-hover:bg-blue-500 group-hover:text-white"
-                  >
-                    <span className="block translate-y-[0.10rem] transform">
-                      {tag}
-                    </span>
-                  </span>
-                ))}
+            <motion.div ref={marqueeWidthRef} variants={textChildVariants}>
+              <Marquee speed={marqueeSpeed}>
+                <div
+                  ref={tagsWidthRef}
+                  className="mt-2 flex h-7 items-end gap-x-1 overflow-hidden transition-[padding] delay-200 duration-500"
+                >
+                  {tags &&
+                    tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="rounded-full border border-blue-500 px-2.5 py-1 text-xs text-blue-500 transition group-hover:bg-blue-500 group-hover:text-white"
+                      >
+                        <span className="block translate-y-[0.10rem] transform">
+                          {tag}
+                        </span>
+                      </span>
+                    ))}
+                </div>
+              </Marquee>
             </motion.div>
           </motion.div>
         </div>

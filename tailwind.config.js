@@ -50,5 +50,8 @@ module.exports = {
       translate: ['group-hover'],
     },
   },
+  future: {
+    hoverOnlyWhenSupported: false,
+  },
   plugins: [],
 }

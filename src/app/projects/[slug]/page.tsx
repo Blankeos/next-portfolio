@@ -82,13 +82,13 @@ const ProjectPost: FC<ProjectPostProps> = (props) => {
 
         <div className="h-10" />
 
-        <div className="flex items-center justify-between gap-x-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-x-2">
             {project.demoURL && (
               <Link
                 target="_blank"
                 href={project.demoURL}
-                className="flex items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
+                className="flex flex-shrink-0 items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
               >
                 <IconDemo />
                 <span>Demo</span>
@@ -98,7 +98,7 @@ const ProjectPost: FC<ProjectPostProps> = (props) => {
               <Link
                 target="_blank"
                 href={project.githubURL}
-                className="flex items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
+                className="flex flex-shrink-0 items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
               >
                 <IconSourceCode />
                 <span>Source Code</span>
@@ -115,16 +115,18 @@ const ProjectPost: FC<ProjectPostProps> = (props) => {
 
         {project.featuredYoutubeURL && (
           <div className="flex flex-col items-center justify-center gap-y-5">
-            <iframe
-              width="560"
-              height="315"
-              src={project.featuredYoutubeURL}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="rounded-md"
-            ></iframe>
+            <div className="relative h-0 w-full overflow-hidden pb-[56.25%] pt-[30px]">
+              <iframe
+                width="100%"
+                height="100%"
+                src={project.featuredYoutubeURL}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute left-0 top-0 rounded-md"
+              ></iframe>
+            </div>
             <h2 className="text-primary-400">👆 Watch my video about it!</h2>
           </div>
         )}

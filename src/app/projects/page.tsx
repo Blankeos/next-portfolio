@@ -15,9 +15,8 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 
 type ProjectsPageProps = {}
 
-// export const metadata: Metadata = {
-//   title: 'Projects | Carlo Taleon',
-// }
+// This is layout.tsx
+// export const metadata: Metadata = {...}
 
 const ProjectsPage: FC<ProjectsPageProps> = (props) => {
   const {
