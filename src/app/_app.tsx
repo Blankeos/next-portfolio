@@ -9,6 +9,7 @@ import useLenis from "@/hooks/useLenis";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useLenis();
+
   return (
     <>
       <NextHead>

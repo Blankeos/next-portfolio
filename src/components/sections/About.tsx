@@ -1,89 +1,90 @@
-import React, { useEffect } from "react";
-import Container from "../Container";
-import SectionHeading from "../SectionHeading";
-import { SectionProps } from "./types";
+import React, { useEffect } from 'react'
+import Container from '../Container'
+import SectionHeading from '../SectionHeading'
+import { SectionProps } from './types'
 
-import { motion, useAnimation, Variants } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import about from "../../../data/about";
-import Link from "next/link";
+import { motion, useAnimation, Variants } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
+import about from '../../../data/about'
+import Link from 'next/link'
 
 // Icons
-import { BsArrowRight as Arrow } from "react-icons/bs";
+import { BsArrowRight as Arrow } from 'react-icons/bs'
+import { pageRoutes } from '@/lib/pageRoutes'
 
 interface AboutProps extends SectionProps {}
 
 const About: React.FC<AboutProps> = ({ sectionRef }) => {
-  const controls = useAnimation();
+  const controls = useAnimation()
 
   return (
     <section
       id="about-section"
       ref={sectionRef}
-      className="bg-gray-50 w-full pt-28 pb-28"
+      className="w-full bg-gray-50 pb-28 pt-28"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="relative font-light text-4xl sm:text-5xl z-10 text-gray-800"
-          text={["About", "Me"]}
+          className="relative z-10 text-4xl font-light text-gray-800 sm:text-5xl"
+          text={['About', 'Me']}
         />
-        <div className="relative grid grid-cols-1 md:grid-cols-2 mt-20 z-10 gap-8">
+        <div className="relative z-10 mt-20 grid grid-cols-1 gap-8 md:grid-cols-2">
           <ProfileImage />
           <ProfileInfo />
         </div>
       </Container>
     </section>
-  );
-};
+  )
+}
 
 const ProfileImage = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     root: null,
-    rootMargin: "150px 0px",
+    rootMargin: '150px 0px',
     threshold: 1,
-  });
-  const controls = useAnimation();
+  })
+  const controls = useAnimation()
 
   useEffect(() => {
     if (inView) {
       controls.start({
-        width: "0%",
+        width: '0%',
         transition: {
-          ease: "circOut",
+          ease: 'circOut',
           duration: 1,
         },
-      });
+      })
     }
-  }, [inView, controls]);
+  }, [inView, controls])
   return (
-    <div className="relative w-full h-full flex flex-col">
-      <div ref={ref} className="inline-block relative md:w-5/6">
+    <div className="relative flex h-full w-full flex-col">
+      <div ref={ref} className="relative inline-block md:w-5/6">
         <div
           className="relative"
           style={{
-            marginTop: "100%",
+            marginTop: '100%',
           }}
         ></div>
         <div className="absolute inset-0">
           <div
-            className="absolute w-full h-full"
+            className="absolute h-full w-full"
             style={{
               backgroundImage: `url("/imgs/carlo_about.png")`,
-              backgroundSize: "cover",
-              backgroundPosition: "center top",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center top',
             }}
           ></div>
           <motion.div
-            initial={{ width: "100%" }}
+            initial={{ width: '100%' }}
             animate={controls}
-            className="absolute bg-gray-50 w-full h-full self-end"
+            className="absolute h-full w-full self-end bg-gray-50"
           ></motion.div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const profileInfoVariants: Variants = {
   hidden: {},
@@ -92,7 +93,7 @@ const profileInfoVariants: Variants = {
       staggerChildren: 0.4,
     },
   },
-};
+}
 
 const profileInfoChildVariants: Variants = {
   hidden: {
@@ -103,51 +104,51 @@ const profileInfoChildVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      ease: "circOut",
+      ease: 'circOut',
       duration: 0.5,
     },
   },
-};
+}
 
 const ProfileInfo = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     root: null,
     threshold: 0.5,
-  });
-  const controls = useAnimation();
+  })
+  const controls = useAnimation()
 
   useEffect(() => {
     if (inView) {
-      controls.start("visible");
+      controls.start('visible')
     }
-  }, [inView, controls]);
+  }, [inView, controls])
 
   return (
     <motion.div
       ref={ref}
       variants={profileInfoVariants}
-      initial={"hidden"}
+      initial={'hidden'}
       animate={controls}
-      className="flex flex-col gap-y-8 mt-5 md:mt-0"
+      className="mt-5 flex flex-col gap-y-8 md:mt-0"
     >
       <motion.h2
         variants={profileInfoChildVariants}
-        className="font-bold text-4xl md:text-5xl text-gray-800 tracking-tighter"
+        className="text-4xl font-bold tracking-tighter text-gray-800 md:text-5xl"
       >
         {about.fullName}
       </motion.h2>
       <motion.span
         variants={profileInfoChildVariants}
-        className="w-16 h-2 bg-blue-500"
+        className="h-2 w-16 bg-blue-500"
       ></motion.span>
-      <div className=" text-gray-600 flex flex-col space-y-5">
+      <div className=" flex flex-col space-y-5 text-gray-600">
         {about.bio.map((p, i) => {
           return (
             <motion.span key={i} variants={profileInfoChildVariants}>
               {p}
             </motion.span>
-          );
+          )
         })}
       </div>
 
@@ -155,9 +156,12 @@ const ProfileInfo = () => {
         variants={profileInfoChildVariants}
         className="flex justify-start"
       >
-        <Link href="/about" className="secondary-btn flex group gap-x-2">
+        <Link
+          href={pageRoutes.about}
+          className="secondary-btn group flex gap-x-2"
+        >
           <span className="">More About Me</span>
-          <Arrow className="transform translate-x-1 group-hover:translate-x-2 translate-y-[3px] transition-transform" />
+          <Arrow className="translate-x-1 translate-y-[3px] transform transition-transform group-hover:translate-x-2" />
         </Link>
         {/* Might not use this bottom one anymore */}
         {/* <Link href="/about">
@@ -168,7 +172,7 @@ const ProfileInfo = () => {
         </Link> */}
       </motion.div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default About;
+export default About
