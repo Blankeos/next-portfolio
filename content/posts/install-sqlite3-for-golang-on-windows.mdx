@@ -1,0 +1,55 @@
+---
+title: Install Sqlite3 for Golang on Windows
+date: 2023-11-26
+featuredImage: https://cdn.dribbble.com/userupload/2624050/file/original-59266f4dea1c2aa43f2064cc0f3b165a.png?resize=400x0
+category: Golang
+description: How to install sqlite3 for golang on windows
+---
+
+This is a short guide on how you can make sqlite3 work for Golang on Windows.
+If you've ever ran sqlite3 for Golang on Windows, you may have noticed that it
+needs some environment variable working:
+
+```properties
+CGO_ENABLED=1
+```
+
+Usually this isn't enough though, that's because you need the gcc binary to run
+sqlite3 on Windows. Follow the instructions below.
+
+### 1. Install MSYS2
+
+Go to the [MSYS2 website](https://www.msys2.org/) and follow the installation
+instructions. Note that MSYS2 requires 64 bit Windows 8.1 or newer.
+
+Once you're go to the [🪟 Start] and search: "MSYS2 UCRT64", this opens the
+UCRT64 environment of MSYS2, basically a shell. Note that MSYS2 has different
+environments and this is basically the default that it's running on.
+
+After that, install the MinGW-w64-toolchain by running this command:
+
+```sh
+pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
+```
+
+Accept the default number of packages in the toolchain group by pressing Enter.
+
+Enter Y when prompted whether to proceed with the installation.
+
+Add the path to your MinGW-w64 bin folder to the Windows PATH environment variable by using the following steps:
+
+In the Windows search bar, type Settings to open your Windows Settings.
+Search for Edit environment variables for your account.
+In your User variables, select the Path variable and then select Edit.
+Select New and add the MinGW-w64 destination folder you recorded during the installation process to the list. If you used the default settings above, then this will be the path: C:\msys64\ucrt64\bin.
+Select OK to save the updated PATH. You will need to reopen any console windows for the new PATH location to be available.
+
+Check the installation
+
+```
+gcc --verison
+```
+
+### Resources
+
+- [VSCode C++ Development](https://code.visualstudio.com/docs/cpp/config-mingw) from VSCode.
