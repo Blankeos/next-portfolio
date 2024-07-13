@@ -1,22 +1,17 @@
 'use client'
 
-import { FC, useMemo, useState } from 'react'
-import { Project, allProjects } from 'contentlayer/generated'
 import Container from '@/components/Container'
-import dayjs from 'dayjs'
-import Link from 'next/link'
-import { pageRoutes } from '@/lib/pageRoutes'
-import { CgSearch as IconSearch } from 'react-icons/cg'
 import ShadowButton from '@/components/ShadowButton'
-import { Metadata } from 'next'
-import { orderAndDate } from '@/lib/sortUtils'
 import useFlexSearch from '@/hooks/useFlexSearch'
+import { pageRoutes } from '@/lib/pageRoutes'
+import { orderAndDate } from '@/lib/sortUtils'
+import { Project, allProjects } from 'contentlayer/generated'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import Link from 'next/link'
+import { FC, useMemo } from 'react'
+import { CgSearch as IconSearch } from 'react-icons/cg'
 
 type ProjectsPageProps = {}
-
-// This is layout.tsx
-// export const metadata: Metadata = {...}
 
 const ProjectsPage: FC<ProjectsPageProps> = (props) => {
   const {
@@ -87,7 +82,8 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                       layout="position"
                       initial={{
                         opacity: 0,
-                        scale: 0.8,
+                        y: 10,
+                        // scale: 0.95,
                       }}
                       animate={{
                         opacity: 1,

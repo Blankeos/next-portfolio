@@ -1,12 +1,12 @@
-import '@/styles/globals.css'
-import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import Nav from '@/components/Nav'
+import '@/styles/globals.css'
 import { Toaster } from 'react-hot-toast'
 
-import { FC, ReactNode } from 'react'
 import ClientLayout from '@/components/ClientLayout'
-import { createStyleStringFromTheme, themes } from '@/styles/themes'
+import { themes } from '@/styles/themes'
 import { Metadata } from 'next'
+import { FC, ReactNode } from 'react'
 
 type RootLayoutProps = {
   children: ReactNode
@@ -48,7 +48,7 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
       <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" />
       <meta name="theme-color" content="#3B82F6" />
       <meta property="og:type" content="website" />
-      <body className="flex min-h-screen flex-col">
+      <body>
         <ClientLayout>
           <Nav />
           <main className="flex flex-grow flex-col">{props.children}</main>

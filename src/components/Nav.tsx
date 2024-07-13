@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
-import Container from './Container'
 import Link from 'next/link'
+import { useState } from 'react'
+import Container from './Container'
 
-import { AnimatePresence, motion, Variants } from 'framer-motion'
-import { pageRoutes } from '@/lib/pageRoutes'
-import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/cn'
+import { pageRoutes } from '@/lib/pageRoutes'
+import { motion, Variants } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 const navVariants: Variants = {
   hidden: {
@@ -142,31 +142,6 @@ const Nav = () => {
               </motion.span>
             ))}
           </div>
-
-          {/* <div className="hidden items-center space-x-10 text-sm text-gray-600 lg:flex">
-            <>
-              {sections.map((section, i) => (
-                <motion.span
-                  variants={navChildVariants}
-                  key={i}
-                  className="block"
-                >
-                  <SectionLink href={section.href}>{section.name}</SectionLink>
-                </motion.span>
-              ))}
-            </>
-          </div> */}
-          {/* <div className="flex items-center space-x-5 text-2xl text-gray-600 lg:text-xl">
-            {socials.map((social, i) => (
-              <motion.span
-                variants={navChildVariants}
-                key={i}
-                className="block"
-              >
-                <SocialLink href={social.url}>{<social.Icon />}</SocialLink>
-              </motion.span>
-            ))}
-          </div> */}
         </div>
       </Container>
     </motion.nav>
