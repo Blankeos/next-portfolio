@@ -5,8 +5,8 @@ import Projects from '@/components/sections/projects';
 import SideNav from '@/components/side-nav';
 
 import About from '@/components/sections/about';
+import BlogFeature from '@/components/sections/blog-feature';
 import Contact from '@/components/sections/contacts';
-import Skills from '@/components/sections/skills';
 import { useSectionActiveObserver } from '@/hooks/use-section-active-observer';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -14,7 +14,7 @@ import { useInView } from 'react-intersection-observer';
 const Home: React.FC = () => {
   const [heroRef, heroRefInView] = useInView();
   const [projectsRef, projectsRefInView] = useInView();
-  const [skillsRef, skillsRefInView] = useInView();
+  const [blogFeatureRef, skillsRefInView] = useInView();
   const [aboutRef, aboutRefInView] = useInView();
   const [contactRef, contactRefInView] = useInView();
 
@@ -32,7 +32,8 @@ const Home: React.FC = () => {
           <SideNav isVisible={!heroRefInView} activeIndex={activeIndex} />
         </div>
         <Projects sectionRef={projectsRef} />
-        <Skills sectionRef={skillsRef} />
+        <BlogFeature sectionRef={blogFeatureRef} />
+        {/* <Skills sectionRef={skillsRef} /> */}
         <About sectionRef={aboutRef} />
         <Contact sectionRef={contactRef} />
       </div>

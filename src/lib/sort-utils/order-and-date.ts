@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
  * This only works if the order and date are in the first level
  * of the object. (e.g. not nested like "first.deeper.order")
  */
-export const orderAndDate = <T>(
+export const byOrderAndDate = <T>(
   orderPropertyName: keyof T,
   datePropertyName: keyof T
 ) => {

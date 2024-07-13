@@ -6,7 +6,7 @@ import Container from '@/components/container';
 import ShadowButton from '@/components/shadow-button';
 import useFlexSearch from '@/hooks/use-flex-search';
 import { PageRoutes } from '@/lib/page-routes';
-import { orderAndDate } from '@/lib/sort-utils';
+import { byOrderAndDate } from '@/lib/sort-utils';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
@@ -66,7 +66,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
           <div className="grid gap-5 md:grid-cols-2">
             <AnimatePresence>
               {allProjects
-                .sort(orderAndDate<Project>('featureOrder', 'date'))
+                .sort(byOrderAndDate<Project>('featureOrder', 'date'))
                 .map((project) => {
                   // Do filtering here.
                   if (

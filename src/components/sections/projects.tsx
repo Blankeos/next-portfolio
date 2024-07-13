@@ -12,7 +12,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { useElementSize } from '@/hooks/use-element-size';
 import { PageRoutes } from '@/lib/page-routes';
-import { orderAndDate } from '@/lib/sort-utils';
+import { byOrderAndDate } from '@/lib/sort-utils';
 import { allProjects, Project } from 'contentlayer/generated';
 import Link from 'next/link';
 
@@ -48,7 +48,7 @@ const ProjectsGrid = () => {
   return (
     <div className="relative z-10 mt-12 grid grid-cols-1 items-end gap-5 gap-y-8 pt-28 md:grid-cols-2 md:gap-16 md:gap-x-5 md:pt-0 lg:gap-16">
       {allProjects
-        ?.sort(orderAndDate<Project>('featureOrder', 'date'))
+        ?.sort(byOrderAndDate<Project>('featureOrder', 'date'))
         ?.slice(0, 4)
         ?.map?.((project, i) => {
           return (
