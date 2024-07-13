@@ -34,7 +34,7 @@ const BlogCard: FC<BlogCardProps> = (props) => {
       >
         {/* Image */}
         <div className="relative">
-          <div className="absolute inset-0 rotate-3 bg-primary-500 bg-opacity-40" />
+          <div className="inse t-0 absolute rotate-3 bg-primary-500 bg-opacity-40" />
           <div
             className="relative h-36 bg-primary-500/20"
             style={{
@@ -51,7 +51,7 @@ const BlogCard: FC<BlogCardProps> = (props) => {
               {props.category}
             </span>
           )}
-          <h2>{props.title}</h2>
+          <h2 className="text-start">{props.title}</h2>
           <p className="line-clamp-2 text-left text-sm text-typography-300">
             {props.description}
           </p>

@@ -10,6 +10,7 @@ import BackButton from '@/components/buttons/back-button';
 import GiscusComments from '@/components/giscus-comments';
 import { Mdx } from '@/components/mdx';
 import { allPosts } from 'contentlayer/generated';
+import BlogViews from './blog-views';
 
 /// ===========================================================================
 // Static Params (Generate all the pages)
@@ -83,12 +84,16 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <time className="text-sm text-primary-500" dateTime={post.date}>
-              {formatDate(post.date)} •{' '}
-              <span className="text-typography-300">
+            <div className="flex items-center gap-x-2">
+              <time className="text-sm text-primary-500" dateTime={post.date}>
+                {formatDate(post.date)} <span>•</span>
+              </time>
+              <span className="text-sm text-typography-300">
                 {post.readTimeStats.text}
               </span>
-            </time>
+              <span>•</span>
+              <BlogViews />
+            </div>
           </FadeIn>
 
           <FadeIn delay={0.2}>

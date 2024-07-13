@@ -37,3 +37,4 @@ tsconfig.tsbuildinfo
 
 # Contentlayer
 .contentlayer
+.env

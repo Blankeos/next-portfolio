@@ -111,7 +111,9 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                             }}
                           />
                           <div className="flex flex-col items-start text-start">
-                            <span className="font-medium">{project.title}</span>
+                            <span className="text font-medium">
+                              {project.title}
+                            </span>
                             <span className="line-clamp-2 text-typography-400">
                               {project.description}
                             </span>
