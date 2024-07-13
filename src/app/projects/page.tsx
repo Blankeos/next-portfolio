@@ -4,7 +4,7 @@ import { Project, allProjects } from 'contentlayer/generated';
 
 import Container from '@/components/Container';
 import ShadowButton from '@/components/ShadowButton';
-import useFlexSearch from '@/hooks/useFlexSearch';
+import useFlexSearch from '@/hooks/use-flex-search';
 import { pageRoutes } from '@/lib/pageRoutes';
 import { orderAndDate } from '@/lib/sortUtils';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';

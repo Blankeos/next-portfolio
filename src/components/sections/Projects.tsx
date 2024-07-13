@@ -1,20 +1,20 @@
-import React, { FC, useEffect, useMemo, useRef } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
+import Marquee from 'react-fast-marquee';
 import Container from '../Container';
 import SectionHeading from '../SectionHeading';
-import Marquee from 'react-fast-marquee';
 
 import { RiArrowUpLine as Arrow } from 'react-icons/ri';
 import { SectionProps } from './types';
 
-import { useAnimation, motion, Variants } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion, useAnimation, Variants } from 'framer-motion';
 import Image from 'next/image';
+import { useInView } from 'react-intersection-observer';
 
-import Link from 'next/link';
-import { Project, allProjects } from 'contentlayer/generated';
-import { orderAndDate } from '@/lib/sortUtils';
+import { useElementSize } from '@/hooks/use-element-size';
 import { pageRoutes } from '@/lib/pageRoutes';
-import { useElementSize } from '@/hooks/useElementSize';
+import { orderAndDate } from '@/lib/sortUtils';
+import { allProjects, Project } from 'contentlayer/generated';
+import Link from 'next/link';
 
 // ===========================================================================
 // Main component (It has two subcomponents)

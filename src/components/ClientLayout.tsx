@@ -1,6 +1,6 @@
 'use client';
 
-import useTheme from '@/hooks/useTheme';
+import useTheme from '@/hooks/use-theme';
 import { FC, ReactNode } from 'react';
 
 type ClientLayoutProps = {
