@@ -1,13 +1,12 @@
 'use client';
 
-import { pageRoutes } from '@/lib/pageRoutes';
-import { FC } from 'react';
-import Link from 'next/link';
-import { formatDate } from '@/lib/formatDate';
-import { motion } from 'framer-motion';
-import ShadowButton from './ShadowButton';
 import { cn } from '@/lib/cn';
+import { formatDate } from '@/lib/format-date';
+import { PageRoutes } from '@/lib/page-routes';
+import Link from 'next/link';
+import { FC } from 'react';
 import { isMobile } from 'react-device-detect';
+import ShadowButton from './ShadowButton';
 
 type BlogCardProps = {
   slug: string;
@@ -27,7 +26,7 @@ const BlogCard: FC<BlogCardProps> = (props) => {
       }}
     >
       <Link
-        href={`${pageRoutes.blog}/${props.slug}`}
+        href={`${PageRoutes.Blog}/${props.slug}`}
         className={cn(
           'relative flex flex-col gap-y-3 overflow-hidden border border-primary-500 bg-white p-5',
           'aspect-[1/0.9] sm:aspect-[0.9/1]'

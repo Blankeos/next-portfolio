@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Container from './Container';
 
 import { cn } from '@/lib/cn';
-import { pageRoutes } from '@/lib/pageRoutes';
+import { PageRoutes } from '@/lib/page-routes';
 import { motion, Variants } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
@@ -41,15 +41,15 @@ const navChildVariants: Variants = {
 const navLinks = [
   {
     label: 'About',
-    href: pageRoutes.about,
+    href: PageRoutes.About,
   },
   {
     label: 'Projects',
-    href: pageRoutes.projects,
+    href: PageRoutes.Projects,
   },
   {
     label: 'Blog',
-    href: pageRoutes.blog,
+    href: PageRoutes.Blog,
   },
 ];
 
@@ -65,7 +65,7 @@ const Nav = () => {
     <motion.nav
       variants={navVariants}
       // 👇 Only show animation when on `/home`
-      initial={pathname === pageRoutes.home ? 'hidden' : 'visible'}
+      initial={pathname === PageRoutes.Home ? 'hidden' : 'visible'}
       animate="visible"
       className="relative z-30 h-24 w-full"
     >

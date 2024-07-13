@@ -4,13 +4,13 @@ import SectionHeading from '../SectionHeading';
 import { SectionProps } from './types';
 
 import { motion, useAnimation, Variants } from 'framer-motion';
+import Link from 'next/link';
 import { useInView } from 'react-intersection-observer';
 import about from '../../../data/about';
-import Link from 'next/link';
 
 // Icons
+import { PageRoutes } from '@/lib/page-routes';
 import { BsArrowRight as Arrow } from 'react-icons/bs';
-import { pageRoutes } from '@/lib/pageRoutes';
 
 interface AboutProps extends SectionProps {}
 
@@ -157,7 +157,7 @@ const ProfileInfo = () => {
         className="flex justify-start"
       >
         <Link
-          href={pageRoutes.about}
+          href={PageRoutes.About}
           className="secondary-btn group flex gap-x-2"
         >
           <span className="">More About Me</span>

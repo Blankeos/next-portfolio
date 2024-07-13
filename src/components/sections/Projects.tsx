@@ -11,8 +11,8 @@ import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
 
 import { useElementSize } from '@/hooks/use-element-size';
-import { pageRoutes } from '@/lib/pageRoutes';
-import { orderAndDate } from '@/lib/sortUtils';
+import { PageRoutes } from '@/lib/page-routes';
+import { orderAndDate } from '@/lib/sort-utils';
 import { allProjects, Project } from 'contentlayer/generated';
 import Link from 'next/link';
 
@@ -57,7 +57,7 @@ const ProjectsGrid = () => {
               title={project.title}
               description={project.description}
               featuredImage={project.featuredImage}
-              href={`${pageRoutes.projects}/${project.slug}`}
+              href={`${PageRoutes.Projects}/${project.slug}`}
               tags={project.tags}
             />
           );

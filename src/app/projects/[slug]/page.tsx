@@ -1,15 +1,14 @@
 import BackButton from '@/components/Buttons/BackButton';
-import Container from '@/components/Container';
 import { Mdx } from '@/components/Mdx';
 import { cn } from '@/lib/cn';
+import { formatDate } from '@/lib/format-date';
 import { allProjects } from 'contentlayer/generated';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
-import { FaGithubAlt as IconSourceCode } from 'react-icons/fa';
 import { CgWebsite as IconDemo } from 'react-icons/cg';
-import { formatDate } from '@/lib/formatDate';
+import { FaGithubAlt as IconSourceCode } from 'react-icons/fa';
 
 /// ===========================================================================
 // Static Params (Generate all the pages)

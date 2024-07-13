@@ -5,8 +5,8 @@ import { Project, allProjects } from 'contentlayer/generated';
 import Container from '@/components/Container';
 import ShadowButton from '@/components/ShadowButton';
 import useFlexSearch from '@/hooks/use-flex-search';
-import { pageRoutes } from '@/lib/pageRoutes';
-import { orderAndDate } from '@/lib/sortUtils';
+import { PageRoutes } from '@/lib/page-routes';
+import { orderAndDate } from '@/lib/sort-utils';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
@@ -98,7 +98,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                     >
                       <ShadowButton key={project._id} className="w-full">
                         <Link
-                          href={`${pageRoutes.projects}/${project.slug}`}
+                          href={`${PageRoutes.Projects}/${project.slug}`}
                           key={project._id}
                           className="flex h-[113.6px] w-full gap-x-5 overflow-hidden border border-primary-500 bg-white p-5"
                         >

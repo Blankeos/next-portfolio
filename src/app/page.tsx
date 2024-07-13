@@ -7,7 +7,7 @@ import SideNav from '@/components/SideNav';
 import About from '@/components/sections/About';
 import Contact from '@/components/sections/Contact';
 import Skills from '@/components/sections/Skills';
-import { useSectionActiveObserver } from '@/hooks/useSectionActiveObserver';
+import { useSectionActiveObserver } from '@/hooks/use-section-active-observer';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 

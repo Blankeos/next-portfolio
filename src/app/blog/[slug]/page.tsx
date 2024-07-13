@@ -1,5 +1,5 @@
 import { cn } from '@/lib/cn';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/format-date';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { FC, useMemo } from 'react';
