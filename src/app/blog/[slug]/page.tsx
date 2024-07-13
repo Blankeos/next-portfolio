@@ -84,7 +84,10 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
 
           <FadeIn delay={0.1}>
             <time className="text-sm text-primary-500" dateTime={post.date}>
-              {formatDate(post.date)}
+              {formatDate(post.date)} •{' '}
+              <span className="text-typography-300">
+                {post.readTimeStats.text}
+              </span>
             </time>
           </FadeIn>
 
@@ -103,7 +106,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
                 src={'/imgs/carlo_about.png'}
                 className="rounded-full"
               />
-              <p className="text-typography-300">Carlo Taleon</p>
+              <p className="text-typography-500">Carlo Taleon</p>
             </div>
           </FadeIn>
         </div>

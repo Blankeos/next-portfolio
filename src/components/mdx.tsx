@@ -10,7 +10,7 @@ const components = {
   h1: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        'mt-2 scroll-m-20 text-4xl font-bold tracking-tight',
+        'mt-2 scroll-m-20 text-4xl font-bold tracking-tight text-neutral-800',
         className
       )}
       {...props}
@@ -19,7 +19,7 @@ const components = {
   h2: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        'mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0',
+        'mt-10 scroll-m-20 pb-1 text-3xl font-semibold tracking-tight text-neutral-800 first:mt-0',
         className
       )}
       {...props}
@@ -63,13 +63,19 @@ const components = {
   ),
   a: ({ className, ...props }: HTMLAttributes<HTMLAnchorElement>) => (
     <a
-      className={cn('font-medium underline underline-offset-4', className)}
+      className={cn(
+        'font-medium text-primary-500 underline underline-offset-4',
+        className
+      )}
       {...props}
     />
   ),
   p: ({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) => (
     <p
-      className={cn('leading-7 [&:not(:first-child)]:mt-6', className)}
+      className={cn(
+        'leading-7 text-neutral-700 [&:not(:first-child)]:mt-6',
+        className
+      )}
       {...props}
     />
   ),
@@ -80,7 +86,7 @@ const components = {
     <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
   ),
   li: ({ className, ...props }: HTMLAttributes<HTMLLIElement>) => (
-    <li className={cn('mt-2', className)} {...props} />
+    <li className={cn('mt-2 text-neutral-800', className)} {...props} />
   ),
   blockquote: ({ className, ...props }: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
@@ -138,17 +144,42 @@ const components = {
       {...props}
     />
   ),
-  code: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => (
-    <code
-      className={cn('relative rounded px-5 py-1 font-mono text-sm', className)}
-      {...props}
-    />
+  code: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => {
+    console.log(props, 'carl\n\n\n');
+    // An inline code element. It only has `children` as a prop.
+    if (Object.keys(props).length === 1)
+      return (
+        <code
+          className={cn(
+            'relative rounded bg-neutral-200 px-1.5 py-0.5 font-mono',
+            className
+          )}
+          {...props}
+        >
+          <span className="absolute -bottom-0.5 -top-0.5 left-0 right-0 rounded bg-neutral-200 text-neutral-600" />
+          <span className="relative">{props.children}</span>
+        </code>
+      );
+
+    // An actual code block.
+    console.log(props);
+    return (
+      <code
+        className={cn(
+          'relative rounded px-5 py-1 font-mono text-sm',
+          className
+        )}
+        {...props}
+      />
+    );
+  },
+  strong: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => (
+    <strong className={cn('font-semibold', className)} {...props} />
   ),
   Image,
   Callout,
   Card: MdxCard,
 };
-
 interface MdxProps {
   code: string;
 }

@@ -1,0 +1,111 @@
+---
+title: Ignore SvelteKit warnings.
+date: 2024-07-13
+featuredImage: /blog-imgs/ignore-sveltekit-warnings-thumbnail.webp
+category: Svelte
+description: Disable specific SvelteKit warnings like self-closing tags.
+---
+
+This is a guide on how to ignore compiler warnings in SvelteKit.
+
+## 🤨 Why would I want to ignore SvelteKit warnings?
+
+Let me start off by saying that I'm writing this article not because I don't care about accessibility.
+
+There are just some SvelteKit warnings that I **prefer** not to pay attention to.
+I think most of the accessibility warnings are pretty good though. One of those is this:
+
+Rich Harris [opened this issue](https://github.com/sveltejs/svelte/issues/11052) in April 3, 2024 on "Svelte parses HTML all wrong".
+Ever since that, I've been getting a lot of warnings for something I prefer to do:
+
+```jsx
+// ⚠️ Warning: Self-closing HTML tags for non-void elements are ambiguous —
+// use `<div ...></div>` rather than `<div ... />`
+<div />
+
+// ✅ This is good.
+<div></div>
+```
+
+If you're coming from JSX-based frameworks like React and Solid, you might be used
+to self-closing tags for elements with no children.
+
+## 🚀 Follow these steps:
+
+1. **First, find out the name of the warning.**
+
+You can do this pretty easily by using the onwarn callback in your `svelte.config.js` file.
+
+```js
+// svelte.config.js
+
+const config = {
+  preprocess: vitePreprocess(),
+
+  // ...
+
+  onwarn(warning, defaultHandler) {
+    console.log(warning); // Log it here.
+
+    // handle all other warnings normally
+    defaultHandler(warning);
+  },
+};
+```
+
+You will see something like this. Take note of the code property.
+
+For my case it's **element_invalid_self_closing_tag**.
+
+```json
+{
+  "code": "element_invalid_self_closing_tag",
+  "message": "Self-closing HTML tags for non-void elements are ambiguous — use `<div ...></div>` rather than `<div ... />`",
+  "filename": "src/components/pages/landing/mason-item.svelte",
+  "start": { "line": 78, "column": 4, "character": 2326 },
+  "end": { "line": 78, "column": 23, "character": 2345 }
+}
+```
+
+2. **Ignore the compiler warning.**
+
+You can easily ignore it by early returning from the onwarn callback.
+
+```js
+// svelte.config.js
+
+const config = {
+  // ...
+  onwarn(warning, defaultHandler) {
+    // ignore self-closing tags for non-void elements
+    if (warning.code === 'element_invalid_self_closing_tag') return;
+
+    // handle all other warnings normally
+    defaultHandler(warning);
+  },
+};
+```
+
+You won't see this warning the console anymore.
+
+3. **Ignore the warning in your code.**
+
+If you're using VSCode, you still might see this.
+
+![alt text](/blog-imgs/sveltekit-warning-vscode.png)
+
+I recommend doing `Ctrl` + `Shift` + `P` and finding `Preferences: Open Workspace Settings (JSON)`. Then type this in your config.
+
+```json5
+// .vscode/settings.json
+
+{
+  // ...
+  'svelte.plugin.svelte.compilerWarnings': {
+    // "element_invalid_self_closing_tag": "ignore"
+  },
+}
+```
+
+<br />
+🎉 That's it, you're done! Hope this helps you!
