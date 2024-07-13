@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Container from './Container';
+import React, { useEffect, useState } from 'react';
 import sections from '../../data/sections';
-import SectionLink from './SectionLink';
+import Container from './container';
+import SectionLink from './section-link';
 
 interface SideNavProps {
   isVisible?: boolean;

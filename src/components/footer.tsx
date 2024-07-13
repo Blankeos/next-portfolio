@@ -1,8 +1,7 @@
-import React from 'react';
-import Container from './Container';
+import Container from './container';
 
 import Link from 'next/link';
-import HomeLinkButton from './HomeLinkButton';
+import HomeLinkButton from './home-link-button';
 
 const Footer = () => {
   return (

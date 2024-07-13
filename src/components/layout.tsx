@@ -1,5 +1,5 @@
-import Footer from './Footer';
-import Nav from './Nav';
+import Footer from './footer';
+import Nav from './nav';
 
 interface ILayoutProps {}
 

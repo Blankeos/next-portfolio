@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Container from '../Container';
-import SectionHeading from '../SectionHeading';
+import Container from '../container';
+import SectionHeading from '../section-heading';
 import { SectionProps } from './types';
 
 import { motion, useAnimation, Variants } from 'framer-motion';

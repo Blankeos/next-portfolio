@@ -1,8 +1,8 @@
 'use client';
 
 import { FC } from 'react';
-import ShadowButton from '../ShadowButton';
 import { FiChevronLeft as IconChevron } from 'react-icons/fi';
+import ShadowButton from '../shadow-button';
 
 type BackButtonProps = {
   /**

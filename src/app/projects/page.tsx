@@ -2,8 +2,8 @@
 
 import { Project, allProjects } from 'contentlayer/generated';
 
-import Container from '@/components/Container';
-import ShadowButton from '@/components/ShadowButton';
+import Container from '@/components/container';
+import ShadowButton from '@/components/shadow-button';
 import useFlexSearch from '@/hooks/use-flex-search';
 import { PageRoutes } from '@/lib/page-routes';
 import { orderAndDate } from '@/lib/sort-utils';

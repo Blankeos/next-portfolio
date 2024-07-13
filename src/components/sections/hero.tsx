@@ -1,21 +1,21 @@
-import FloatingCircle, { getContainerVariants } from '../FloatingCircle';
+import FloatingCircle, { getContainerVariants } from '../floating-circle';
 // Icons
 import { FaReact } from 'react-icons/fa';
-import { SiTypescript, SiJavascript } from 'react-icons/si';
 import { HiOutlineDocumentDownload as ResumeIcon } from 'react-icons/hi';
+import { SiTypescript } from 'react-icons/si';
 
 // React
 import React from 'react';
 
-import { Link as ScrollLink } from 'react-scroll';
 import { motion, Variants } from 'framer-motion';
+import { Link as ScrollLink } from 'react-scroll';
 
-import Container from '../Container';
+import Container from '../container';
 
-import { SectionProps } from './types';
-import ParticlesBackground from '../ParticlesBackground';
 import Image from 'next/image';
 import Link from 'next/link';
+import ParticlesBackground from '../particles-background';
+import { SectionProps } from './types';
 
 interface HeroProps extends SectionProps {}
 

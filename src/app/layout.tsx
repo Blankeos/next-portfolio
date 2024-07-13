@@ -1,9 +1,9 @@
-import Footer from '@/components/Footer';
-import Nav from '@/components/Nav';
+import Footer from '@/components/footer';
+import Nav from '@/components/nav';
 import '@/styles/globals.css';
 import { Toaster } from 'react-hot-toast';
 
-import ClientLayout from '@/components/ClientLayout';
+import ClientLayout from '@/components/client-layout';
 import { themes } from '@/styles/themes';
 import { Metadata } from 'next';
 import { FC, ReactNode } from 'react';

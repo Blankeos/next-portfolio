@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Container from '../Container';
-import SectionHeading from '../SectionHeading';
+import Container from '../container';
+import SectionHeading from '../section-heading';
 
 import Link from 'next/link';
 import { SectionProps } from './types';
@@ -10,8 +10,8 @@ import 'tippy.js/dist/tippy.css'; // optional
 import socials, { Social } from '../../../data/socials';
 
 import { motion, useAnimation, Variants } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import toast from 'react-hot-toast';
+import { useInView } from 'react-intersection-observer';
 
 interface ContactProps extends SectionProps {}
 

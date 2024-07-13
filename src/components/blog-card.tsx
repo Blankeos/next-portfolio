@@ -6,7 +6,7 @@ import { PageRoutes } from '@/lib/page-routes';
 import Link from 'next/link';
 import { FC } from 'react';
 import { isMobile } from 'react-device-detect';
-import ShadowButton from './ShadowButton';
+import ShadowButton from './shadow-button';
 
 type BlogCardProps = {
   slug: string;

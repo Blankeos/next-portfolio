@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import Container from './Container';
+import Container from './container';
 
 import { cn } from '@/lib/cn';
 import { PageRoutes } from '@/lib/page-routes';

@@ -1,5 +1,5 @@
-import BackButton from '@/components/Buttons/BackButton';
-import { Mdx } from '@/components/Mdx';
+import BackButton from '@/components/buttons/back-button';
+import { Mdx } from '@/components/mdx';
 import { cn } from '@/lib/cn';
 import { formatDate } from '@/lib/format-date';
 import { allProjects } from 'contentlayer/generated';

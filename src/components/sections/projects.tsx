@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import Marquee from 'react-fast-marquee';
-import Container from '../Container';
-import SectionHeading from '../SectionHeading';
+import Container from '../container';
+import SectionHeading from '../section-heading';
 
 import { RiArrowUpLine as Arrow } from 'react-icons/ri';
 import { SectionProps } from './types';

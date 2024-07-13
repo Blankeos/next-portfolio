@@ -4,11 +4,11 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { FC, useMemo } from 'react';
 
-import FadeIn from '@/components/animations/FadeIn';
-import BackButton from '@/components/Buttons/BackButton';
+import FadeIn from '@/components/animations/fade-in';
+import BackButton from '@/components/buttons/back-button';
 
-import GiscusComments from '@/components/GiscusComments';
-import { Mdx } from '@/components/Mdx';
+import GiscusComments from '@/components/giscus-comments';
+import { Mdx } from '@/components/mdx';
 import { allPosts } from 'contentlayer/generated';
 
 /// ===========================================================================

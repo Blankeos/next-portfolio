@@ -1,9 +1,9 @@
-import Container from '@/components/Container';
-import { FC } from 'react';
-import dayjs from 'dayjs';
+import BlogCard from '@/components/blog-card';
+import Container from '@/components/container';
 import { allPosts } from 'contentlayer/generated';
-import BlogCard from '@/components/BlogCard';
+import dayjs from 'dayjs';
 import { Metadata } from 'next';
+import { FC } from 'react';
 
 export const metadata: Metadata = {
   title: 'Blog | Carlo Taleon',
