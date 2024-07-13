@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 /**
  * A generic compare function for sorting order and date.
@@ -19,18 +19,18 @@ export const orderAndDate = <T>(
           dayjs(first[datePropertyName] as string)
         )
       )
-        return 1
-      return -1
+        return 1;
+      return -1;
     }
 
     // Here, either items have `order`
     if (!first[orderPropertyName] || !second[orderPropertyName]) {
-      return 1
+      return 1;
     }
 
     // Lastly, here, lesser `order` have priority. 1 is first.
-    if (first[orderPropertyName]! < second[orderPropertyName]!) return -1
+    if (first[orderPropertyName]! < second[orderPropertyName]!) return -1;
 
-    return 1
-  }
-}
+    return 1;
+  };
+};

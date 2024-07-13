@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import skills, { Skill } from "../../../data/skills";
-import Container from "../Container";
-import SectionHeading from "../SectionHeading";
-import { SectionProps } from "./types";
+import React, { useEffect } from 'react';
+import skills, { Skill } from '../../../data/skills';
+import Container from '../Container';
+import SectionHeading from '../SectionHeading';
+import { SectionProps } from './types';
 
-import { motion, useAnimation, Variants } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
 
 interface SkillsProps extends SectionProps {}
 
@@ -17,14 +17,14 @@ const Skills: React.FC<SkillsProps> = ({ sectionRef }) => {
     <section id="skills-section" ref={sectionRef} className="w-full py-48">
       <Container
         maxWidth="7xl"
-        className="relative grid lg:grid-cols-2 grid-cols-1"
+        className="relative grid grid-cols-1 lg:grid-cols-2"
       >
         <div className="flex items-center">
           <div className="relative">
             <GrayCircle />
             <SectionHeading
-              className="relative font-light text-4xl sm:text-5xl z-10 text-gray-800"
-              text={["Skills", "& Technologies"]}
+              className="relative z-10 text-4xl font-light text-gray-800 sm:text-5xl"
+              text={['Skills', '& Technologies']}
             />
           </div>
         </div>
@@ -36,8 +36,8 @@ const Skills: React.FC<SkillsProps> = ({ sectionRef }) => {
 
 const GrayCircle = () => {
   return (
-    <div className="absolute flex items-center justify-center rounded-full bg-gray-200 h-20 w-20 -top-20 -left-20">
-      <div className="absolute h-72 w-72 border-gray-200 border rounded-full"></div>
+    <div className="absolute -left-20 -top-20 flex h-20 w-20 items-center justify-center rounded-full bg-gray-200">
+      <div className="absolute h-72 w-72 rounded-full border border-gray-200"></div>
     </div>
   );
 };
@@ -64,7 +64,7 @@ const skillItemVariants: Variants = {
     y: 0,
     opacity: 1,
     transition: {
-      ease: "easeOut",
+      ease: 'easeOut',
     },
   },
 };
@@ -80,7 +80,7 @@ const SkillsGrid = () => {
 
   useEffect(() => {
     if (inView) {
-      controls.start("visible");
+      controls.start('visible');
     }
   }, [inView]);
 
@@ -90,7 +90,7 @@ const SkillsGrid = () => {
       initial="hidden"
       animate={controls}
       ref={ref}
-      className="grid grid-cols-3 lg:grid-cols-4 justify-items-center lg:place-self-center md:gap-10 md:gap-x-14 gap-y-16 z-10 mt-16 lg:mt-0 text-gray-500"
+      className="z-10 mt-16 grid grid-cols-3 justify-items-center gap-y-16 text-gray-500 md:gap-10 md:gap-x-14 lg:mt-0 lg:grid-cols-4 lg:place-self-center"
     >
       {skills.map((skill, i) => {
         return (
@@ -113,7 +113,7 @@ const SkillItem: React.FC<SkillItem> = ({ name, Icon }) => {
     <Tippy content={name}>
       <motion.div
         variants={skillItemVariants}
-        className="h-20 w-20 flex justify-center items-center text-5xl md:text-6xl"
+        className="flex h-20 w-20 items-center justify-center text-5xl md:text-6xl"
       >
         <Icon className="text-blue-500" />
       </motion.div>

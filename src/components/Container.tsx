@@ -1,5 +1,5 @@
-import { cn } from '@/lib/cn'
-import React from 'react'
+import { cn } from '@/lib/cn';
+import React from 'react';
 
 type MaxWidthTypes =
   | 'xs'
@@ -15,11 +15,11 @@ type MaxWidthTypes =
   | '7xl'
   | '8xl'
   | '9xl'
-  | 'full'
+  | 'full';
 
 interface Props {
-  className?: string
-  maxWidth?: MaxWidthTypes
+  className?: string;
+  maxWidth?: MaxWidthTypes;
 }
 
 const Container: FCC<Props> = ({ children, className, maxWidth = '9xl' }) => {
@@ -33,43 +33,43 @@ const Container: FCC<Props> = ({ children, className, maxWidth = '9xl' }) => {
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
 const getMaxWidth = (maxWidth: MaxWidthTypes) => {
-  const defaultCase = 'max-w-9xl'
+  const defaultCase = 'max-w-9xl';
   switch (maxWidth) {
     case 'xs':
-      return 'max-w-xs'
+      return 'max-w-xs';
     case 'sm':
-      return 'max-w-sm'
+      return 'max-w-sm';
     case 'md':
-      return 'max-w-md'
+      return 'max-w-md';
     case 'lg':
-      return 'max-w-lg'
+      return 'max-w-lg';
     case 'xl':
-      return 'max-w-xl'
+      return 'max-w-xl';
     case '2xl':
-      return 'max-w-2xl'
+      return 'max-w-2xl';
     case '3xl':
-      return 'max-w-3xl'
+      return 'max-w-3xl';
     case '4xl':
-      return 'max-w-4xl'
+      return 'max-w-4xl';
     case '5xl':
-      return 'max-w-5xl'
+      return 'max-w-5xl';
     case '6xl':
-      return 'max-w-6xl'
+      return 'max-w-6xl';
     case '7xl':
-      return 'max-w-7xl'
+      return 'max-w-7xl';
     case '8xl':
-      return 'max-w-8xl'
+      return 'max-w-8xl';
     case '9xl':
-      return 'max-w-9xl'
+      return 'max-w-9xl';
     case 'full':
-      return 'max-w-full'
+      return 'max-w-full';
     default:
-      return defaultCase
+      return defaultCase;
   }
-}
+};
 
-export default Container
+export default Container;

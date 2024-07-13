@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@giscus/react": "^3.0.0",
@@ -39,7 +40,7 @@
     "remark-gfm": "^4.0.0",
     "shiki": "^1.10.3",
     "tailwind-merge": "^2.4.0",
-    "tsparticles": "3.4.0"
+    "tsparticles": "3.5.0"
   },
   "devDependencies": {
     "@types/flexsearch": "^0.7.6",

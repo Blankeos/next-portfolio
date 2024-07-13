@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import Giscus from '@giscus/react'
-import { FC } from 'react'
+import Giscus from '@giscus/react';
+import { FC } from 'react';
 
-type GiscusCommentsProps = {}
+type GiscusCommentsProps = {};
 
 const GiscusComments: FC<GiscusCommentsProps> = (props) => {
   return (
@@ -23,7 +23,7 @@ const GiscusComments: FC<GiscusCommentsProps> = (props) => {
       lang="en"
       loading="lazy"
     />
-  )
-}
+  );
+};
 
-export default GiscusComments
+export default GiscusComments;

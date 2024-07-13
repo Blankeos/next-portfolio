@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
-import { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren } from 'react';
 
 type FadeInProps = {
   /** (ms) @defaultValue `0` */
-  delay?: number
+  delay?: number;
   /** initialY @defaultValue `20` */
-  initialY?: number
+  initialY?: number;
   /** initialOpacity @defaultValue `0` */
-  initialOpacity?: number
-} & PropsWithChildren
+  initialOpacity?: number;
+} & PropsWithChildren;
 
 const FadeIn: FC<FadeInProps> = (props) => {
-  const { delay = 0, initialOpacity = 0, initialY = 20 } = props
+  const { delay = 0, initialOpacity = 0, initialY = 20 } = props;
   return (
     <motion.div
       initial={{
@@ -30,7 +30,7 @@ const FadeIn: FC<FadeInProps> = (props) => {
     >
       {props.children}
     </motion.div>
-  )
-}
+  );
+};
 
-export default FadeIn
+export default FadeIn;

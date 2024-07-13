@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
-import { motion, Variants } from "framer-motion";
+import { CSSProperties } from 'react';
+import { motion, Variants } from 'framer-motion';
 
 export const getContainerVariants = (
   staggerChildren: number = 0.2,
@@ -12,7 +12,7 @@ export const getContainerVariants = (
     visible: {
       y: 0,
       transition: {
-        when: "beforeChildren",
+        when: 'beforeChildren',
         delay: startDelay,
         staggerChildren: staggerChildren,
       },
@@ -26,8 +26,8 @@ const nucleusVariants: Variants = {
     scale: 1,
     transition: {
       duration: 0.8,
-      type: "spring",
-      when: "beforeChildren",
+      type: 'spring',
+      when: 'beforeChildren',
       stiffness: 200,
     },
   },
@@ -41,12 +41,12 @@ const nucleusChildVariants: Variants = {
     opacity: 1,
     transition: {
       duration: 0.8,
-      ease: "circOut",
+      ease: 'circOut',
     },
   },
 };
 
-import { Renderable } from "react-hot-toast/headless";
+import { Renderable } from 'react-hot-toast/headless';
 interface FloatingCircleProps {
   style: CSSProperties | undefined;
   orbitSize?: string;
@@ -55,22 +55,22 @@ interface FloatingCircleProps {
   floatDelay?: number;
   toastMessage?: Renderable;
 }
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 const FloatingCircle: FCC<FloatingCircleProps> = ({
   style,
-  orbitSize = "35rem",
+  orbitSize = '35rem',
   orbitClass,
   nucleusClass,
   children,
   floatDelay = 0,
-  toastMessage = "",
+  toastMessage = '',
 }) => {
   style = {
     ...style,
   };
   return (
     <motion.div
-      className="h-20 w-20 p-2 flex items-center justify-center absolute will-change-transform"
+      className="absolute flex h-20 w-20 items-center justify-center p-2 will-change-transform"
       style={style}
       initial={{ y: 0 }}
       animate={{ y: -25 }}
@@ -78,7 +78,7 @@ const FloatingCircle: FCC<FloatingCircleProps> = ({
         duration: 2,
         delay: floatDelay,
         repeat: Infinity,
-        repeatType: "reverse",
+        repeatType: 'reverse',
       }}
     >
       <Nucleus
@@ -101,7 +101,7 @@ interface OrbitProps {
 
 const Orbit: React.FC<OrbitProps> = ({
   orbitSize,
-  className = "border-blue-300",
+  className = 'border-blue-300',
 }: OrbitProps) => {
   return (
     <span
@@ -117,18 +117,18 @@ interface NucleusProps {
 }
 
 const Nucleus: FCC<NucleusProps> = ({
-  className = "bg-blue-300",
+  className = 'bg-blue-300',
   children,
   onClick = () => {},
 }) => {
   return (
     <motion.div
       variants={nucleusVariants}
-      className="nucleus absolute rounded-full group cursor-pointer flex items-center justify-center z-10 h-20 w-20"
+      className="nucleus group absolute z-10 flex h-20 w-20 cursor-pointer items-center justify-center rounded-full"
       onClick={onClick}
     >
       <span
-        className={`absolute opacity-40 w-20 h-20 group-hover:w-28 group-hover:h-28 transition-all rounded-full ${className}`}
+        className={`absolute h-20 w-20 rounded-full opacity-40 transition-all group-hover:h-28 group-hover:w-28 ${className}`}
       />
       <motion.span variants={nucleusChildVariants} className="absolute">
         {children}

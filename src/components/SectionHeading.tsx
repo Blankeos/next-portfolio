@@ -1,6 +1,6 @@
-import { motion, useAnimation, Variants } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 
 interface SectionHeadingProps {
   text: [string] | [string, string];
@@ -25,27 +25,27 @@ const childVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: "circOut",
+      ease: 'circOut',
     },
   },
 };
 
 const SectionHeading = ({
   text,
-  className = "font-light text-5xl",
+  className = 'font-light text-5xl',
   noOffset = false,
 }: SectionHeadingProps) => {
   const [ref, inView] = useInView({
     threshold: 1,
     root: null,
-    rootMargin: "-150px 0px",
+    rootMargin: '-150px 0px',
     triggerOnce: true,
   });
   const controls = useAnimation();
 
   useEffect(() => {
     if (inView) {
-      controls.start("visible");
+      controls.start('visible');
     }
   }, [inView, controls]);
 
@@ -62,7 +62,7 @@ const SectionHeading = ({
           <span
             key={i}
             className={`${
-              !noOffset && (i === 1 ? "ml-16" : "")
+              !noOffset && (i === 1 ? 'ml-16' : '')
             } overflow-hidden pb-2`}
           >
             <motion.span

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Container from "./Container";
-import sections from "../../data/sections";
-import SectionLink from "./SectionLink";
+import React, { useState, useEffect } from 'react';
+import Container from './Container';
+import sections from '../../data/sections';
+import SectionLink from './SectionLink';
 
 interface SideNavProps {
   isVisible?: boolean;
@@ -26,12 +26,12 @@ const SideNav: React.FC<SideNavProps> = ({ isVisible = true, activeIndex }) => {
   return (
     <>
       <Container
-        className={`side-nav items-start w-full sticky top-0 transition ease-out duration-300 z-10 flex ${
-          isVisible ? "opacity-100" : "opacity-0"
+        className={`side-nav sticky top-0 z-10 flex w-full items-start transition duration-300 ease-out ${
+          isVisible ? 'opacity-100' : 'opacity-0'
         }`}
       >
         <div>
-          <div className="flex flex-col items-end space-y-4 text-sm font-light py-16 text-gray-900 relative z-20">
+          <div className="relative z-20 flex flex-col items-end space-y-4 py-16 text-sm font-light text-gray-900">
             {sections.map((section, i) => {
               return (
                 <SectionLink

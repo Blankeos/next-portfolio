@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Container from "../Container";
-import SectionHeading from "../SectionHeading";
+import React, { useEffect, useState } from 'react';
+import Container from '../Container';
+import SectionHeading from '../SectionHeading';
 
-import Link from "next/link";
-import { SectionProps } from "./types";
+import Link from 'next/link';
+import { SectionProps } from './types';
 
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
-import socials, { Social } from "../../../data/socials";
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
+import socials, { Social } from '../../../data/socials';
 
-import { motion, useAnimation, Variants } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import toast from "react-hot-toast";
+import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import toast from 'react-hot-toast';
 
 interface ContactProps extends SectionProps {}
 
@@ -20,13 +20,13 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
   const [ref, inView] = useInView({
     threshold: 0.8,
     root: null,
-    rootMargin: "-100px 0px",
+    rootMargin: '-100px 0px',
     triggerOnce: true,
   });
 
   useEffect(() => {
     if (inView) {
-      controls.start("visible");
+      controls.start('visible');
     }
   }, [inView, controls]);
 
@@ -34,15 +34,15 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
     <section
       id="contact-section"
       ref={sectionRef}
-      className="w-full md:py-52 py-24"
+      className="w-full py-24 md:py-52"
     >
-      <Container maxWidth="7xl" className="relative grid grid-cols-1 z-10">
+      <Container maxWidth="7xl" className="relative z-10 grid grid-cols-1">
         <div className="flex flex-col space-y-10">
           <span className="">
             <SectionHeading
               noOffset
-              className="relative font-light text-4xl sm:text-5xl text-center text-gray-800"
-              text={["Let's work", "together"]}
+              className="relative text-center text-4xl font-light text-gray-800 sm:text-5xl"
+              text={["Let's work", 'together']}
             />
           </span>
         </div>
@@ -51,10 +51,10 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
           variants={contactInfoVariants}
           initial="hidden"
           animate={controls}
-          className="text-2xl lg:text-4xl text-gray-800 flex flex-col space-y-5 mt-20 items-center overflow-hidden"
+          className="mt-20 flex flex-col items-center space-y-5 overflow-hidden text-2xl text-gray-800 lg:text-4xl"
         >
           <ClickableEmail />
-          <div className="pt-5 flex space-x-8 text-blue-500">
+          <div className="flex space-x-8 pt-5 text-blue-500">
             {socials.map((social, i) => {
               return (
                 <SocialLink
@@ -73,12 +73,12 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
 };
 
 const ClickableEmail = () => {
-  const copyMessage = "Copy 📝";
-  const copiedMessage = "Copied! ✔";
+  const copyMessage = 'Copy 📝';
+  const copiedMessage = 'Copied! ✔';
   const [content, setContent] = useState<string>(copyMessage);
 
   const clickHandler = () => {
-    navigator.clipboard.writeText("carloantonioct@gmail.com");
+    navigator.clipboard.writeText('carloantonioct@gmail.com');
     setContent(copiedMessage);
     toast((t) => (
       <span className="flex gap-x-4">
@@ -87,7 +87,7 @@ const ClickableEmail = () => {
           transition={{
             repeat: Infinity,
             duration: 0.35,
-            repeatType: "mirror",
+            repeatType: 'mirror',
           }}
           className="grid place-items-center text-2xl"
         >
@@ -111,11 +111,11 @@ const ClickableEmail = () => {
       hideOnClick={false}
       onHidden={hoverExitHandler}
     >
-      <p onClick={clickHandler} className="overflow-hidden pb-1 cursor-pointer">
+      <p onClick={clickHandler} className="cursor-pointer overflow-hidden pb-1">
         <motion.span variants={contactInfoChildVariants} className="block">
-          <span className="group relative transition truncate flex items-center">
-            <span className="absolute transition w-full group-hover:bg-blue-200 h-4/6"></span>
-            <span className="relative underline font-bold">
+          <span className="group relative flex items-center truncate transition">
+            <span className="absolute h-4/6 w-full transition group-hover:bg-blue-200"></span>
+            <span className="relative font-bold underline">
               carloantonioct@gmail.com
             </span>
           </span>
@@ -142,7 +142,7 @@ const contactInfoChildVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: "easeOut",
+      ease: 'easeOut',
     },
   },
 };
@@ -151,13 +151,13 @@ interface SocialLink extends Social {}
 
 const SocialLink: React.FC<SocialLink> = ({ name, Icon, url }) => {
   return (
-    <Link href={url} target="_blank" className="group p-1 relative">
-      <div className="relative overflow-hidden transform group-hover:-translate-y-2 transition ease-in-out will-change">
+    <Link href={url} target="_blank" className="group relative p-1">
+      <div className="will-change relative transform overflow-hidden transition ease-in-out group-hover:-translate-y-2">
         <motion.span variants={contactInfoChildVariants} className="block">
           <Icon />
         </motion.span>
       </div>
-      <span className="absolute bottom-0 left-0 right-0 bg-blue-500 mx-auto w-8/12 h-1.5 rounded-[50%] group-hover:opacity-70 opacity-0 transition"></span>
+      <span className="absolute bottom-0 left-0 right-0 mx-auto h-1.5 w-8/12 rounded-[50%] bg-blue-500 opacity-0 transition group-hover:opacity-70"></span>
     </Link>
   );
 };

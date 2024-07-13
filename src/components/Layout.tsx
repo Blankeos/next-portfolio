@@ -1,13 +1,13 @@
-import Footer from "./Footer";
-import Nav from "./Nav";
+import Footer from './Footer';
+import Nav from './Nav';
 
 interface ILayoutProps {}
 
 const Layout: FCC<ILayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Nav />
-      <main className="flex flex-col flex-grow">{children}</main>
+      <main className="flex flex-grow flex-col">{children}</main>
       <Footer />
     </div>
   );

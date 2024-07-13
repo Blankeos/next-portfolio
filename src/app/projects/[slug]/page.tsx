@@ -1,22 +1,22 @@
-import BackButton from '@/components/Buttons/BackButton'
-import Container from '@/components/Container'
-import { Mdx } from '@/components/Mdx'
-import { cn } from '@/lib/cn'
-import { allProjects } from 'contentlayer/generated'
-import { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
-import { FC, useMemo } from 'react'
-import { FaGithubAlt as IconSourceCode } from 'react-icons/fa'
-import { CgWebsite as IconDemo } from 'react-icons/cg'
-import { formatDate } from '@/lib/formatDate'
+import BackButton from '@/components/Buttons/BackButton';
+import Container from '@/components/Container';
+import { Mdx } from '@/components/Mdx';
+import { cn } from '@/lib/cn';
+import { allProjects } from 'contentlayer/generated';
+import { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FC, useMemo } from 'react';
+import { FaGithubAlt as IconSourceCode } from 'react-icons/fa';
+import { CgWebsite as IconDemo } from 'react-icons/cg';
+import { formatDate } from '@/lib/formatDate';
 
 /// ===========================================================================
 // Static Params (Generate all the pages)
 // ===========================================================================
 
 export const generateStaticParams = async () =>
-  allProjects.map((project) => ({ slug: project.slug }))
+  allProjects.map((project) => ({ slug: project.slug }));
 
 // ===========================================================================
 // Meta Data
@@ -24,36 +24,36 @@ export const generateStaticParams = async () =>
 export const generateMetadata = ({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Metadata => {
-  const post = allProjects.find((project) => project.slug === params.slug)
-  if (!post) throw new Error(`Post not found for slug: ${params.slug}`)
+  const post = allProjects.find((project) => project.slug === params.slug);
+  if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 
   return {
     title: post.title,
     openGraph: {
       title: post.title,
     },
-  }
-}
+  };
+};
 
 // ===========================================================================
 // Component
 // ===========================================================================
 type ProjectPostProps = {
   params: {
-    slug: string
-  }
-}
+    slug: string;
+  };
+};
 
 const ProjectPost: FC<ProjectPostProps> = (props) => {
-  const { params } = props
+  const { params } = props;
 
   const project = useMemo(
     () => allProjects.find((post) => post.slug === params.slug),
     [params.slug]
-  )
-  if (!project) throw new Error(`Post not found for slug: ${params.slug}`)
+  );
+  if (!project) throw new Error(`Post not found for slug: ${params.slug}`);
 
   return (
     <div className="flex flex-1 flex-col pb-20">
@@ -136,7 +136,7 @@ const ProjectPost: FC<ProjectPostProps> = (props) => {
         <Mdx code={project.body.code} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProjectPost
+export default ProjectPost;

@@ -1,15 +1,15 @@
-import Container from '@/components/Container'
-import { FC } from 'react'
-import dayjs from 'dayjs'
-import { allPosts } from 'contentlayer/generated'
-import BlogCard from '@/components/BlogCard'
-import { Metadata } from 'next'
+import Container from '@/components/Container';
+import { FC } from 'react';
+import dayjs from 'dayjs';
+import { allPosts } from 'contentlayer/generated';
+import BlogCard from '@/components/BlogCard';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Blog | Carlo Taleon',
-}
+};
 
-type BlogPageProps = {}
+type BlogPageProps = {};
 
 const BlogPage: FC<BlogPageProps> = (props) => {
   return (
@@ -28,9 +28,9 @@ const BlogPage: FC<BlogPageProps> = (props) => {
         {allPosts
           .sort((first, second) => {
             // Return 1, to get latest date as first priority.
-            if (dayjs(second.date).isAfter(dayjs(first.date))) return 1
+            if (dayjs(second.date).isAfter(dayjs(first.date))) return 1;
 
-            return -1
+            return -1;
           })
           .map((post) => (
             <BlogCard
@@ -49,7 +49,7 @@ const BlogPage: FC<BlogPageProps> = (props) => {
         )}
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default BlogPage
+export default BlogPage;

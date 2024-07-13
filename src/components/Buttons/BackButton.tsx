@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { FC } from 'react'
-import ShadowButton from '../ShadowButton'
-import { FiChevronLeft as IconChevron } from 'react-icons/fi'
+import { FC } from 'react';
+import ShadowButton from '../ShadowButton';
+import { FiChevronLeft as IconChevron } from 'react-icons/fi';
 
 type BackButtonProps = {
   /**
@@ -10,11 +10,11 @@ type BackButtonProps = {
    * a server-component usually.
    * @defaultValue '/'
    */
-  href?: string
-}
+  href?: string;
+};
 
 const BackButton: FC<BackButtonProps> = (props) => {
-  const { href = '/' } = props
+  const { href = '/' } = props;
   return (
     <ShadowButton
       className="group"
@@ -26,7 +26,7 @@ const BackButton: FC<BackButtonProps> = (props) => {
         <IconChevron size="1.3rem" />
       </span>
     </ShadowButton>
-  )
-}
+  );
+};
 
-export default BackButton
+export default BackButton;

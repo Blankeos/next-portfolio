@@ -1,14 +1,14 @@
 // Colocation guide: https://github.com/contentlayerdev/contentlayer/issues/84#issuecomment-1739699901
 
 // contentlayer.config.ts
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
-import path from 'path'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypePrettyCode from 'rehype-pretty-code'
-import rehypeSlug from 'rehype-slug'
-import remarkGfm from 'remark-gfm'
-import fs from 'node:fs'
-import readingTime from 'reading-time'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import fs from 'node:fs';
+import path from 'path';
+import readingTime from 'reading-time';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
 
 export const Post = defineDocumentType(() => ({
   name: 'Post',
@@ -31,11 +31,11 @@ export const Post = defineDocumentType(() => ({
         const content = fs.readFileSync(
           path.join('content', post._raw.sourceFilePath),
           'utf-8'
-        )
+        );
 
-        const body = content.split('---').at(-1)?.trim() ?? ''
+        const body = content.split('---').at(-1)?.trim() ?? '';
 
-        return readingTime(body)
+        return readingTime(body);
       },
     },
     slug: {
@@ -47,7 +47,7 @@ export const Post = defineDocumentType(() => ({
       resolve: (post) => `/content/${post._raw.flattenedPath}`,
     },
   },
-}))
+}));
 
 export const Project = defineDocumentType(() => ({
   name: 'Project',
@@ -74,7 +74,7 @@ export const Project = defineDocumentType(() => ({
       resolve: (project) => `/content/${project._raw.flattenedPath}`,
     },
   },
-}))
+}));
 
 export default makeSource({
   contentDirPath: 'content',
@@ -86,6 +86,7 @@ export default makeSource({
     rehypePlugins: [
       rehypeSlug,
       [
+        // @ts-expect-error Upgrading rehype-pretty-code from 0.10.* to ^0.13.2 is causing error with types but no problems apparently.
         rehypePrettyCode,
         {
           theme: 'github-dark',
@@ -93,14 +94,14 @@ export default makeSource({
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted
             if (node.children.length === 0) {
-              node.children = [{ type: 'text', value: ' ' }]
+              node.children = [{ type: 'text', value: ' ' }];
             }
           },
           onVisitHighlightedLine(node: any) {
-            node.properties.className = [`line--highlighted`]
+            node.properties.className = [`line--highlighted`];
           },
           onVisitHighlightedWord(node: any) {
-            node.properties.className = [`word--highlighted`]
+            node.properties.className = [`word--highlighted`];
           },
         },
       ],
@@ -115,4 +116,4 @@ export default makeSource({
       ],
     ],
   },
-})
+});

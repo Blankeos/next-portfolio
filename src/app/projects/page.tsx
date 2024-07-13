@@ -1,34 +1,35 @@
-'use client'
+'use client';
 
-import Container from '@/components/Container'
-import ShadowButton from '@/components/ShadowButton'
-import useFlexSearch from '@/hooks/useFlexSearch'
-import { pageRoutes } from '@/lib/pageRoutes'
-import { orderAndDate } from '@/lib/sortUtils'
-import { Project, allProjects } from 'contentlayer/generated'
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import Link from 'next/link'
-import { FC, useMemo } from 'react'
-import { CgSearch as IconSearch } from 'react-icons/cg'
+import { Project, allProjects } from 'contentlayer/generated';
 
-type ProjectsPageProps = {}
+import Container from '@/components/Container';
+import ShadowButton from '@/components/ShadowButton';
+import useFlexSearch from '@/hooks/useFlexSearch';
+import { pageRoutes } from '@/lib/pageRoutes';
+import { orderAndDate } from '@/lib/sortUtils';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
+import Link from 'next/link';
+import { FC, useMemo } from 'react';
+import { CgSearch as IconSearch } from 'react-icons/cg';
+
+type ProjectsPageProps = {};
 
 const ProjectsPage: FC<ProjectsPageProps> = (props) => {
   const {
     query,
     onSearch,
     result: projectSearchResults,
-  } = useFlexSearch(undefined, allProjects)
+  } = useFlexSearch(undefined, allProjects);
 
   const matchedTitles = useMemo(() => {
-    const result = projectSearchResults.find((_result) => _result.field)
-    return result?.result
-  }, [projectSearchResults])
+    const result = projectSearchResults.find((_result) => _result.field);
+    return result?.result;
+  }, [projectSearchResults]);
 
   const matchedDescriptions = useMemo(() => {
-    const result = projectSearchResults.find((_result) => _result.field)
-    return result?.result
-  }, [projectSearchResults])
+    const result = projectSearchResults.find((_result) => _result.field);
+    return result?.result;
+  }, [projectSearchResults]);
   return (
     <>
       <Container maxWidth="7xl">
@@ -73,7 +74,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                     (!matchedTitles?.includes(project._id) ||
                       !matchedDescriptions?.includes(project._id))
                   )
-                    return null
+                    return null;
 
                   // Return it here.
                   return (
@@ -118,14 +119,14 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                         </Link>
                       </ShadowButton>
                     </motion.div>
-                  )
+                  );
                 })}
             </AnimatePresence>
           </div>
         </LayoutGroup>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default ProjectsPage
+export default ProjectsPage;

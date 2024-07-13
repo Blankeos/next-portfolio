@@ -1,21 +1,21 @@
-import FloatingCircle, { getContainerVariants } from '../FloatingCircle'
+import FloatingCircle, { getContainerVariants } from '../FloatingCircle';
 // Icons
-import { FaReact } from 'react-icons/fa'
-import { SiTypescript, SiJavascript } from 'react-icons/si'
-import { HiOutlineDocumentDownload as ResumeIcon } from 'react-icons/hi'
+import { FaReact } from 'react-icons/fa';
+import { SiTypescript, SiJavascript } from 'react-icons/si';
+import { HiOutlineDocumentDownload as ResumeIcon } from 'react-icons/hi';
 
 // React
-import React from 'react'
+import React from 'react';
 
-import { Link as ScrollLink } from 'react-scroll'
-import { motion, Variants } from 'framer-motion'
+import { Link as ScrollLink } from 'react-scroll';
+import { motion, Variants } from 'framer-motion';
 
-import Container from '../Container'
+import Container from '../Container';
 
-import { SectionProps } from './types'
-import ParticlesBackground from '../ParticlesBackground'
-import Image from 'next/image'
-import Link from 'next/link'
+import { SectionProps } from './types';
+import ParticlesBackground from '../ParticlesBackground';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface HeroProps extends SectionProps {}
 
@@ -192,8 +192,8 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
         </motion.div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
 const HeroHeading: React.FC = () => {
   const parentVariants: Variants = {
@@ -210,7 +210,7 @@ const HeroHeading: React.FC = () => {
         staggerChildren: 0.1,
       },
     },
-  }
+  };
 
   const childVariants: Variants = {
     hidden: {
@@ -223,7 +223,7 @@ const HeroHeading: React.FC = () => {
         ease: 'circOut',
       },
     },
-  }
+  };
 
   const parentVariants2: Variants = {
     ...parentVariants,
@@ -235,7 +235,7 @@ const HeroHeading: React.FC = () => {
         delayChildren: 0.2,
       },
     },
-  }
+  };
 
   return (
     <h1 className="relative z-10 flex flex-wrap text-blue-500">
@@ -261,7 +261,7 @@ const HeroHeading: React.FC = () => {
                 </div>
               </div>
             </motion.div>
-          )
+          );
         })}
       </motion.div>
       <span className="hero-text font-black leading-none tracking-tight lg:text-8xl">
@@ -289,13 +289,13 @@ const HeroHeading: React.FC = () => {
                 </div>
               </div>
             </motion.div>
-          )
+          );
         })}
       </motion.div>
     </h1>
-  )
-}
-export default Hero
+  );
+};
+export default Hero;
 
 // OLD RIGHT SIDE IMAGE IN HERO
 {

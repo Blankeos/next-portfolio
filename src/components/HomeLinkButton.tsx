@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { animateScroll as scroll } from "react-scroll";
-import { usePathname, useRouter } from "next/navigation";
+import { animateScroll as scroll } from 'react-scroll';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface HomeLinkButton {
   className?: string;
@@ -14,10 +14,10 @@ const HomeLinkButton: FCC<HomeLinkButton> = ({ className, children }) => {
   return (
     <button
       onClick={() => {
-        if (pathname === "/") {
+        if (pathname === '/') {
           scroll.scrollToTop();
         } else {
-          router.push("/");
+          router.push('/');
         }
       }}
     >

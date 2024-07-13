@@ -1,4 +1,4 @@
-const { withContentlayer } = require('next-contentlayer')
+const { withContentlayer } = require('next-contentlayer');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -6,7 +6,7 @@ const nextConfig = {
   images: {
     domains: ['static.wikia.nocookie.net', 'raw.githubusercontent.com'],
   },
-}
+};
 
 // Hooks the ContentLayer's build process with NextJS's.
-module.exports = withContentlayer(nextConfig)
+module.exports = withContentlayer(nextConfig);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 // noActiveSection?: boolean; // use Hero for this
 type useSectionActiveObserverArgs = (

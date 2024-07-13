@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import useTheme from '@/hooks/useTheme'
-import { FC, ReactNode } from 'react'
+import useTheme from '@/hooks/useTheme';
+import { FC, ReactNode } from 'react';
 
 type ClientLayoutProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 const ClientLayout: FC<ClientLayoutProps> = (props) => {
-  useTheme()
-  return <>{props.children}</>
-}
+  useTheme();
+  return <>{props.children}</>;
+};
 
-export default ClientLayout
+export default ClientLayout;

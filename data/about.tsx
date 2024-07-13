@@ -1,13 +1,13 @@
 // Icons
 
-import Tippy from "@tippyjs/react";
-import Link from "next/link";
+import Tippy from '@tippyjs/react';
+import Link from 'next/link';
 
 const about = {
-  fullName: "Carlo Antonio T. Taleon",
+  fullName: 'Carlo Antonio T. Taleon',
   bio: [
-    <p key={"1"} className="leading-relaxed">
-      ✍ I graduated from{" "}
+    <p key={'1'} className="leading-relaxed">
+      ✍ I graduated from{' '}
       <Tippy
         placement="bottom"
         content={
@@ -24,27 +24,27 @@ const about = {
         }
       >
         <span className="font-semibold">West Visayas State University</span>
-      </Tippy>{" "}
+      </Tippy>{' '}
       with a CS degree and a major in Artificial Intelligence. I&apos;m a
       software engineer by trade: making apps, games, and solving problems that
       frustrate me.
     </p>,
-    <p key={"2"} className="leading-relaxed">
+    <p key={'2'} className="leading-relaxed">
       🎨 I pride myself in creating beautiful and pleasing experiences through
       the applications and websites I make. I love learning new technologies
       having worked on multiple projects with varied stacks.
     </p>,
-    <p key={"3"}>
+    <p key={'3'}>
       🎮 There&apos;s a genuine person behind this profile, too! Outside of
       work, you may find me: playing games, working out, reading personal
       development, watching youtube, and anime. I&apos;m also interested in AI,
       Machine Learning, Data Science, Finance, and Entrepreneurship.
     </p>,
-    <p key={"4"} className="leading-relaxed">
+    <p key={'4'} className="leading-relaxed">
       🚀 I started learning how to code small games when I was 10 because of my
       interest in games like Minecraft. I later started learning programming
       seriously with C# back in 2016 and published my game in the same year
-      called{" "}
+      called{' '}
       <Link
         className="text-blue-400 hover:text-blue-300"
         target="_blank"

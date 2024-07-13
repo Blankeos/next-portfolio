@@ -1,20 +1,20 @@
-import React, { FC, useEffect, useMemo, useRef } from 'react'
-import Container from '../Container'
-import SectionHeading from '../SectionHeading'
-import Marquee from 'react-fast-marquee'
+import React, { FC, useEffect, useMemo, useRef } from 'react';
+import Container from '../Container';
+import SectionHeading from '../SectionHeading';
+import Marquee from 'react-fast-marquee';
 
-import { RiArrowUpLine as Arrow } from 'react-icons/ri'
-import { SectionProps } from './types'
+import { RiArrowUpLine as Arrow } from 'react-icons/ri';
+import { SectionProps } from './types';
 
-import { useAnimation, motion, Variants } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import Image from 'next/image'
+import { useAnimation, motion, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
 
-import Link from 'next/link'
-import { Project, allProjects } from 'contentlayer/generated'
-import { orderAndDate } from '@/lib/sortUtils'
-import { pageRoutes } from '@/lib/pageRoutes'
-import { useElementSize } from '@/hooks/useElementSize'
+import Link from 'next/link';
+import { Project, allProjects } from 'contentlayer/generated';
+import { orderAndDate } from '@/lib/sortUtils';
+import { pageRoutes } from '@/lib/pageRoutes';
+import { useElementSize } from '@/hooks/useElementSize';
 
 // ===========================================================================
 // Main component (It has two subcomponents)
@@ -36,10 +36,10 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
         <ProjectsGrid />
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default Projects
+export default Projects;
 
 // ===========================================================================
 // 1. Subcomponent: Projects Grid
@@ -60,66 +60,66 @@ const ProjectsGrid = () => {
               href={`${pageRoutes.projects}/${project.slug}`}
               tags={project.tags}
             />
-          )
+          );
         })}
     </div>
-  )
-}
+  );
+};
 
 // ===========================================================================
 // 2. Subcomponent ProjectCard
 // ===========================================================================
 interface ProjectCardProps
   extends Pick<Project, 'title' | 'featuredImage' | 'description' | 'tags'> {
-  href: string
-  className?: string
+  href: string;
+  className?: string;
 }
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
-  const { title, featuredImage, description, href, tags } = props
+  const { title, featuredImage, description, href, tags } = props;
 
   // For activating marquee when the tags are too wide.
-  const [marqueeWidthRef, marqueWidthSize] = useElementSize<HTMLDivElement>()
-  const [tagsWidthRef, tagsWidthSize] = useElementSize<HTMLDivElement>()
+  const [marqueeWidthRef, marqueWidthSize] = useElementSize<HTMLDivElement>();
+  const [tagsWidthRef, tagsWidthSize] = useElementSize<HTMLDivElement>();
 
   const marqueeSpeed = useMemo(() => {
-    if (tagsWidthSize.width >= marqueWidthSize.width) return 30
+    if (tagsWidthSize.width >= marqueWidthSize.width) return 30;
 
     /** The default is 0. */
-    return 0
-  }, [marqueWidthSize, tagsWidthSize])
+    return 0;
+  }, [marqueWidthSize, tagsWidthSize]);
 
   const [imageRef, imageInView] = useInView({
     threshold: 0.3,
     root: null,
     rootMargin: '-100px 0px',
     triggerOnce: true,
-  })
+  });
 
   const [textRef, textInView] = useInView({
     threshold: 1,
     root: null,
     rootMargin: '-100px 0px',
     triggerOnce: true,
-  })
+  });
 
-  const imageControls = useAnimation()
-  const textControls = useAnimation()
+  const imageControls = useAnimation();
+  const textControls = useAnimation();
 
   useEffect(() => {
     if (imageInView) {
       imageControls.start({
         height: '0%',
         transition: { duration: 1.2, ease: 'circOut' },
-      })
+      });
     }
-  }, [imageInView, imageControls])
+  }, [imageInView, imageControls]);
 
   useEffect(() => {
     if (textInView) {
-      textControls.start('visible')
+      textControls.start('visible');
     }
-  }, [textInView, textControls])
+  }, [textInView, textControls]);
 
   const textParentVariants: Variants = {
     hidden: {},
@@ -128,7 +128,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
         staggerChildren: 0.4,
       },
     },
-  }
+  };
 
   const textChildVariants: Variants = {
     hidden: {
@@ -143,7 +143,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
         ease: 'easeOut',
       },
     },
-  }
+  };
 
   return (
     <div className="project-card">
@@ -234,5 +234,5 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
         </div>
       </Link>
     </div>
-  )
-}
+  );
+};

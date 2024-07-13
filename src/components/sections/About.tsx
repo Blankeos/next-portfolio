@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react'
-import Container from '../Container'
-import SectionHeading from '../SectionHeading'
-import { SectionProps } from './types'
+import React, { useEffect } from 'react';
+import Container from '../Container';
+import SectionHeading from '../SectionHeading';
+import { SectionProps } from './types';
 
-import { motion, useAnimation, Variants } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import about from '../../../data/about'
-import Link from 'next/link'
+import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import about from '../../../data/about';
+import Link from 'next/link';
 
 // Icons
-import { BsArrowRight as Arrow } from 'react-icons/bs'
-import { pageRoutes } from '@/lib/pageRoutes'
+import { BsArrowRight as Arrow } from 'react-icons/bs';
+import { pageRoutes } from '@/lib/pageRoutes';
 
 interface AboutProps extends SectionProps {}
 
 const About: React.FC<AboutProps> = ({ sectionRef }) => {
-  const controls = useAnimation()
+  const controls = useAnimation();
 
   return (
     <section
@@ -34,8 +34,8 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
         </div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
 const ProfileImage = () => {
   const [ref, inView] = useInView({
@@ -43,8 +43,8 @@ const ProfileImage = () => {
     root: null,
     rootMargin: '150px 0px',
     threshold: 1,
-  })
-  const controls = useAnimation()
+  });
+  const controls = useAnimation();
 
   useEffect(() => {
     if (inView) {
@@ -54,9 +54,9 @@ const ProfileImage = () => {
           ease: 'circOut',
           duration: 1,
         },
-      })
+      });
     }
-  }, [inView, controls])
+  }, [inView, controls]);
   return (
     <div className="relative flex h-full w-full flex-col">
       <div ref={ref} className="relative inline-block md:w-5/6">
@@ -83,8 +83,8 @@ const ProfileImage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const profileInfoVariants: Variants = {
   hidden: {},
@@ -93,7 +93,7 @@ const profileInfoVariants: Variants = {
       staggerChildren: 0.4,
     },
   },
-}
+};
 
 const profileInfoChildVariants: Variants = {
   hidden: {
@@ -108,21 +108,21 @@ const profileInfoChildVariants: Variants = {
       duration: 0.5,
     },
   },
-}
+};
 
 const ProfileInfo = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     root: null,
     threshold: 0.5,
-  })
-  const controls = useAnimation()
+  });
+  const controls = useAnimation();
 
   useEffect(() => {
     if (inView) {
-      controls.start('visible')
+      controls.start('visible');
     }
-  }, [inView, controls])
+  }, [inView, controls]);
 
   return (
     <motion.div
@@ -142,13 +142,13 @@ const ProfileInfo = () => {
         variants={profileInfoChildVariants}
         className="h-2 w-16 bg-blue-500"
       ></motion.span>
-      <div className=" flex flex-col space-y-5 text-gray-600">
+      <div className="flex flex-col space-y-5 text-gray-600">
         {about.bio.map((p, i) => {
           return (
             <motion.span key={i} variants={profileInfoChildVariants}>
               {p}
             </motion.span>
-          )
+          );
         })}
       </div>
 
@@ -172,7 +172,7 @@ const ProfileInfo = () => {
         </Link> */}
       </motion.div>
     </motion.div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

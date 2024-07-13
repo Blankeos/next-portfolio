@@ -1,5 +1,5 @@
-import { IconType } from "react-icons";
-import { FaReact, FaNodeJs, FaGitAlt, FaDatabase } from "react-icons/fa";
+import { IconType } from 'react-icons';
+import { FaReact, FaNodeJs, FaGitAlt, FaDatabase } from 'react-icons/fa';
 import {
   SiTypescript,
   SiJavascript,
@@ -9,7 +9,7 @@ import {
   SiMongodb,
   SiFirebase,
   SiUnity,
-} from "react-icons/si";
+} from 'react-icons/si';
 
 export type Skill = { name: string; Icon: IconType };
 
@@ -17,91 +17,91 @@ type Skills = Skill[];
 
 const skills: Skills = [
   {
-    name: "React",
+    name: 'React',
     Icon: FaReact,
   },
   {
-    name: "Javascript",
+    name: 'Javascript',
     Icon: SiJavascript,
   },
   {
-    name: "Typescript",
+    name: 'Typescript',
     Icon: SiTypescript,
   },
   {
-    name: "TailwindCSS",
+    name: 'TailwindCSS',
     Icon: SiTailwindcss,
   },
   {
-    name: "Sass",
+    name: 'Sass',
     Icon: SiUnity,
   },
   {
-    name: "NextJS",
+    name: 'NextJS',
     Icon: SiNextdotjs,
   },
   {
-    name: "Redux",
+    name: 'Redux',
     Icon: SiRedux,
   },
   {
-    name: "MongoDB",
+    name: 'MongoDB',
     Icon: SiMongodb,
   },
   {
-    name: "PostgreSQL",
+    name: 'PostgreSQL',
     Icon: FaDatabase,
   },
   {
-    name: "Firebase",
+    name: 'Firebase',
     Icon: SiFirebase,
   },
   {
-    name: "NodeJS",
+    name: 'NodeJS',
     Icon: FaNodeJs,
   },
   {
-    name: "Git & GitHub",
+    name: 'Git & GitHub',
     Icon: FaGitAlt,
   },
   {
-    name: "Ruby on Rails",
+    name: 'Ruby on Rails',
     Icon: SiUnity,
   },
   {
-    name: "Python",
+    name: 'Python',
     Icon: SiUnity,
   },
   {
-    name: "Pytorch/Tensorflow",
+    name: 'Pytorch/Tensorflow',
     Icon: SiUnity,
   },
   {
-    name: "Docker",
+    name: 'Docker',
     Icon: SiUnity,
   },
   {
-    name: "FastAPI",
+    name: 'FastAPI',
     Icon: SiUnity,
   },
   {
-    name: "Linux & VPS",
+    name: 'Linux & VPS',
     Icon: SiUnity,
   },
   {
-    name: "Google Analytics",
+    name: 'Google Analytics',
     Icon: SiUnity,
   },
   {
-    name: "OpenAI",
+    name: 'OpenAI',
     Icon: SiUnity,
   },
   {
-    name: "C#",
+    name: 'C#',
     Icon: SiUnity,
   },
   {
-    name: "Unity",
+    name: 'Unity',
     Icon: SiUnity,
   },
 ];

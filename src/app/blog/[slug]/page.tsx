@@ -1,22 +1,22 @@
-import { FC, useMemo } from 'react'
-import { allPosts } from 'contentlayer/generated'
-import { formatDate } from '@/lib/formatDate'
-import { Mdx } from '@/components/Mdx'
-import FadeIn from '@/components/animations/FadeIn'
-import Image from 'next/image'
-import ShadowButton from '@/components/ShadowButton'
-import { cn } from '@/lib/cn'
-import GiscusComments from '@/components/GiscusComments'
-import { Metadata } from 'next'
-import BackButton from '@/components/Buttons/BackButton'
-import Link from 'next/link'
+import { cn } from '@/lib/cn';
+import { formatDate } from '@/lib/formatDate';
+import { Metadata } from 'next';
+import Image from 'next/image';
+import { FC, useMemo } from 'react';
+
+import FadeIn from '@/components/animations/FadeIn';
+import BackButton from '@/components/Buttons/BackButton';
+
+import GiscusComments from '@/components/GiscusComments';
+import { Mdx } from '@/components/Mdx';
+import { allPosts } from 'contentlayer/generated';
 
 /// ===========================================================================
 // Static Params (Generate all the pages)
 // ===========================================================================
 
 export const generateStaticParams = async () =>
-  allPosts.map((post) => ({ slug: post.slug }))
+  allPosts.map((post) => ({ slug: post.slug }));
 
 // ===========================================================================
 // Meta Data
@@ -24,18 +24,18 @@ export const generateStaticParams = async () =>
 export const generateMetadata = ({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Metadata => {
-  const post = allPosts.find((post) => post.slug === params.slug)
-  if (!post) throw new Error(`Post not found for slug: ${params.slug}`)
+  const post = allPosts.find((post) => post.slug === params.slug);
+  if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 
   return {
     title: post.title,
     openGraph: {
       title: post.title,
     },
-  }
-}
+  };
+};
 
 // ===========================================================================
 // The Page Component
@@ -43,18 +43,18 @@ export const generateMetadata = ({
 
 type BlogPostPageProps = {
   params: {
-    slug: string
-  }
-}
+    slug: string;
+  };
+};
 
 const BlogPostPage: FC<BlogPostPageProps> = (props) => {
-  const { params } = props
+  const { params } = props;
 
   const post = useMemo(
     () => allPosts.find((post) => post.slug === params.slug),
     [params.slug]
-  )
-  if (!post) throw new Error(`Post not found for slug: ${params.slug}`)
+  );
+  if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -124,7 +124,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
         <div className="h-12" />
       </article>
     </div>
-  )
-}
+  );
+};
 
-export default BlogPostPage
+export default BlogPostPage;

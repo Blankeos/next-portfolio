@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { useState } from 'react'
-import Container from './Container'
+import Link from 'next/link';
+import { useState } from 'react';
+import Container from './Container';
 
-import { cn } from '@/lib/cn'
-import { pageRoutes } from '@/lib/pageRoutes'
-import { motion, Variants } from 'framer-motion'
-import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/cn';
+import { pageRoutes } from '@/lib/pageRoutes';
+import { motion, Variants } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 const navVariants: Variants = {
   hidden: {
@@ -21,7 +21,7 @@ const navVariants: Variants = {
       when: 'beforeChildren',
     },
   },
-}
+};
 
 const navChildVariants: Variants = {
   hidden: {
@@ -36,7 +36,7 @@ const navChildVariants: Variants = {
       duration: 0.8,
     },
   },
-}
+};
 
 const navLinks = [
   {
@@ -51,15 +51,15 @@ const navLinks = [
     label: 'Blog',
     href: pageRoutes.blog,
   },
-]
+];
 
 const Nav = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const [linksContainerIsHovered, setLinksContainerIsHovered] =
-    useState<boolean>(false)
+    useState<boolean>(false);
 
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   return (
     <motion.nav
@@ -90,7 +90,7 @@ const Nav = () => {
             className="flex items-center gap-x-10 text-sm text-gray-600"
             onMouseEnter={() => setLinksContainerIsHovered(true)}
             onMouseLeave={() => {
-              setLinksContainerIsHovered(false)
+              setLinksContainerIsHovered(false);
             }}
           >
             {navLinks.map((navLink, index) => (
@@ -145,11 +145,11 @@ const Nav = () => {
         </div>
       </Container>
     </motion.nav>
-  )
-}
+  );
+};
 
 interface SocialLinkProps {
-  href: string
+  href: string;
 }
 const SocialLink: FCC<SocialLinkProps> = ({ href, children }) => {
   return (
@@ -160,7 +160,7 @@ const SocialLink: FCC<SocialLinkProps> = ({ href, children }) => {
       <span className="absolute h-0 w-0 rounded-full bg-blue-500 transition-all ease-in-out group-hover:h-10 group-hover:w-10"></span>
       <span className="relative">{children}</span>
     </Link>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;

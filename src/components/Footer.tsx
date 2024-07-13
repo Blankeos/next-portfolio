@@ -1,8 +1,8 @@
-import React from 'react'
-import Container from './Container'
+import React from 'react';
+import Container from './Container';
 
-import Link from 'next/link'
-import HomeLinkButton from './HomeLinkButton'
+import Link from 'next/link';
+import HomeLinkButton from './HomeLinkButton';
 
 const Footer = () => {
   return (
@@ -27,7 +27,7 @@ const Footer = () => {
         </span>
       </Container>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

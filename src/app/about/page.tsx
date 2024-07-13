@@ -1,12 +1,12 @@
-import { Metadata } from 'next'
-import { FC } from 'react'
-import { AiFillWarning as IconWarning } from 'react-icons/ai'
+import { Metadata } from 'next';
+import { FC } from 'react';
+import { AiFillWarning as IconWarning } from 'react-icons/ai';
 
-type AboutPageProps = {}
+type AboutPageProps = {};
 
 export const metadata: Metadata = {
   title: 'About | Carlo Taleon',
-}
+};
 
 const AboutPage: FC<AboutPageProps> = () => {
   return (
@@ -49,7 +49,7 @@ const AboutPage: FC<AboutPageProps> = () => {
         <div className="h-12" />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AboutPage
+export default AboutPage;

@@ -1,1 +1,1 @@
-export * from './orderAndDate'
+export * from './orderAndDate';

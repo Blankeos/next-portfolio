@@ -1,4 +1,4 @@
-import { colorVars } from './src/styles/themes'
+import { colorVars } from './src/styles/themes';
 
 module.exports = {
   content: [
@@ -54,4 +54,4 @@ module.exports = {
     hoverOnlyWhenSupported: false,
   },
   plugins: [],
-}
+};

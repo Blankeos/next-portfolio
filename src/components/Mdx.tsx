@@ -1,10 +1,10 @@
-import React, { HTMLAttributes } from 'react'
-import Image from 'next/image'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import React, { HTMLAttributes } from 'react';
+import Image from 'next/image';
+import { useMDXComponent } from 'next-contentlayer/hooks';
 
-import { cn } from '@/lib/cn'
-import { Callout } from '@/components/Callout'
-import { MdxCard } from '@/components/MdxCard'
+import { cn } from '@/lib/cn';
+import { Callout } from '@/components/Callout';
+import { MdxCard } from '@/components/MdxCard';
 
 const components = {
   h1: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
@@ -140,25 +140,25 @@ const components = {
   ),
   code: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => (
     <code
-      className={cn('font-mono relative rounded px-5 py-1 text-sm', className)}
+      className={cn('relative rounded px-5 py-1 font-mono text-sm', className)}
       {...props}
     />
   ),
   Image,
   Callout,
   Card: MdxCard,
-}
+};
 
 interface MdxProps {
-  code: string
+  code: string;
 }
 
 export function Mdx({ code }: MdxProps) {
-  const Component = useMDXComponent(code)
+  const Component = useMDXComponent(code);
 
   return (
     <div className="mdx">
       <Component components={components} />
     </div>
-  )
+  );
 }

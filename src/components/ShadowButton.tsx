@@ -1,36 +1,36 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
-import { FC, MouseEventHandler, PropsWithChildren, useState } from 'react'
-import { motion } from 'framer-motion'
-import { cn } from '@/lib/cn'
+import { useRouter } from 'next/navigation';
+import { FC, MouseEventHandler, PropsWithChildren, useState } from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/cn';
 
 type FlatShadowCardInteractivityType = {
-  flatOnMouseEnter?: boolean
-  flatOnMouseLeave?: boolean
-  flatOnMouseDown?: boolean
-  flatOnMouseUp?: boolean
-}
+  flatOnMouseEnter?: boolean;
+  flatOnMouseLeave?: boolean;
+  flatOnMouseDown?: boolean;
+  flatOnMouseUp?: boolean;
+};
 
 const defaultInteractivity: Required<FlatShadowCardInteractivityType> = {
   flatOnMouseEnter: false,
   flatOnMouseLeave: false,
   flatOnMouseDown: true,
   flatOnMouseUp: false,
-}
+};
 
 type ShadowButtonProps = {
-  className?: string
+  className?: string;
 
   /** The Flat Shadow at the bottom. */
-  shadowClassName?: string
+  shadowClassName?: string;
 
-  onClick?: MouseEventHandler<HTMLButtonElement> | undefined
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
 
-  href?: string
+  href?: string;
 
   /** @defaultValue 7px */
-  elevation?: number
+  elevation?: number;
 
   /**
    * @defaultValue {
@@ -40,8 +40,8 @@ type ShadowButtonProps = {
    *    flatOnMouseUp `false`
    * }
    */
-  interactivity?: FlatShadowCardInteractivityType | false
-} & PropsWithChildren
+  interactivity?: FlatShadowCardInteractivityType | false;
+} & PropsWithChildren;
 
 const ShadowButton: FC<ShadowButtonProps> = (props) => {
   const {
@@ -52,32 +52,32 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
     children,
     elevation = 7,
     interactivity,
-  } = props
+  } = props;
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const [isFlat, setIsFlat] = useState<boolean>(false)
+  const [isFlat, setIsFlat] = useState<boolean>(false);
 
-  const spreadInteractivity = { ...defaultInteractivity, ...interactivity }
+  const spreadInteractivity = { ...defaultInteractivity, ...interactivity };
 
   return (
     <button
       onClick={(e) => {
-        onClick?.(e)
+        onClick?.(e);
 
-        href && router.push(href)
+        href && router.push(href);
       }}
       onMouseEnter={() => {
-        setIsFlat(spreadInteractivity.flatOnMouseEnter)
+        setIsFlat(spreadInteractivity.flatOnMouseEnter);
       }}
       onMouseLeave={() => {
-        setIsFlat(spreadInteractivity.flatOnMouseLeave)
+        setIsFlat(spreadInteractivity.flatOnMouseLeave);
       }}
       onMouseDown={() => {
-        setIsFlat(spreadInteractivity.flatOnMouseDown)
+        setIsFlat(spreadInteractivity.flatOnMouseDown);
       }}
       onMouseUp={() => {
-        setIsFlat(spreadInteractivity.flatOnMouseUp)
+        setIsFlat(spreadInteractivity.flatOnMouseUp);
       }}
       className={cn('relative flex flex-col outline-none', className)}
     >
@@ -100,7 +100,7 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
         {children}
       </motion.div>
     </button>
-  )
-}
+  );
+};
 
-export default ShadowButton
+export default ShadowButton;
