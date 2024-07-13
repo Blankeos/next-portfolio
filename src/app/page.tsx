@@ -14,7 +14,7 @@ import { useInView } from 'react-intersection-observer';
 const Home: React.FC = () => {
   const [heroRef, heroRefInView] = useInView();
   const [projectsRef, projectsRefInView] = useInView();
-  const [blogFeatureRef, skillsRefInView] = useInView();
+  const [skillsRef, skillsRefInView] = useInView();
   const [aboutRef, aboutRefInView] = useInView();
   const [contactRef, contactRefInView] = useInView();
 
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
           <SideNav isVisible={!heroRefInView} activeIndex={activeIndex} />
         </div>
         <Projects sectionRef={projectsRef} />
-        <BlogFeature sectionRef={blogFeatureRef} />
+        <BlogFeature sectionRef={skillsRef} />
         {/* <Skills sectionRef={skillsRef} /> */}
         <About sectionRef={aboutRef} />
         <Contact sectionRef={contactRef} />

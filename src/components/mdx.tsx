@@ -145,7 +145,6 @@ const components = {
     />
   ),
   code: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => {
-    console.log(props, 'carl\n\n\n');
     // An inline code element. It only has `children` as a prop.
     if (Object.keys(props).length === 1)
       return (
@@ -156,13 +155,12 @@ const components = {
           )}
           {...props}
         >
-          <span className="absolute -bottom-0.5 -top-0.5 left-0 right-0 rounded bg-neutral-200 text-neutral-600" />
-          <span className="relative">{props.children}</span>
+          <span className="absolute -bottom-0.5 -top-0.5 left-0 right-0 rounded bg-neutral-200" />
+          <span className="relative text-neutral-800">{props.children}</span>
         </code>
       );
 
     // An actual code block.
-    console.log(props);
     return (
       <code
         className={cn(

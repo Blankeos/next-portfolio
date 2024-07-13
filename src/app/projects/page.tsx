@@ -103,7 +103,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                           className="flex h-[113.6px] w-full gap-x-5 overflow-hidden border border-primary-500 bg-white p-5"
                         >
                           <div
-                            className="aspect-square h-full flex-shrink-0"
+                            className="aspect-square h-full flex-shrink-0 bg-neutral-200"
                             style={{
                               backgroundImage: `url(${project.featuredImage})`,
                               backgroundSize: 'cover',
@@ -124,6 +124,8 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
             </AnimatePresence>
           </div>
         </LayoutGroup>
+
+        <div className="h-20" />
       </Container>
     </>
   );

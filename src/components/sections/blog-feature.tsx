@@ -21,7 +21,7 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
       <Container maxWidth="7xl" className="relative z-10 grid grid-cols-1">
         <SectionHeading
           className="relative z-10 text-4xl font-light text-gray-800 sm:text-5xl"
-          text={['Blog']}
+          text={['Recent', 'Posts']}
         />
 
         <div className="h-5" />
