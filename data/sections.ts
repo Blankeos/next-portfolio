@@ -4,8 +4,8 @@ const sections = [
     href: 'projects-section',
   },
   {
-    name: 'Skills',
-    href: 'skills-section',
+    name: 'Blog',
+    href: 'blog-section',
   },
   {
     name: 'About Me',

@@ -14,7 +14,7 @@ type BlogFeatureProps = {} & SectionProps;
 const BlogFeature: FC<BlogFeatureProps> = (props) => {
   return (
     <section
-      id="blog-feature-section"
+      id="blog-section"
       ref={props.sectionRef}
       className="w-full py-16 md:py-32"
     >
