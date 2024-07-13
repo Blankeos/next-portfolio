@@ -10,6 +10,7 @@ import BackButton from '@/components/buttons/back-button';
 import GiscusComments from '@/components/giscus-comments';
 import { Mdx } from '@/components/mdx';
 import { allPosts } from 'contentlayer/generated';
+import BlogViews from './blog-views';
 
 /// ===========================================================================
 // Static Params (Generate all the pages)
@@ -88,6 +89,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
               <span className="text-typography-300">
                 {post.readTimeStats.text}
               </span>
+              • <BlogViews slug={post.slug} />
             </time>
           </FadeIn>
 
