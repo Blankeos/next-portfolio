@@ -60,10 +60,10 @@ export function formatDateRangeWithDuration(
     }
 
     if (dates[1] === 'Present') {
-      return dayjs().diff(dayjs(dates[0]), 'month');
+      return Math.ceil(dayjs().diff(dayjs(dates[0]), 'month', true));
     }
 
-    return dayjs(dates[1]).diff(dayjs(dates[0]), 'month');
+    return Math.ceil(dayjs(dates[1]).diff(dayjs(dates[0]), 'month', true));
   })();
 
   return (

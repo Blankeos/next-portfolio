@@ -23,7 +23,7 @@ const AboutPage: FC<AboutPageProps> = () => {
     {
       icon: '⛲️',
       company: 'Spring Valley Tech Corp.',
-      dates: ['2023-01-30', '2023-05-07'] as [string, string],
+      dates: ['2023-01-01', '2023-05-07'] as [string, string],
       location: {
         name: 'Bago City, Philippines',
         icon: '🇵🇭',
