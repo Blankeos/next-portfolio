@@ -9,6 +9,7 @@ type ClientLayoutProps = {
 
 const ClientLayout: FC<ClientLayoutProps> = (props) => {
   useTheme();
+
   return <>{props.children}</>;
 };
 

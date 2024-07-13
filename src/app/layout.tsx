@@ -1,7 +1,10 @@
 import Footer from '@/components/footer';
 import Nav from '@/components/nav';
-import '@/styles/globals.css';
 import { Toaster } from 'react-hot-toast';
+
+import '@/styles/globals.css';
+
+import NextTopLoader from 'nextjs-toploader';
 
 import ClientLayout from '@/components/client-layout';
 import { themes } from '@/styles/themes';
@@ -50,6 +53,7 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
       <meta property="og:type" content="website" />
       <body className="flex min-h-screen flex-col">
         <ClientLayout>
+          <NextTopLoader color="#3B82F6" showSpinner={false} />
           <Nav />
           <main className="flex flex-grow flex-col">{props.children}</main>
           <Footer />
