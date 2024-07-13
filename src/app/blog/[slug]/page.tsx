@@ -69,14 +69,17 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
         {/* Actual Page */}
         <div className="flex flex-col gap-y-2">
           <FadeIn>
-            <div
-              className="mb-4 h-72 w-full rounded-xl bg-gradient-to-tl from-primary-500 to-primary-500/80"
-              style={{
-                backgroundImage: `url(${post.featuredImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
+            <div className="relative">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-tl from-primary-500 to-primary-500/80" />
+              <div
+                className="relative mb-4 h-72 w-full rounded-xl"
+                style={{
+                  backgroundImage: `url(${post.featuredImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+            </div>
           </FadeIn>
 
           <FadeIn delay={0.1}>

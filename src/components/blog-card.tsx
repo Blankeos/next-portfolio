@@ -36,7 +36,7 @@ const BlogCard: FC<BlogCardProps> = (props) => {
         <div className="relative">
           <div className="absolute inset-0 rotate-3 bg-primary-500 bg-opacity-40" />
           <div
-            className="relative h-36"
+            className="relative h-36 bg-primary-500/20"
             style={{
               backgroundImage: `url(${props.featuredImageUrl})`,
               backgroundPosition: 'center',
