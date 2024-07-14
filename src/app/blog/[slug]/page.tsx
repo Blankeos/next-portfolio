@@ -10,6 +10,7 @@ import BackButton from '@/components/buttons/back-button';
 import GiscusComments from '@/components/giscus-comments';
 import { Mdx } from '@/components/mdx';
 import { allPosts } from 'contentlayer/generated';
+import Link from 'next/link';
 import BlogViews from './blog-views';
 
 /// ===========================================================================
@@ -97,21 +98,32 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <h1 className="text-2xl font-bold leading-[50px] text-typography-500 md:text-[36px]">
+            <h1 className="text-2xl font-bold text-typography-500 md:text-[36px] md:leading-[50px]">
               {post.title}
             </h1>
           </FadeIn>
 
           <FadeIn delay={0.3}>
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-3">
               <Image
-                width={35}
-                height={35}
+                width={40}
+                height={40}
                 alt="author"
                 src={'/imgs/carlo_about.png'}
                 className="rounded-full"
               />
-              <p className="text-typography-500">Carlo Taleon</p>
+              <Link
+                href="https://x.com/carlo_taleon"
+                target="_blank"
+                className="group flex flex-col"
+              >
+                <p className="text-typography-600 text-sm group-hover:underline">
+                  Carlo Taleon
+                </p>
+                <p className="text-xs text-typography-300 group-hover:underline">
+                  @carlo_taleon
+                </p>
+              </Link>
             </div>
           </FadeIn>
         </div>
