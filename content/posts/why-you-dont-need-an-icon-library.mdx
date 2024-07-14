@@ -1,0 +1,234 @@
+---
+title: Why you (probably) don't need an icon library
+date: 2024-07-14
+featuredImage: /blog-imgs/why-you-dont-need-an-icon-library-thumbnail.webp
+category: TypeScript
+description: Don't install an icon library, you actually don't need one
+---
+
+Believe it or not, you don't need extra dependencies to add Icons in your App as actual components. Be it <span class="text-orange-500">Svelte</span>, <span class="text-indigo-600">React</span>, or <span class="text-sky-500">SolidJS</span>.
+
+#### I genuinely think this is the BEST way to add icons to any JS frontend
+
+I'll share with you my **best-practice** for adding icons in your App. I currently use these three frameworks: React, SolidJS, and Svelte, so I'll show you how to add and manage your icons in each of those projects, without compromising on flexibility..
+
+You only need two things:
+
+- [Icones.js.org](https://icones.js.org/); and
+- This guide.
+
+## First, find an icon you want to add to your app.
+
+Go to [Icones.js.org](https://icones.js.org/) and search for the icon you want to add. Then click on the SVG button under "Snippets". For instance, I'll use this Marker Duotone icon. (The svg would be copied to your clipboard)
+
+![first step](/blog-imgs/why-you-dont-need-an-icon-library-first-step.png)
+
+## Second, Add to React, SolidJS, or Svelte
+
+Now that you've copied the SVG to your clipboard, you can add it to your app. I'll show you how to do it in React, SolidJS, and Svelte. I usually store my icons in this structure:
+
+```sh
+- src
+  - assets
+    - icons
+      - index.ts
+      - marker-duotone.tsx # This is your icon.
+      - *.tsx # All your other icons.
+```
+
+You really only need to add `{...props}` and add the SVG attributes to the props types.
+
+#### React
+
+Create a new `.tsx` for your icon and extend the props with `SVGProps<SVGSVGElement>`:
+
+```tsx
+// src/assets/icons/marker-duotone.tsx
+import { SVGProps } from 'react';
+
+type MarkerDuotoneProps = {} & SVGProps<SVGSVGElement>;
+
+export default function MarkerDuotone(props: MarkerDuotoneProps) {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            {/* Your SVG code here */}
+        </svg>
+    )
+}
+```
+
+Prefix the named export with `Icon` it's easy to find with intellisense:
+
+```ts
+// src/assets/index.ts
+export { default as IconMarkerDuotone } from './icons/marker-duotone';
+// ... Do the same for the other icons here
+
+```
+
+<br />
+
+#### Svelte 5
+
+Create a new `.svelte` for your icon and extend the props with `SVGAttributes<SVGSVGElement>`:
+
+```svelte
+<!-- src/assets/icons/marker-duotone.svelte -->
+
+<script lang="ts">
+  import type { SVGAttributes } from 'svelte/elements';
+
+  let { ...restProps }: SVGAttributes<SVGSVGElement> = $props();
+</script>
+
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...restProps}
+  >
+    <!-- Your SVG code here -->
+  </svg
+>
+```
+
+Prefix the named export with `Icon` it's easy to find with intellisense:
+
+```ts
+// src/assets/index.ts
+export { default as IconMarkerDuotone } from './icons/marker-duotone.svelte';
+// ... Do the same for the other icons here
+```
+
+<br />
+
+#### SolidJS
+
+Create a new `.tsx` for your icon and extend the props with `JSX.HTMLAttributes<SVGSVGElement>`:
+
+```tsx
+// src/assets/icons/marker-duotone.tsx
+import { JSX, mergeProps, VoidProps } from 'solid-js';
+
+type MarkerDuotoneProps = {} & JSX.HTMLAttributes<SVGSVGElement>;
+
+export default function MarkerDuotone(props: MarkerDuotoneProps) {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            {/* Your SVG code here */}
+        </svg>
+    )
+}
+```
+
+Prefix the named export with `Icon` it's easy to find with intellisense:
+
+```ts
+// src/assets/index.ts
+export { default as IconMarkerDuotone } from './icons/marker-duotone';
+// ... Do the same for the other icons here
+
+```
+
+<br />
+
+## Using your Icons
+
+🥳 Congrats, you've added your icons! It's as easy as doing this now:
+
+```tsx
+// You can even customize the size of your icon or add classes to it.
+<IconMarkerDuotone width="35" height="35" className="text-blue-500 />
+```
+
+<br />
+
+## BONUS: Just save them as `.svg` files.
+
+There's a much easier way by taking advantage of Vite Plugins. Unfortunately, this only works for React ([vite-plugin-svgr](https://www.npmjs.com/package/vite-plugin-svgr)) and SolidJS ([vite-plugin-solid-svg](https://www.npmjs.com/package/vite-plugin-solid-svg)). But this way, you can store your icons like so:
+
+```sh
+- src
+  - assets
+    - icons
+      - index.ts
+      - marker-duotone.svg
+      - *.svg # All your other icons.
+```
+
+#### Use `.svg`-only with SolidJS
+
+1. Install `vite-plugin-solid-svg`.
+2. Add it to your `vite.config.ts` file.
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import solidSvg from 'vite-plugin-solid-svg';
+
+export default defineConfig({
+  plugins: [solidSvg()],
+});
+```
+
+3. Usually, `.svg` imports are 'string' types, not JSX. To fix this, add this to `tsconfig.json`:
+
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": [
+      "vite-plugin-solid-svg/types-component-solid", // Make sure this is above "vite/client"
+      "vite/client", // Replaces `/// <reference types="vite/client" />` in vite-env.d.ts. Make sure that is removed.
+    ],
+  },
+}
+```
+
+4. In your `assets/index.ts` file, you can import the `.svg` this way:
+
+```tsx
+// src/assets/index.ts
+import { default as IconMarkerDuotone } from './icons/marker-duotone.svg';
+```
+
+<br />
+
+#### Use `.svg`-only with React
+
+1. Install `vite-plugin-svgr`.
+2. Add it to your `vite.config.ts` file.
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import svgr from 'vite-plugin-svgr';
+
+export default defineConfig({
+  plugins: [svgr()],
+});
+```
+
+3. Usually, `.svg` imports are 'string' types, not JSX. To fix this, add this to `tsconfig.json`:
+
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": [
+      "vite-plugin-svgr/client", // Make sure this is above "vite/client"
+      "vite/client", // Replaces `/// <reference types="vite/client" />` in vite-env.d.ts. Make sure that is removed.
+    ],
+  },
+}
+```
+
+4. In your `assets/index.ts` file, you can import the `.svg` this way:
+
+```tsx
+// src/assets/index.ts
+import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
+```
+
+<br />
+<br />
+
+<p class="text-center">You've reached the end! Thanks for reading! 🥳</p>

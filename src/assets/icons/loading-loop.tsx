@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react';
 
-type LoadingLoopProps = {} & SVGProps<SVGElement> & SVGProps<SVGSVGElement>;
+type LoadingLoopProps = {} & SVGProps<SVGSVGElement>;
 
 const LoadingLoop: FC<LoadingLoopProps> = (props) => {
   return (

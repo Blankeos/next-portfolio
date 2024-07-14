@@ -1,7 +1,6 @@
 import { FC, SVGProps } from 'react';
 
-type LoadingHorizontalProps = {} & SVGProps<SVGElement> &
-  SVGProps<SVGSVGElement>;
+type LoadingHorizontalProps = {} & SVGProps<SVGSVGElement>;
 
 const LoadingHorizontal: FC<LoadingHorizontalProps> = (props) => {
   return (
