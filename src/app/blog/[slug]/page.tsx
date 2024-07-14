@@ -97,7 +97,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <h1 className="text-4xl font-bold text-typography-500">
+            <h1 className="text-2xl font-bold leading-[50px] text-typography-500 md:text-[36px]">
               {post.title}
             </h1>
           </FadeIn>

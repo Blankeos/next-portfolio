@@ -10,7 +10,7 @@ const components = {
   h1: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        'mt-2 scroll-m-20 text-4xl font-bold tracking-tight text-neutral-800',
+        'mt-2 scroll-m-20 text-3xl font-bold tracking-tight text-neutral-800',
         className
       )}
       {...props}
@@ -19,7 +19,7 @@ const components = {
   h2: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        'mt-10 scroll-m-20 pb-1 text-3xl font-semibold tracking-tight text-neutral-800 first:mt-0',
+        'mt-10 scroll-m-20 pb-1 text-2xl font-semibold tracking-tight text-neutral-800 first:mt-0',
         className
       )}
       {...props}
@@ -28,7 +28,7 @@ const components = {
   h3: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        'mt-8 scroll-m-20 text-2xl font-semibold tracking-tight',
+        'mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
         className
       )}
       {...props}
