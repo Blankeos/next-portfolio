@@ -1,3 +1,5 @@
+'use client';
+
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import Image from 'next/image';
 import React, { HTMLAttributes } from 'react';
@@ -5,59 +7,66 @@ import React, { HTMLAttributes } from 'react';
 import { Callout } from '@/components/callout';
 import { MdxCard } from '@/components/mdx-card';
 import { cn } from '@/lib/cn';
+import toast from 'react-hot-toast';
 
 const components = {
   h1: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-    <h1
-      className={cn(
-        'mt-2 scroll-m-20 text-3xl font-bold tracking-tight text-neutral-800',
-        className
-      )}
+    <HeadingElement
+      as="h3"
+      classNames={[
+        'mt-2 scroll-m-10 text-3xl font-bold tracking-tight text-neutral-800',
+        className,
+      ]}
       {...props}
     />
   ),
   h2: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-    <h2
-      className={cn(
-        'mt-10 scroll-m-20 pb-1 text-2xl font-semibold tracking-tight text-neutral-800 first:mt-0',
-        className
-      )}
+    <HeadingElement
+      as="h3"
+      classNames={[
+        'mt-10 scroll-m-10 pb-1 text-2xl font-semibold tracking-tight text-neutral-800 first:mt-0',
+        className,
+      ]}
       {...props}
     />
   ),
   h3: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-    <h3
-      className={cn(
-        'mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
-        className
-      )}
+    <HeadingElement
+      as="h3"
+      classNames={[
+        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight',
+        className,
+      ]}
       {...props}
     />
   ),
   h4: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-    <h4
-      className={cn(
-        'mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
-        className
-      )}
+    <HeadingElement
+      as="h4"
+      classNames={[
+        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight',
+        className,
+      ]}
       {...props}
     />
   ),
   h5: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-    <h5
-      className={cn(
-        'mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
-        className
-      )}
+    <HeadingElement
+      as="h5"
+      classNames={[
+        'mt-8 scroll-m-10 text-lg font-semibold tracking-tight',
+        className,
+      ]}
       {...props}
     />
   ),
   h6: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-    <h6
-      className={cn(
-        'mt-8 scroll-m-20 text-base font-semibold tracking-tight',
-        className
-      )}
+    <HeadingElement
+      as="h5"
+      classNames={[
+        'mt-8 scroll-m-10 text-base font-semibold tracking-tight',
+        className,
+      ]}
       {...props}
     />
   ),
@@ -189,5 +198,43 @@ export function Mdx({ code }: MdxProps) {
     <div className="mdx">
       <Component components={components} />
     </div>
+  );
+}
+
+type HeadingElementProps = {
+  as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  classNames?: (string | undefined)[];
+} & Omit<HTMLAttributes<HTMLHeadingElement>, 'className'>;
+
+function HeadingElement(props: HeadingElementProps) {
+  const { as, children, classNames, ...rest } = props;
+
+  const HeadingTag = as;
+
+  return (
+    <HeadingTag
+      className={cn('group relative inline-block self-start', classNames)}
+      onClick={() => {
+        const newURL = new URL(window.location.toString());
+        newURL.hash = '#' + props.id;
+        window.navigator.clipboard.writeText(newURL.toString());
+        window.location.replace(newURL);
+        toast.success('Copied URL.', { className: 'text-sm', duration: 800 });
+      }}
+      {...rest}
+    >
+      {/* <span
+        aria-hidden
+        className="absolute -inset-0.5 -left-5 -right-2 -z-10 rounded-md group-hover:bg-neutral-100"
+        id={props.id}
+      /> */}
+      <span
+        aria-hidden
+        className="absolute right-full hidden w-max pr-1 text-neutral-500 opacity-30 group-hover:block"
+      >
+        #
+      </span>
+      {children}
+    </HeadingTag>
   );
 }
