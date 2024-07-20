@@ -2,25 +2,40 @@
 
 import { IconLoadingLoop } from '@/assets/icons';
 import { usePathname } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+
+import { animate } from 'framer-motion';
 
 type BlogViewsProps = {};
 
 const BlogViews: FC<BlogViewsProps> = (props) => {
-  const [views, setViews] = useState(1);
   const [hasBeenCalled, setHasBeenCalled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const pathname = usePathname();
   const slug = pathname.split('/').at(-1);
 
+  const countRef = useRef<HTMLSpanElement>(null);
+
   function fetchViews() {
     setIsLoading(true);
     fetch(`/api/views?id=${slug}`)
       .then((res) => res.json())
       .then((data) => {
-        setViews(data.views);
-        console.log(data);
+        const node = countRef.current;
+
+        const controls = animate(0, data.views, {
+          type: 'spring',
+          stiffness: 100,
+          damping: 50,
+          onUpdate: (value) => {
+            if (!node) return;
+            node.textContent = value.toFixed(0);
+          },
+          onComplete() {
+            controls.stop();
+          },
+        });
       })
       .finally(() => {
         setIsLoading(false);
@@ -43,7 +58,9 @@ const BlogViews: FC<BlogViewsProps> = (props) => {
       {isLoading ? (
         <IconLoadingLoop className="text-neutral-400" width={20} height={20} />
       ) : (
-        <span>{views} views</span>
+        <span>
+          <span ref={countRef}>0</span> views
+        </span>
       )}
     </span>
   );
