@@ -22,6 +22,7 @@ const BlogViews: FC<BlogViewsProps> = (props) => {
     fetch(`/api/views?id=${slug}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log('starting animation');
         const node = countRef.current;
 
         const controls = animate(0, data.views, {
@@ -29,11 +30,10 @@ const BlogViews: FC<BlogViewsProps> = (props) => {
           stiffness: 100,
           damping: 50,
           onUpdate: (value) => {
+            console.log(value, 'value');
             if (!node) return;
+            console.log(value, '(node exists) value');
             node.textContent = value.toFixed(0);
-          },
-          onComplete() {
-            controls.stop();
           },
         });
       })
@@ -55,13 +55,16 @@ const BlogViews: FC<BlogViewsProps> = (props) => {
 
   return (
     <span className="flex items-center text-sm text-primary-500">
-      {isLoading ? (
-        <IconLoadingLoop className="text-neutral-400" width={20} height={20} />
-      ) : (
-        <span>
-          <span ref={countRef}>0</span> views
-        </span>
-      )}
+      <IconLoadingLoop
+        className={`text-neutral-400 ${isLoading ? '' : 'hidden'}`}
+        width={20}
+        height={20}
+      />
+
+      {/* Don't conditionally render because ref would be ignored in build (idk nextJS things) */}
+      <span className={isLoading ? 'hidden' : ''}>
+        <span ref={countRef}>0</span> views
+      </span>
     </span>
   );
 };
