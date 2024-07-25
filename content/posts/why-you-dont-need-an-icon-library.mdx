@@ -46,9 +46,7 @@ Create a new `.tsx` for your icon and extend the props with `SVGProps<SVGSVGElem
 // src/assets/icons/marker-duotone.tsx
 import { SVGProps } from 'react';
 
-type MarkerDuotoneProps = {} & SVGProps<SVGSVGElement>;
-
-export default function MarkerDuotone(props: MarkerDuotoneProps) {
+export default function MarkerDuotone(props: SVGProps<SVGSVGElement>) {
     return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             {/* Your SVG code here */}
@@ -106,9 +104,7 @@ Create a new `.tsx` for your icon and extend the props with `JSX.HTMLAttributes<
 // src/assets/icons/marker-duotone.tsx
 import { JSX, mergeProps, VoidProps } from 'solid-js';
 
-type MarkerDuotoneProps = {} & JSX.HTMLAttributes<SVGSVGElement>;
-
-export default function MarkerDuotone(props: MarkerDuotoneProps) {
+export default function MarkerDuotone(props: JSX.HTMLAttributes<SVGSVGElement>) {
     return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             {/* Your SVG code here */}
