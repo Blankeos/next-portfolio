@@ -1,0 +1,81 @@
+---
+title: Local HTTPS Development with Caddy
+date: 2024-07-26
+featuredImage: https://static1.howtogeekimages.com/wordpress/wp-content/uploads/csit/2022/02/7be949e2.jpeg
+category: Caddy
+description: Here's how to setup local HTTPS development with Caddy.
+---
+
+Here's a quick guide on how to setup local HTTPS development with Caddy.
+
+### 📝 What is Caddy?
+
+[Caddy](https://caddyserver.com/) is a web server that's designed to be fast, secure, easy to use, and to automate a lot of the things you'd normally have to do manually. But it's more notorious as a reverse proxy.
+
+And take my word for it, it's way easier to setup than NGINX (albeit negligibly slower), and it's way faster than Apache.
+
+### Why you might want to use Caddy in local development
+
+It's the perfect tool for local development with HTTPS. It's easy to setup, so you won't need to dockerize anything. Here are also a few reasons why you might want to use Caddy in local development:
+
+- **You're making a geo-based web-app**. The **Geolocation API** is only available over HTTPs
+- **Have an HTTPS frontend that needs to query an HTTPS backend.** Can only query HTTPs backends when on an HTTPS frontend.
+- **You want your HTTPs to be accessible in LAN.** Since you need test your site on a mobile phone.
+
+### Steps
+
+1. **Install Caddy**
+
+Homebrew is the easiest for me. There are [other ways](https://caddyserver.com/docs/install) too!
+
+```sh
+$ brew install --cask caddy
+```
+
+2. **Create a Caddyfile.**
+
+Assuming your localhost frontend and backend are running on `localhost:3000` and `localhost:4001` respectively, here's what your Caddyfile should look like:
+
+```sh
+# Get the ip using `ipconfig getifaddr en0` on Mac.
+
+# Backend
+:4000 {
+	reverse_proxy 127.0.0.1:4001
+	tls internal
+}
+
+# Frontend
+{env.MY_IP} {
+	reverse_proxy 127.0.0.1:3000
+	tls internal
+}
+```
+
+Let's break this down:
+
+- `:4000` is the port that you can access your backend on after reverse proxying.
+- `reverse_proxy 127.0.0.1:4001` is the backend that you're proxying to.
+- `tls internal` tells Caddy to use an internal self-signed **certificate** and **key**. Because we're using a local IPv4 address, Caddy actually doesn't see it as a domain, so it won't create a secure certificate for it.
+- `{env.MY_IP}` is the syntax that Caddy uses to access environment variables. In this case, it's accessing the `MY_IP` environment variable that we'll set later.
+
+3. **Run the Server**
+
+When running, we just need to set `MY_IP` with the IPv4 address of our local machine. I'm on a Mac, so I'll use this `ipconfig getifaddr en0` command to get the IPv4 address of my local machine.
+
+```sh
+$ MY_IP=$(ipconfig getifaddr en0) caddy run --config Caddyfile
+```
+
+And... That's it! 🥳 You should be able to access your backend and frontend of HTTPs now.
+
+4. **Optional: You can also make this easier by adding a script to your `package.json` file.**
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    "dev": "MY_IP=$(ipconfig getifaddr en0) caddy run --config Caddyfile",
+  },
+}
+```
