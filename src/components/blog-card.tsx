@@ -28,8 +28,8 @@ const BlogCard: FC<BlogCardProps> = (props) => {
       <Link
         href={`${PageRoutes.Blog}/${props.slug}`}
         className={cn(
-          'relative flex flex-col gap-y-3 overflow-hidden border border-primary-500 bg-white p-5',
-          'aspect-[1/0.9] sm:aspect-[0.9/1]'
+          'relative flex h-full flex-col gap-y-3 overflow-hidden border border-primary-500 bg-white p-5',
+          'aspect-auto lg:aspect-[0.85/1] min-[1140px]:aspect-[0.95/1] xl:aspect-[0.8/1]'
         )}
       >
         {/* Image */}
