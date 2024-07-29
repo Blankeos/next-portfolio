@@ -39,7 +39,7 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
             .map((post) => (
               <div
                 key={post._id}
-                className="group pointer-events-none flex w-full items-center justify-between gap-4"
+                className="group pointer-events-none flex w-full items-center justify-between gap-5"
               >
                 <Link
                   href={`/blog/${post.slug}`}
@@ -47,9 +47,10 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
                 >
                   {post.title}
                 </Link>
+
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="pointer-events-auto text-sm text-neutral-500 group-hover:underline"
+                  className="pointer-events-auto flex-shrink-0 text-end text-sm text-neutral-500 group-hover:underline"
                 >
                   {formatDateShort(post.date)}
                 </Link>
