@@ -214,13 +214,13 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
               <Marquee speed={marqueeSpeed}>
                 <div
                   ref={tagsWidthRef}
-                  className="mt-2 flex h-7 items-end gap-x-1 overflow-hidden transition-[padding] delay-200 duration-500"
+                  className="flex h-7 items-end overflow-hidden transition-[padding] delay-200 duration-500"
                 >
                   {tags &&
                     tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="rounded-full border border-blue-500 px-2.5 py-1 text-xs text-blue-500 transition group-hover:bg-blue-500 group-hover:text-white"
+                        className="mr-2 rounded-full border border-blue-500 px-2.5 py-1 text-xs text-blue-500 transition group-hover:bg-blue-500 group-hover:text-white"
                       >
                         <span className="block translate-y-[0.10rem] transform">
                           {tag}
