@@ -37,10 +37,10 @@ const BlogPage: FC<BlogPageProps> = (props) => {
           <Marquee speed={50} className="relative" autoFill={true}>
             <div className="flex h-8 w-full">
               {[
-                '🦀 learning Rust',
-                '☘️ cool tech I like',
+                '🦀 learning rust',
+                '☘️ cool tech i like',
                 '🤓 mini guides that might help you',
-                '🦄 personal Stuff',
+                '🦄 personal stuff',
               ].map((item, i) => (
                 <div
                   key={i}
