@@ -98,13 +98,13 @@ export { default as IconMarkerDuotone } from './icons/marker-duotone.svelte';
 
 #### SolidJS
 
-Create a new `.tsx` for your icon and extend the props with `JSX.HTMLAttributes<SVGSVGElement>`:
+Create a new `.tsx` for your icon and extend the props with `JSX.SvgSVGAttributes<SVGSVGElement>`:
 
 ```tsx
 // src/assets/icons/marker-duotone.tsx
 import { JSX, mergeProps, VoidProps } from 'solid-js';
 
-export default function MarkerDuotone(props: JSX.HTMLAttributes<SVGSVGElement>) {
+export default function MarkerDuotone(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
     return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             {/* Your SVG code here */}
@@ -227,4 +227,4 @@ import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 <br />
 <br />
 
-<p className="text-center">You've reached the end! Thanks for reading! 🥳</p>
+<p className="text-center">You've reached the end!**** Thanks for reading! 🥳</p>

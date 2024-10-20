@@ -28,6 +28,17 @@ const Home: React.FC = () => {
     <>
       <Hero sectionRef={heroRef} />
       <div className="relative">
+        {/* <iframe
+          className="relative z-40"
+          style={{ borderRadius: 12 }}
+          src="https://open.spotify.com/embed/track/5awvelCGpDQHwgZem0ira9?utm_source=generator"
+          width="100%"
+          height="352"
+          frameBorder="0"
+          allowFullScreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe> */}
         <div className="absolute inset-0">
           <SideNav isVisible={!heroRefInView} activeIndex={activeIndex} />
         </div>

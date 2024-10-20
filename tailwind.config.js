@@ -1,5 +1,6 @@
 import { colorVars } from './src/styles/themes';
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -52,7 +53,7 @@ module.exports = {
     },
   },
   future: {
-    hoverOnlyWhenSupported: false,
+    hoverOnlyWhenSupported: true,
   },
   plugins: [],
 };

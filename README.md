@@ -6,6 +6,13 @@
 
 ![SomeImage](/docs/preview.png)
 
+## Requirements
+
+- NodeJS
+- PNPM
+- PostgreSQL (For Blog Counts)
+- Goose - Manual Migrations `database/migrations`
+
 ## Features
 
 - Landing Page - Lots of animations powered by Framer Motion
