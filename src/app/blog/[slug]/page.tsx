@@ -33,9 +33,13 @@ export const generateMetadata = ({
 
   return {
     title: post.title,
+    description: post.description,
     openGraph: {
       title: post.title,
+      description: post.description,
+      type: 'article',
     },
+    keywords: post.keywords ?? [],
   };
 };
 

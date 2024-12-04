@@ -1,0 +1,80 @@
+---
+title: How to make VS Code transparent
+date: 2024-12-05
+featuredImage: /blog-imgs/transparent-vscode.webp
+category: VSCode
+description: Get VSCode to be transparent so you can see the background behind it.
+keywords:
+  [
+    vscode,
+    transparent,
+    glass,
+    opaque,
+    opacity,
+    transparency,
+    glassmorphism,
+    acrylic,
+  ]
+---
+
+I figured out a way to make VS Code transparent. For these cases, you may want to use the infamous [APC Customize UI++](https://marketplace.visualstudio.com/items?itemName=drcika.apc-extension).
+
+But because VSCode constantly pushes updates that makes some of these extensions break for a while, I'll just show you my most
+reliable way of doing it that usually works for every version (if you have a brain): **monkeypatching**.
+
+## Quick Steps
+
+1. Edit the `main.js` file:
+
+```sh
+# (Mac) If you're on regular VSCode.
+code /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/out/main.js
+
+# (Mac) If you're on VSCode Insiders. (I use this if I have a company GitHub account)
+code /Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/out/main.js
+
+# (Windows), I actually don't know yet. Feel free to add a comment where `main.js` is.
+```
+
+2. Search for `r.getBackgroundColor`. You should see something along the lines of this. There will always be one variable that looks exactly like this. Do your best to find it!
+
+```js
+// main.js
+l={backgroundColor:r.getBackgroundColor(),...},
+```
+
+3. Finally, just add these properties to the `l` object.
+
+```js
+// main.js
+l = { opacity: 0.95, backgroundColor: r.getBackgroundColor() };
+```
+
+4. Make sure to **save without formatting** (use the command palette) so it stays minified, and Cmd + Q to quit VSCode. After reopening, you should see a transparent VSCode.
+
+![Image](/blog-imgs/transparent-vscode.webp)
+
+<p class="mt-20 text-center text-xl">🎉 And there you have it!</p>
+
+## Extra Notes
+
+- You might see a popup called 'Your Code installation appears to be corrupt. Please reinstall', you might want to "Don't Show Again" this so it doesn't pop-up again.
+- Also, if you want **glassmorphism** or **glassy effect**, you can try by adding these properties to the `l` object. (PS, I have never gotten this to work because VSCode may be blocking this part, but you can try).
+
+  ```js
+  // main.js
+  l={
+    vibrancy:"fullscreen-ui", // MacOS (If not, try 'ultra-dark' this was the old value that Mac used)
+    backgroundMaterial: 'acrylic', // Windows 11
+    opacity:0.95,
+    backgroundColor: r.getBackgroundColor(),
+    ...
+  }
+  ```
+
+- More info on how Electron sets vibrancy/glass/acrylic (the glassy effect) can be found in their official docs:
+
+  - [`win.setBackgroundMaterial` (Windows)](https://www.electronjs.org/docs/latest/api/browser-window#winsetbackgroundmaterialmaterial-windows)
+  - [`win.setVibrancy` (MacOS)](https://www.electronjs.org/docs/latest/api/browser-window#winsetvibrancytype-macos)
+
+- Try [vscode-vibrancy-continued](https://github.com/illixion/vscode-vibrancy-continued) if you're at a dead-end with glass.

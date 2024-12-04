@@ -22,6 +22,7 @@ export const Post = defineDocumentType(() => ({
       type: 'string',
       description: 'Keep it at under 70 characters',
     },
+    keywords: { type: 'list', of: { type: 'string' }, default: [] },
   },
   computedFields: {
     readTimeStats: {
