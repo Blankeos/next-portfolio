@@ -1,0 +1,151 @@
+---
+title: How to dynamically wrap components in SolidJS
+date: 2024-12-20
+featuredImage: /blog-imgs/dynamically-wrap-components-in-solidjs.webp
+category: SolidJS
+description: Wrap solidjs components with an array of components.
+keywords: [solidjs, solid, dynamic, components, wrap, composition, nested]
+---
+
+Learned something new recently while I was contributing to an open source project called [Vike](https://github.com/vikejs/vike) - a Vite-based metaframework alternative to Next.js, Solid Start, etc.
+
+I'm also writing this post to share what I learned, because there's surprisingly very little info about this.
+
+I essentially made **Nested Layouts** possible in SolidJS.
+
+```sh
+# File System setup
+pages/
+  +Layout.tsx # Root Layout
+    dashboard/
+      +Page.tsx
+      +Layout.tsx # Dashboard Layout
+```
+
+```tsx
+// What it looks like in the component tree
+<RootLayout>
+  <DashboardLayout>
+    <Page />
+  </DashboardLayout>
+</RootLayout>
+```
+
+The above component tree looks super simple because you're viewing this as a static component tree.
+But what if it was a dynamic component tree? How do you even achieve something like this? Imagine, you had:
+
+- An array of components (`FlowComponent[]` - the layouts).
+- A child (`JSX.Element` - the page to render).
+
+```tsx
+function PageRenderer(props: FlowComponent) {
+  const layouts: FlowComponent[] = [RootLayout, DashboardLayout];
+
+  // How would you even wrap `layouts` around children?
+  return (
+    props.children
+  )
+```
+
+### In React, it's a bit simpler
+
+As inefficient react is, the plain and simple paradigm of "run everything" works out for this kind of situation.
+
+```tsx
+function PageRenderer(props: React.FC<PropsWithChildren>) {
+  const [layouts, setLayouts] = useState([RootLayout, DashboardLayout]);
+
+  let page = props.children;
+  layouts.forEach((Layout) => {
+    page = <Layout>{page}</Layout>; // You just need to keep wrapping page with the Layout.
+  });
+
+  return page;
+}
+```
+
+That's it. And if `layouts` changes. React would be smart enough to re-render the composition properly.
+
+### In SolidJS, it's a bit more complicated.
+
+Turns out this a bit tricky to do in SolidJS because:
+
+- Everything in the function body is only executed once. So the above code would actually only work after the first run. But won't re-evaluate when
+  `layouts` change.
+- You don't want to re-render EVERY layout everytime `layouts` changes, because Solid has no concept of "keys". We only reconcile.
+- You can't do early returns. So doing a recursive approach on the component level is not possible. (But I'll show you a neat trick later)
+
+But if you nail it, SolidJS actually is very efficient ⚡️.
+
+### So how do we do it?
+
+I came up with two ways to accomplish wrapping components in SolidJS.
+
+#### 1. The functional recursion approach using `createComponent`.
+
+```tsx
+function PageRenderer(props: FlowComponent) {
+  const [layouts, setLayouts] = createStore<FlowComponent[]>([
+    RootLayout,
+    DashboardLayout,
+  ]);
+
+  function renderLayouts(index: number = 0) {
+    let layout = layouts[index];
+
+    if (!layout) return props.children; // Base case. (Terminates here).
+
+    return createComponent(layout, {
+      get children(): JSX.Element {
+        return renderLayouts(index + 1); // Recursive case.
+      },
+    });
+  }
+
+  return <>{renderLayouts(0)}</>;
+}
+```
+
+- If you read this code, it obviously doesn't look readable compared to React's lol. 😅 Get used to it. But it's actually very efficient.
+- Thanks to `get children()`, the components only need to render when they need to (i.e. when `layouts` changes)
+- `renderLayouts(0)` also only gets called once. Reactivity is handled by the getters.
+
+#### 2. Use `Match` and `Switch` to simulate an early return.
+
+```tsx
+// Helper component that handles wrapping using Switch/Match
+const WrapWithLayouts = (props: { layouts: FlowComponent[], children: JSX.Element, index: number }) => {
+  return (
+    <Switch fallback={children}>
+      <Match when={props.index < layouts.length}>
+        {(() => {
+          const CurrentComponent = props.layouts[props.index];
+          return (
+            <CurrentComponent>
+              <WrapWithLayouts layouts={props.layouts} index={props.index + 1}>
+                {props.children}
+              </WrapWithLayouts>
+            </CurrentComponent>
+          );
+        })()}
+      </Match>
+    </Switch>
+  );
+};
+
+function PageRenderer() {
+  const [layouts, setLayouts] = createStore<FlowComponent[]>([
+    RootLayout,
+    DashboardLayout,
+  ]);
+
+  return <WrapWithLayouts layouts={layouts} index=0>I am page</WrapWithLayouts>
+}
+```
+
+- This one is a lot more complicated but it kind of demonstrates how you can actually kind of do "early returns" in SolidJS.
+- Using `Switch` and `Match` you can essentially "early return" with the fallback.
+
+<p class="pt-8 text-center">And that's it. Hope you learned something!</p>
+
+Here's a demo on [StackBlitz](https://stackblitz.com/edit/solidjs-templates-byrwwwqs?file=README.md) to help.
