@@ -23,6 +23,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.7.1",
     "@types/react-scroll": "^1.8.10",
+    "@vercel/analytics": "^1.4.1",
     "clsx": "^2.1.1",
     "contentlayer2": "^0.5.3",
     "dayjs": "^1.11.13",

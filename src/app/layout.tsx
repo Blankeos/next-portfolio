@@ -6,6 +6,8 @@ import '@/styles/globals.css';
 
 import NextTopLoader from 'nextjs-toploader';
 
+import { Analytics } from '@vercel/analytics/react';
+
 import ClientLayout from '@/components/client-layout';
 import { themes } from '@/styles/themes';
 import { Metadata } from 'next';
@@ -52,6 +54,7 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
       <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" />
       <meta name="theme-color" content="#3B82F6" />
       <meta property="og:type" content="website" />
+      {process.env.NODE_ENV === 'production' && <Analytics />}
       <body className="flex min-h-screen flex-col">
         <ClientLayout>
           <NextTopLoader color="#3B82F6" showSpinner={false} />
