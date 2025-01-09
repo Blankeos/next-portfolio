@@ -2,7 +2,7 @@ import { cn } from '@/lib/cn';
 import { formatDate } from '@/lib/format-date';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import React, { FC, useMemo } from 'react';
+import { FC } from 'react';
 
 import FadeIn from '@/components/animations/fade-in';
 import BackButton from '@/components/buttons/back-button';
@@ -47,21 +47,14 @@ export const generateMetadata = async (props: {
 // ===========================================================================
 
 type BlogPostPageProps = {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 };
 
-const BlogPostPage: FC<BlogPostPageProps> = (props) => {
-  const { params } = props;
+const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
+  const { slug } = await props.params;
+  const post = allPosts.find((post) => post.slug === slug);
 
-  const { slug } = React.use(params);
-
-  const post = useMemo(
-    () => allPosts.find((post) => post.slug === slug),
-    [params.slug]
-  );
-  if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
+  if (!post) throw new Error(`Post not found for slug: ${slug}`);
 
   return (
     <div className="flex flex-1 flex-col">

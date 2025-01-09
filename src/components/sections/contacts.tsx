@@ -80,7 +80,7 @@ const ClickableEmail = () => {
   const clickHandler = () => {
     navigator.clipboard.writeText('carloantonioct@gmail.com');
     setContent(copiedMessage);
-    toast((t) => (
+    toast(() => (
       <span className="flex gap-x-4">
         <motion.span
           animate={{ rotate: [-20, 30] }}

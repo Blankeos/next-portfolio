@@ -6,7 +6,7 @@ import { allProjects } from 'contentlayer/generated';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { CgWebsite as IconDemo } from 'react-icons/cg';
 import { FaGithubAlt as IconSourceCode } from 'react-icons/fa';
 
@@ -20,11 +20,9 @@ export const generateStaticParams = async () =>
 // ===========================================================================
 // Meta Data
 // ===========================================================================
-export const generateMetadata = async (
-  props: {
-    params: Promise<{ slug: string }>;
-  }
-): Promise<Metadata> => {
+export const generateMetadata = async (props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> => {
   const params = await props.params;
   const post = allProjects.find((project) => project.slug === params.slug);
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
@@ -41,19 +39,16 @@ export const generateMetadata = async (
 // Component
 // ===========================================================================
 type ProjectPostProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-const ProjectPost: FC<ProjectPostProps> = (props) => {
-  const { params } = props;
+const ProjectPost: FC<ProjectPostProps> = async (props) => {
+  const { slug } = await props.params;
+  const project = allProjects.find((_project) => _project.slug === slug);
 
-  const project = useMemo(
-    () => allProjects.find((post) => post.slug === params.slug),
-    [params.slug]
-  );
-  if (!project) throw new Error(`Post not found for slug: ${params.slug}`);
+  if (!project) throw new Error(`Post not found for slug: ${slug}`);
 
   return (
     <div className="flex flex-1 flex-col pb-20">

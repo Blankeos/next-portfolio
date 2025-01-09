@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Colocation guide: https://github.com/contentlayerdev/contentlayer/issues/84#issuecomment-1739699901
 
 // contentlayer.config.ts
@@ -86,7 +87,6 @@ export default makeSource({
     rehypePlugins: [
       rehypeSlug,
       [
-        // @ts-expect-error Upgrading rehype-pretty-code from 0.10.* to ^0.13.2 is causing error with types but no problems apparently.
         rehypePrettyCode,
         {
           theme: 'github-dark',
