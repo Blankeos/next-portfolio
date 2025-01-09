@@ -1,7 +1,7 @@
 /**
  * Utility for debouncing.
  */
-export const debounce = <A extends any[], R>(
+export const debounce = <A extends unknown[], R>(
   callback: (...args: A) => R,
   wait: number
 ): ((...args: A) => Promise<R>) => {

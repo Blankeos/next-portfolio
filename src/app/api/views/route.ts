@@ -2,6 +2,9 @@ import { sql } from '@/lib/server/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  if (process.env.NODE_ENV === 'development')
+    return NextResponse.json({ views: 0 });
+
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id');
 
@@ -11,9 +14,9 @@ export async function GET(req: NextRequest) {
 
   const result = (
     await sql`
-    INSERT INTO views (id, views) 
+    INSERT INTO views (id, views)
     VALUES (${id}, 1)
-    ON CONFLICT (id) 
+    ON CONFLICT (id)
     DO UPDATE SET views = views.views + 1
     RETURNING *;`
   )?.at(0);

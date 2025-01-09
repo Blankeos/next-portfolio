@@ -82,7 +82,7 @@ const SkillsGrid = () => {
     if (inView) {
       controls.start('visible');
     }
-  }, [inView]);
+  }, [controls, inView]);
 
   return (
     <motion.div

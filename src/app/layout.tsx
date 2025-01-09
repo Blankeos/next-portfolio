@@ -37,6 +37,7 @@ export const metadata: Metadata = {
 };
 const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <html lang="en" style={{ ...(themes.light as any) }}>
       <meta
         name="google-site-verification"

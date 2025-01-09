@@ -14,10 +14,10 @@ const LoadingLoop: FC<LoadingLoopProps> = (props) => {
       <path
         fill="none"
         stroke="currentColor"
-        stroke-dasharray="15"
-        stroke-dashoffset="15"
-        stroke-linecap="round"
-        stroke-width="2"
+        strokeDasharray="15"
+        strokeDashoffset="15"
+        strokeLinecap="round"
+        strokeWidth="2"
         d="M12 3C16.9706 3 21 7.02944 21 12"
       >
         <animate

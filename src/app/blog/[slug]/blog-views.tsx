@@ -8,7 +8,7 @@ import { animate } from 'framer-motion';
 
 type BlogViewsProps = {};
 
-const BlogViews: FC<BlogViewsProps> = (props) => {
+const BlogViews: FC<BlogViewsProps> = (_props) => {
   const [hasBeenCalled, setHasBeenCalled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,9 +30,7 @@ const BlogViews: FC<BlogViewsProps> = (props) => {
           stiffness: 100,
           damping: 50,
           onUpdate: (value) => {
-            console.log(value, 'value');
             if (!node) return;
-            console.log(value, '(node exists) value');
             node.textContent = value.toFixed(0);
           },
         });

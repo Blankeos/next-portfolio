@@ -1,6 +1,7 @@
 import { cn } from '@/lib/cn';
 import { formatDateRangeWithDuration } from '@/lib/format-date';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import React, { FC } from 'react';
 
 type AboutPageProps = {};
@@ -12,9 +13,18 @@ export const metadata: Metadata = {
 const AboutPage: FC<AboutPageProps> = () => {
   const workExperiences = [
     {
+      icon: '🧠',
+      company: 'An AI Startup',
+      dates: ['2024-09-30', 'Present'] as [string, string],
+      location: {
+        name: 'Hongkong (Remote)',
+        icon: '🇭🇰',
+      },
+    },
+    {
       icon: '🧪',
       company: 'The Pique Lab Lte.',
-      dates: ['2023-07-17', 'Present'] as [string, string],
+      dates: ['2023-07-17', '2024-09'] as [string, string],
       location: {
         name: 'Singapore (Remote)',
         icon: '🇸🇬',
@@ -29,48 +39,78 @@ const AboutPage: FC<AboutPageProps> = () => {
         icon: '🇵🇭',
       },
     },
-    // {
-    //   icon: '💩',
-    //   company: 'Freelance here and there.',
-    //   dates: ['2022', '2023'] as [string, string],
-    //   location: {
-    //     name: 'Anywhere',
-    //     icon: '🌍',
-    //   },
-    // },
   ];
 
   return (
     <>
       <div className="mx-auto w-full max-w-7xl px-7 md:px-12">
         <div className="mt-10 h-56 rounded-2xl bg-gradient-to-tl from-primary-600 to-primary-500/80"></div>
-
-        {/* <p className="mt-5 flex items-center gap-x-3 rounded-xl border-2 border-yellow-500 bg-yellow-400 p-6 text-typography-400">
-          <IconWarning size="1.2rem" className="text-yellow-800" />
-          <span>This page is under construction.</span>
-        </p> */}
-
         <h1 className="mb-1 mt-10 text-2xl font-semibold tracking-tighter">
           Carlo Antonio Taleon
-          {/* <span className="text-blue-500">{'(╯•ᗣ•╰)'}</span> */}
         </h1>
         <p className="text-sm text-neutral-600">
-          An okay software engineer from the Philippines.
+          A pretty okay software engineer from the Philippines.
         </p>
-
         <div className="h-8" />
-
         <p className="text-sm text-neutral-700">
           I love creating web apps, dev tools, games, and doing machine
-          learning! Professionally, I do <span>React</span>, but I genuinely
-          enjoy <b className="font-medium">Svelte</b> and{' '}
-          <b className="font-medium">Solid</b> personally.
+          learning! Professionally, I&apos;ve been doing React, Svelte, and
+          NextJS. But my latest grind right now is{' '}
+          <b className="font-medium">SolidJS</b> and solo-building SaaS apps.
         </p>
-
+        <div className="h-5" />
+        <p className="text-sm text-neutral-700">
+          I love exploring unconventional bleeding edge tech so you can always
+          catch me learning the next big thing.
+        </p>
+        <div className="h-5" />
+        <p className="text-sm text-neutral-700">
+          I contribute to open-source too!{' '}
+          <Link href="https://vike.dev/team" className="underline">
+            vike.dev
+          </Link>
+          ,{' '}
+          <Link
+            href="https://github.com/wobsoriano/solid-sonner"
+            className="underline"
+          >
+            solid-sonner
+          </Link>
+          ,{' '}
+          <Link
+            href="https://github.com/solidjs-community/solid-primitives/pull/629"
+            className="underline"
+          >
+            create-spring (Solid primitives)
+          </Link>
+        </p>
+        <div className="h-5" />
+        <p className="text-sm text-neutral-700">
+          I author some libraries as well:{' '}
+          <Link href="https://bagon-hooks.pages.dev" className="underline">
+            bagon-hooks
+          </Link>
+          ,{' '}
+          <Link
+            href="https://solid-number-flow.pages.dev"
+            className="underline"
+          >
+            solid-number-flow
+          </Link>
+          ,{' '}
+          <Link
+            href="https://github.com/blankeos/vike-metadata"
+            className="underline"
+          >
+            vike-metadata
+          </Link>
+          ,{' '}
+          <Link href="https://github.com/blankeos/tsdot" className="underline">
+            tsdot
+          </Link>
+        </p>
         <div className="h-2" />
-
         <p className="text-sm text-neutral-700"></p>
-
         <div className="h-8" />
         <h2 className="mb-3 font-medium">Education</h2>
         <div className="flex flex-col gap-y-3 text-sm text-typography-400">
@@ -89,12 +129,10 @@ const AboutPage: FC<AboutPageProps> = () => {
             <span className="">🏆</span> Most Outstanding CICT Student
           </p>
         </div>
-
         <h1 className="mb-3 mt-10 text-2xl font-semibold tracking-tighter">
           Work Experience
           {/* <span className="text-blue-500">{'(╯•ᗣ•╰)'}</span> */}
         </h1>
-
         <div className="flex flex-col gap-y-3">
           {workExperiences.map((experience) => (
             <WorkExperienceCard

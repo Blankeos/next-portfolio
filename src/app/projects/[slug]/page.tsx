@@ -20,11 +20,12 @@ export const generateStaticParams = async () =>
 // ===========================================================================
 // Meta Data
 // ===========================================================================
-export const generateMetadata = ({
-  params,
-}: {
-  params: { slug: string };
-}): Metadata => {
+export const generateMetadata = async (
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+): Promise<Metadata> => {
+  const params = await props.params;
   const post = allProjects.find((project) => project.slug === params.slug);
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 

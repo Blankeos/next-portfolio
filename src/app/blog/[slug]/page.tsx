@@ -2,7 +2,7 @@ import { cn } from '@/lib/cn';
 import { formatDate } from '@/lib/format-date';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { FC, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import FadeIn from '@/components/animations/fade-in';
 import BackButton from '@/components/buttons/back-button';
@@ -23,11 +23,10 @@ export const generateStaticParams = async () =>
 // ===========================================================================
 // Meta Data
 // ===========================================================================
-export const generateMetadata = ({
-  params,
-}: {
-  params: { slug: string };
-}): Metadata => {
+export const generateMetadata = async (props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> => {
+  const params = await props.params;
   const post = allPosts.find((post) => post.slug === params.slug);
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 
@@ -56,8 +55,10 @@ type BlogPostPageProps = {
 const BlogPostPage: FC<BlogPostPageProps> = (props) => {
   const { params } = props;
 
+  const { slug } = React.use(params);
+
   const post = useMemo(
-    () => allPosts.find((post) => post.slug === params.slug),
+    () => allPosts.find((post) => post.slug === slug),
     [params.slug]
   );
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
@@ -139,7 +140,7 @@ const BlogPostPage: FC<BlogPostPageProps> = (props) => {
           <div
             className="[&>*:last-child]:mb-0 [&>*]:mb-3"
             dangerouslySetInnerHTML={{ __html: post.body.html }}
-          /> 
+          />
         */}
 
         <Mdx code={post.body.code} />

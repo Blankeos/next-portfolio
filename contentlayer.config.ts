@@ -1,7 +1,7 @@
 // Colocation guide: https://github.com/contentlayerdev/contentlayer/issues/84#issuecomment-1739699901
 
 // contentlayer.config.ts
-import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import { defineDocumentType, makeSource } from 'contentlayer2/source-files';
 import fs from 'node:fs';
 import path from 'path';
 import readingTime from 'reading-time';

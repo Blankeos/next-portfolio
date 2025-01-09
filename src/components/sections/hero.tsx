@@ -230,7 +230,8 @@ const HeroHeading: React.FC = () => {
     visible: {
       ...parentVariants.visible,
       transition: {
-        ...(parentVariants.visible as any).transition,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...(parentVariants.visible as any)?.transition,
         staggerChildren: 0.05,
         delayChildren: 0.2,
       },

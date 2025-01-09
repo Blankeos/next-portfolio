@@ -95,6 +95,7 @@ const ParticlesBackground: React.FC = () => {
     <Particles
       id="particles"
       className="fixed h-full w-full object-cover"
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options={options as any}
     />
   );

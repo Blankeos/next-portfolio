@@ -27,7 +27,7 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
         <div className="h-5" />
 
         <p className="text-neutral-500">
-          I also write about stuff I'm learning for fun.
+          I also write about stuff I&apos;m learning for fun.
         </p>
 
         <div className="h-10" />
@@ -35,7 +35,7 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
         <div className="flex w-full max-w-xl flex-col justify-between gap-y-8">
           {allPosts
             .sort(byDate('date'))
-            .slice(0, 10)
+            .slice(0, 7)
             .map((post) => (
               <div
                 key={post._id}

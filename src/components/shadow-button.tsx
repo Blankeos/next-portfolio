@@ -1,9 +1,9 @@
 'use client';
 
+import { cn } from '@/lib/cn';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { FC, MouseEventHandler, PropsWithChildren, useState } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/cn';
 
 type FlatShadowCardInteractivityType = {
   flatOnMouseEnter?: boolean;
@@ -65,7 +65,7 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
       onClick={(e) => {
         onClick?.(e);
 
-        href && router.push(href);
+        if (href) router.push(href);
       }}
       onMouseEnter={() => {
         setIsFlat(spreadInteractivity.flatOnMouseEnter);

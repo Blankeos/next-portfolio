@@ -1,9 +1,9 @@
-import flexsearchPkg from 'flexsearch';
-const { Document } = flexsearchPkg;
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { debounce } from '@/lib/debounce';
+import flexsearchPkg from 'flexsearch';
+import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+const { Document } = flexsearchPkg;
 
-const useFlexSearch = <T>(options = {}, data: T[]) => {
+const useFlexSearch = <T>(_options = {}, data: T[]) => {
   const [query, updateQuery] = useState('');
 
   const document = useMemo(() => {

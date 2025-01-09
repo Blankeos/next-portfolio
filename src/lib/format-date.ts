@@ -29,7 +29,7 @@ export function formatDateRange(
   dates: [string | Date, (string | Date) | 'Present'] | [string | Date],
   opts?: { lower: boolean }
 ) {
-  const defaultOpts = { lower: false };
+  const defaultOpts = { lower: false, ...opts };
   if (dates.length === 1) {
     return formatDateMonthOnly(dates[0], { lower: defaultOpts.lower });
   }

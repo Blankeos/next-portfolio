@@ -1,6 +1,6 @@
 'use client';
 
-import { useMDXComponent } from 'next-contentlayer/hooks';
+import { useMDXComponent } from 'next-contentlayer2/hooks';
 import Image from 'next/image';
 import React, { HTMLAttributes } from 'react';
 
