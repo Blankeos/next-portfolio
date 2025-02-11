@@ -14,7 +14,7 @@ const AboutPage: FC<AboutPageProps> = () => {
   const workExperiences = [
     {
       icon: '🧠',
-      company: 'An AI Startup',
+      company: 'Bilby AI',
       dates: ['2024-09-30', 'Present'] as [string, string],
       location: {
         name: 'Hongkong (Remote)',
