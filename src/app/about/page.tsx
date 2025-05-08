@@ -44,7 +44,17 @@ const AboutPage: FC<AboutPageProps> = () => {
   return (
     <>
       <div className="mx-auto w-full max-w-7xl px-7 md:px-12">
-        <div className="mt-10 h-56 rounded-2xl bg-gradient-to-tl from-primary-600 to-primary-500/80"></div>
+        <div className="relative mt-10 h-56 overflow-hidden rounded-2xl">
+          <div
+            className="absolute inset-0 grayscale"
+            style={{
+              backgroundImage: `url(https://yt3.googleusercontent.com/4TStAEWOKraJ_qGXP0yodKW1XAgLfRa6cUR6uIa7CO--3mLUj1ss77TMicI2nCS7jXgRuZzz=w2120-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          ></div>
+          <div className="absolute inset-0 bg-gradient-to-tl from-primary-600 to-primary-500/80 opacity-70"></div>
+        </div>
         <h1 className="mb-1 mt-10 text-2xl font-semibold tracking-tighter">
           Carlo Antonio Taleon
         </h1>

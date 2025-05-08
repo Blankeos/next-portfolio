@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     images: ['imgs/image-meta.png'],
   },
 };
+
 const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

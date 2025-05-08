@@ -63,7 +63,20 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
         <h1 className="mb-1 text-3xl">{project.title}</h1>
         <p className="text-typography-300">{project.description}</p>
 
-        <div className="h-10" />
+        <div className="h-5" />
+
+        <div className="flex flex-wrap gap-2 text-xs">
+          {project.tags?.map((tag) => (
+            <div
+              key={tag}
+              className="rounded-full border border-blue-500 bg-blue-50 px-2 py-0.5 pb-0 text-blue-500"
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+
+        <div className="h-5" />
 
         <div className="flex h-96 justify-center rounded-2xl bg-gray-100">
           <Image
@@ -75,7 +88,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
           />
         </div>
 
-        <div className="h-10" />
+        <div className="h-5" />
 
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-x-2">
@@ -109,7 +122,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
         <div className="h-10" />
 
         {project.featuredYoutubeURL && (
-          <div className="flex flex-col items-center justify-center gap-y-5">
+          <div className="mb-10 flex flex-col items-center justify-center gap-y-5">
             <div className="relative h-0 w-full overflow-hidden pb-[56.25%] pt-[30px]">
               <iframe
                 width="100%"
@@ -125,8 +138,6 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
             <h2 className="text-primary-400">👆 Watch my video about it!</h2>
           </div>
         )}
-
-        <div className="h-10" />
 
         <Mdx code={project.body.code} />
       </div>
