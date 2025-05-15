@@ -28,9 +28,10 @@ const eslintConfig = [
 
     rules: {
       '@typescript-eslint/no-unused-vars': [
-        1,
+        'warn',
         {
           argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
         },
       ],
       '@typescript-eslint/no-empty-object-type': 'off',
