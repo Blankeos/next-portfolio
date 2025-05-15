@@ -3,13 +3,13 @@ import Nav from '@/components/nav';
 import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
+import { Epilogue } from 'next/font/google';
 
 import NextTopLoader from 'nextjs-toploader';
 
 import { Analytics } from '@vercel/analytics/react';
 
 import ClientLayout from '@/components/client-layout';
-import { themes } from '@/styles/themes';
 import { Metadata } from 'next';
 import { FC, ReactNode } from 'react';
 
@@ -38,10 +38,14 @@ export const metadata: Metadata = {
   },
 };
 
+const epilogueFont = Epilogue({
+  subsets: ['latin'],
+});
+
 const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    <html lang="en" style={{ ...(themes.light as any) }}>
+    <html lang="en" className={epilogueFont.className}>
       <meta
         name="google-site-verification"
         content="Xc9Om93PVgBy3xwN6aPgKLGs4UNRZXQ5WsqMqeOiBMQ"

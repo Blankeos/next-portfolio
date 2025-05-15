@@ -73,7 +73,7 @@ const components = {
   a: ({ className, ...props }: HTMLAttributes<HTMLAnchorElement>) => (
     <a
       className={cn(
-        'font-medium text-primary-500 underline underline-offset-4',
+        'text-primary font-medium underline underline-offset-4',
         className
       )}
       {...props}
@@ -147,7 +147,7 @@ const components = {
   pre: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => (
     <pre
       className={cn(
-        'mb-4 mt-6 overflow-x-auto rounded-lg border bg-black py-4',
+        'mt-6 mb-4 overflow-x-auto rounded-lg border bg-black py-4',
         className
       )}
       {...props}
@@ -164,7 +164,7 @@ const components = {
           )}
           {...props}
         >
-          <span className="absolute -bottom-0.5 -top-0.5 left-0 right-0 rounded bg-neutral-200" />
+          <span className="absolute -top-0.5 right-0 -bottom-0.5 left-0 rounded bg-neutral-200" />
           <span className="relative text-neutral-800">{props.children}</span>
         </code>
       );

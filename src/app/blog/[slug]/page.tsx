@@ -70,7 +70,7 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
         <div className="flex flex-col gap-y-2">
           <FadeIn>
             <div className="relative">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-tl from-primary-500 to-primary-500/80" />
+              <div className="from-primary to-primary/80 absolute inset-0 rounded-xl bg-gradient-to-tl" />
               <div
                 className="relative mb-4 h-72 w-full rounded-xl"
                 style={{
@@ -84,10 +84,10 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
 
           <FadeIn delay={0.1}>
             <div className="flex items-center gap-x-2">
-              <time className="text-sm text-primary-500" dateTime={post.date}>
+              <time className="text-primary text-sm" dateTime={post.date}>
                 {formatDate(post.date)} <span>•</span>
               </time>
-              <span className="text-sm text-typography-300">
+              <span className="text-typography-300 text-sm">
                 {post.readTimeStats.text}
               </span>
               <span>•</span>
@@ -96,7 +96,7 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <h1 className="text-2xl font-bold text-typography-500 md:text-[36px] md:leading-[50px]">
+            <h1 className="text-typography-500 text-2xl font-bold md:text-[36px] md:leading-[50px]">
               {post.title}
             </h1>
           </FadeIn>
@@ -118,7 +118,7 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
                 <p className="text-typography-600 text-sm group-hover:underline">
                   Carlo Taleon
                 </p>
-                <p className="text-xs text-typography-300 group-hover:underline">
+                <p className="text-typography-300 text-xs group-hover:underline">
                   @carlo_taleon
                 </p>
               </Link>

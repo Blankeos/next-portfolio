@@ -53,9 +53,9 @@ const AboutPage: FC<AboutPageProps> = () => {
               backgroundPosition: 'center',
             }}
           ></div>
-          <div className="absolute inset-0 bg-gradient-to-tl from-primary-600 to-primary-500/80 opacity-70"></div>
+          <div className="from-primary-dark to-primary/80 absolute inset-0 bg-gradient-to-tl opacity-70"></div>
         </div>
-        <h1 className="mb-1 mt-10 text-2xl font-semibold tracking-tighter">
+        <h1 className="mt-10 mb-1 text-2xl font-semibold tracking-tighter">
           Carlo Antonio Taleon
         </h1>
         <p className="text-sm text-neutral-600">
@@ -123,7 +123,7 @@ const AboutPage: FC<AboutPageProps> = () => {
         <p className="text-sm text-neutral-700"></p>
         <div className="h-8" />
         <h2 className="mb-3 font-medium">Education</h2>
-        <div className="flex flex-col gap-y-3 text-sm text-typography-400">
+        <div className="text-typography-400 flex flex-col gap-y-3 text-sm">
           <p className="flex gap-x-1.5">
             <span className="">🏫</span> West Visayas State University
           </p>
@@ -139,7 +139,7 @@ const AboutPage: FC<AboutPageProps> = () => {
             <span className="">🏆</span> Most Outstanding CICT Student
           </p>
         </div>
-        <h1 className="mb-3 mt-10 text-2xl font-semibold tracking-tighter">
+        <h1 className="mt-10 mb-3 text-2xl font-semibold tracking-tighter">
           Work Experience
           {/* <span className="text-blue-500">{'(╯•ᗣ•╰)'}</span> */}
         </h1>

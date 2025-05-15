@@ -7,7 +7,7 @@ import { SiTypescript } from 'react-icons/si';
 // React
 import React from 'react';
 
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants } from 'motion/react';
 import { Link as ScrollLink } from 'react-scroll';
 
 import Container from '../container';
@@ -24,7 +24,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
     <section id="hero-section" ref={sectionRef} className="relative">
       <ParticlesBackground />
       <Container className="relative" maxWidth="7xl">
-        <div className="grid grid-cols-1 pb-24 pt-24 lg:grid-cols-[3fr,2fr]">
+        <div className="grid grid-cols-1 pt-24 pb-24 lg:grid-cols-[3fr,2fr]">
           {/* Left Side */}
           <div className="flex flex-grow flex-col space-y-5 py-0">
             <div className="flex flex-col space-y-5">
@@ -87,7 +87,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 className="group relative z-20 transition hover:shadow-lg"
                 href="/CarloTaleonResume_LATEST.pdf"
               >
-                <span className="relative z-10 flex transform select-none items-center space-x-1 bg-blue-500 px-6 py-3 text-sm text-white transition ease-out will-change-transform group-hover:-translate-y-1.5 md:text-base">
+                <span className="relative z-10 flex transform items-center space-x-1 bg-blue-500 px-6 py-3 text-sm text-white transition ease-out will-change-transform select-none group-hover:-translate-y-1.5 md:text-base">
                   <ResumeIcon size="1.2rem" className="relative" />
                   <span className="relative">Resume</span>
                 </span>
@@ -244,7 +244,7 @@ const HeroHeading: React.FC = () => {
         variants={parentVariants}
         initial="hidden"
         animate="visible"
-        className="hero-text flex overflow-hidden pr-1 pt-2 font-black leading-none tracking-tight lg:text-8xl"
+        className="hero-text flex overflow-hidden pt-2 pr-1 leading-none font-black tracking-tight lg:text-8xl"
       >
         {'Carlo'.split('').map((letter, i) => {
           return (
@@ -254,7 +254,7 @@ const HeroHeading: React.FC = () => {
               className="block will-change-transform"
             >
               <div className="relative">
-                <div className="hero-letter-bg absolute inset-0 select-none text-[#1229d5]">
+                <div className="hero-letter-bg absolute inset-0 text-[#1229d5] select-none">
                   {letter}
                 </div>
                 <div className="hero-letter relative bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent">
@@ -265,14 +265,14 @@ const HeroHeading: React.FC = () => {
           );
         })}
       </motion.div>
-      <span className="hero-text font-black leading-none tracking-tight lg:text-8xl">
+      <span className="hero-text leading-none font-black tracking-tight lg:text-8xl">
         {' '}
       </span>
       <motion.div
         variants={parentVariants2}
         initial="hidden"
         animate="visible"
-        className="hero-text flex overflow-hidden pr-1 pt-2 font-black leading-none tracking-tight lg:text-8xl"
+        className="hero-text flex overflow-hidden pt-2 pr-1 leading-none font-black tracking-tight lg:text-8xl"
       >
         {'Taleon'.split('').map((letter, i) => {
           return (
@@ -282,7 +282,7 @@ const HeroHeading: React.FC = () => {
               className="block will-change-transform"
             >
               <div className="relative">
-                <div className="hero-letter-bg absolute inset-0 select-none text-[#1229d5]">
+                <div className="hero-letter-bg absolute inset-0 text-[#1229d5] select-none">
                   {letter}
                 </div>
                 <div className="hero-letter relative bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent">

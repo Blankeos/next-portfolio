@@ -1,5 +1,6 @@
 // ===========================================================================
 // Reference: https://www.npmjs.com/package/@tsparticles/react
+// https://github.com/tsparticles/react/#readme
 // ===========================================================================
 
 import { IOptions, RecursivePartial } from '@tsparticles/engine';
@@ -19,12 +20,14 @@ const ParticlesBackground: React.FC = () => {
       // starting from v2 you can add only the features you need reducing the bundle size
       // await loadAll(engine) // @tsparticles/all
       // await loadFull(engine) // @tsparticles/full
-      await loadSlim(engine); // @tsparticles/slim
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await loadSlim(engine as any); // @tsparticles/slim
       // await loadBasic(engine) // @tsparticles/basic
     }).then(() => {
       setInit(true);
     });
   }, []);
+
   const options = useMemo<RecursivePartial<IOptions>>(
     () => ({
       fpsLimit: 120,

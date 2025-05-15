@@ -5,23 +5,22 @@ import SectionHeading from '../section-heading';
 import Link from 'next/link';
 import { SectionProps } from './types';
 
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import socials, { Social } from '../../../data/socials';
 
-import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from '@/hooks/use-in-view';
+import { motion, useAnimation, Variants } from 'motion/react';
 import toast from 'react-hot-toast';
-import { useInView } from 'react-intersection-observer';
+import { ToolTipComp } from '../ui/tooltip';
 
 interface ContactProps extends SectionProps {}
 
 const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
-    threshold: 0.8,
-    root: null,
-    rootMargin: '-100px 0px',
-    triggerOnce: true,
+    amount: 0.8,
+    margin: '-100px 0px',
+    once: true,
   });
 
   useEffect(() => {
@@ -80,6 +79,7 @@ const ClickableEmail = () => {
   const clickHandler = () => {
     navigator.clipboard.writeText('carloantonioct@gmail.com');
     setContent(copiedMessage);
+
     toast(() => (
       <span className="flex gap-x-4">
         <motion.span
@@ -102,14 +102,30 @@ const ClickableEmail = () => {
   };
 
   const hoverExitHandler = () => {
-    setContent(copyMessage);
+    setTimeout(() => {
+      setContent(copyMessage);
+    }, 200);
   };
   return (
-    <Tippy
-      content={content}
-      placement="top"
+    // <Tippy
+    //   content={content}
+    //   placement="top"
+    //   hideOnClick={false}
+    //   onHidden={hoverExitHandler}
+    // >
+    <ToolTipComp
       hideOnClick={false}
-      onHidden={hoverExitHandler}
+      providerProps={{ disableHoverableContent: true }}
+      content={content}
+      tooltipProps={{
+        delayDuration: 0,
+        disableHoverableContent: true,
+        onOpenChange: (open) => {
+          if (!open) {
+            hoverExitHandler();
+          }
+        },
+      }}
     >
       <p onClick={clickHandler} className="cursor-pointer overflow-hidden pb-1">
         <motion.span variants={contactInfoChildVariants} className="block">
@@ -121,7 +137,8 @@ const ClickableEmail = () => {
           </span>
         </motion.span>
       </p>
-    </Tippy>
+    </ToolTipComp>
+    // </Tippy>
   );
 };
 
@@ -157,7 +174,7 @@ const SocialLink: React.FC<SocialLink> = ({ name, Icon, url }) => {
           <Icon />
         </motion.span>
       </div>
-      <span className="absolute bottom-0 left-0 right-0 mx-auto h-1.5 w-8/12 rounded-[50%] bg-blue-500 opacity-0 transition group-hover:opacity-70"></span>
+      <span className="absolute right-0 bottom-0 left-0 mx-auto h-1.5 w-8/12 rounded-[50%] bg-blue-500 opacity-0 transition group-hover:opacity-70"></span>
     </Link>
   );
 };

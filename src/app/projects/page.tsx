@@ -7,7 +7,7 @@ import ShadowButton from '@/components/shadow-button';
 import useFlexSearch from '@/hooks/use-flex-search';
 import { PageRoutes } from '@/lib/page-routes';
 import { byOrderAndDate } from '@/lib/sort-utils';
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
 import { CgSearch as IconSearch } from 'react-icons/cg';
@@ -38,7 +38,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
           A directory of projects I{"'"}m proud of.
         </p>
 
-        <div className="mt-5 flex items-center gap-x-5 border-b border-typography-300 focus-within:border-primary-500 focus-within:text-primary-500">
+        <div className="border-typography-300 focus-within:border-primary focus-within:text-primary mt-5 flex items-center gap-x-5 border-b">
           <IconSearch />
           <input
             className="w-full py-3 outline-none"
@@ -49,13 +49,13 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
 
         {/* Uncomment this when "tag" filters are on. */}
         {/* <div className="mt-4 flex flex-wrap gap-2">
-          <button className="border border-primary-500 px-3 py-2 text-xs text-primary-500">
+          <button className="border border-primary px-3 py-2 text-xs text-primary">
             AI
           </button>
-          <button className="border border-primary-500 px-3 py-2 text-xs text-primary-500">
+          <button className="border border-primary px-3 py-2 text-xs text-primary">
             NodeJS
           </button>
-          <button className="border border-primary-500 px-3 py-2 text-xs text-primary-500">
+          <button className="border border-primary px-3 py-2 text-xs text-primary">
             Python
           </button>
         </div> */}
@@ -100,7 +100,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                         <Link
                           href={`${PageRoutes.Projects}/${project.slug}`}
                           key={project._id}
-                          className="flex h-[113.6px] w-full gap-x-5 overflow-hidden border border-primary-500 bg-white p-5"
+                          className="border-primary flex h-[113.6px] w-full gap-x-5 overflow-hidden border bg-white p-5"
                         >
                           <div
                             className="aspect-square h-full flex-shrink-0 bg-neutral-200"
@@ -114,7 +114,7 @@ const ProjectsPage: FC<ProjectsPageProps> = (props) => {
                             <span className="text font-medium">
                               {project.title}
                             </span>
-                            <span className="line-clamp-2 text-typography-400">
+                            <span className="text-typography-400 line-clamp-2">
                               {project.description}
                             </span>
                           </div>

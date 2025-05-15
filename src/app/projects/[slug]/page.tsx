@@ -96,7 +96,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
               <Link
                 target="_blank"
                 href={project.demoURL}
-                className="flex flex-shrink-0 items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
+                className="border-primary text-primary hover:bg-primary flex flex-shrink-0 items-center gap-x-2 border px-4 py-2 hover:text-white"
               >
                 <IconDemo />
                 <span>Demo</span>
@@ -106,7 +106,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
               <Link
                 target="_blank"
                 href={project.githubURL}
-                className="flex flex-shrink-0 items-center gap-x-2 border border-primary-500 px-4 py-2 text-primary-500 hover:bg-primary-500 hover:text-white"
+                className="border-primary text-primary hover:bg-primary flex flex-shrink-0 items-center gap-x-2 border px-4 py-2 hover:text-white"
               >
                 <IconSourceCode />
                 <span>Source Code</span>
@@ -114,7 +114,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
             )}
           </div>
 
-          <span className="text-sm text-primary-400 opacity-70">
+          <span className="text-primary-foreground text-sm opacity-70">
             Made on {formatDate(project.date)}
           </span>
         </div>
@@ -123,7 +123,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
 
         {project.featuredYoutubeURL && (
           <div className="mb-10 flex flex-col items-center justify-center gap-y-5">
-            <div className="relative h-0 w-full overflow-hidden pb-[56.25%] pt-[30px]">
+            <div className="relative h-0 w-full overflow-hidden pt-[30px] pb-[56.25%]">
               <iframe
                 width="100%"
                 height="100%"
@@ -132,10 +132,12 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                className="absolute left-0 top-0 rounded-md"
+                className="absolute top-0 left-0 rounded-md"
               ></iframe>
             </div>
-            <h2 className="text-primary-400">👆 Watch my video about it!</h2>
+            <h2 className="text-primary-foreground">
+              👆 Watch my video about it!
+            </h2>
           </div>
         )}
 

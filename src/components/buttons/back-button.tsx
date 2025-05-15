@@ -20,9 +20,9 @@ const BackButton: FC<BackButtonProps> = (props) => {
       className="group"
       elevation={5}
       href={href}
-      shadowClassName="bg-primary-600"
+      shadowClassName="bg-primary-dark"
     >
-      <span className="grid h-12 w-12 place-items-center border border-primary-600 bg-primary-400 text-white">
+      <span className="border-primary-dark bg-primary-foreground grid h-12 w-12 place-items-center border text-white">
         <IconChevron size="1.3rem" />
       </span>
     </ShadowButton>

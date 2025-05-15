@@ -7,9 +7,9 @@ import SideNav from '@/components/side-nav';
 import About from '@/components/sections/about';
 import BlogFeature from '@/components/sections/blog-feature';
 import Contact from '@/components/sections/contacts';
+import { useInView } from '@/hooks/use-in-view';
 import { useSectionActiveObserver } from '@/hooks/use-section-active-observer';
 import React from 'react';
-import { useInView } from 'react-intersection-observer';
 
 const Home: React.FC = () => {
   const [heroRef, heroRefInView] = useInView();

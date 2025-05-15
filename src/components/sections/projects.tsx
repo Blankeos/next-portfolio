@@ -6,9 +6,9 @@ import SectionHeading from '../section-heading';
 import { RiArrowUpLine as Arrow } from 'react-icons/ri';
 import { SectionProps } from './types';
 
-import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from '@/hooks/use-in-view';
+import { motion, useAnimation, Variants } from 'motion/react';
 import Image from 'next/image';
-import { useInView } from 'react-intersection-observer';
 
 import { useElementSize } from '@/hooks/use-element-size';
 import { PageRoutes } from '@/lib/page-routes';
@@ -90,17 +90,15 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
   }, [marqueWidthSize, tagsWidthSize]);
 
   const [imageRef, imageInView] = useInView({
-    threshold: 0.3,
-    root: null,
-    rootMargin: '-100px 0px',
-    triggerOnce: true,
+    amount: 0.3,
+    margin: '-100px 0px',
+    once: true,
   });
 
   const [textRef, textInView] = useInView({
-    threshold: 1,
-    root: null,
-    rootMargin: '-100px 0px',
-    triggerOnce: true,
+    amount: 'all',
+    margin: '-100px 0px',
+    once: true,
   });
 
   const imageControls = useAnimation();

@@ -1,6 +1,6 @@
 // Icons
 
-import Tippy from '@tippyjs/react';
+import { ToolTipComp } from '@/components/ui/tooltip';
 import Link from 'next/link';
 
 const about = {
@@ -8,10 +8,10 @@ const about = {
   bio: [
     <p key={'1'} className="leading-relaxed">
       ✍ I graduated from{' '}
-      <Tippy
-        placement="bottom"
+      <ToolTipComp
+        contentProps={{ side: 'bottom' }}
         content={
-          <div className="flex flex-col p-1">
+          <div className="bg-background flex flex-col p-1">
             <div className="font-semibold">Notable Awards I got:</div>
             <div className="h-2" />
             <div className="text-xs text-gray-200">
@@ -24,7 +24,7 @@ const about = {
         }
       >
         <span className="font-semibold">West Visayas State University</span>
-      </Tippy>{' '}
+      </ToolTipComp>{' '}
       with a CS degree and a major in Artificial Intelligence. I&apos;m a
       software engineer by trade: making apps, games, and solving problems that
       frustrate me.

@@ -3,9 +3,9 @@ import Container from '../container';
 import SectionHeading from '../section-heading';
 import { SectionProps } from './types';
 
-import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from '@/hooks/use-in-view';
+import { motion, useAnimation, Variants } from 'motion/react';
 import Link from 'next/link';
-import { useInView } from 'react-intersection-observer';
 import about from '../../../data/about';
 
 // Icons
@@ -21,7 +21,7 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
     <section
       id="about-section"
       ref={sectionRef}
-      className="w-full bg-gray-50 pb-28 pt-28"
+      className="w-full bg-gray-50 pt-28 pb-28"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
@@ -39,10 +39,9 @@ const About: React.FC<AboutProps> = ({ sectionRef }) => {
 
 const ProfileImage = () => {
   const [ref, inView] = useInView({
-    triggerOnce: true,
-    root: null,
-    rootMargin: '150px 0px',
-    threshold: 1,
+    once: true,
+    margin: '150px 0px',
+    amount: 'all',
   });
   const controls = useAnimation();
 
@@ -112,9 +111,8 @@ const profileInfoChildVariants: Variants = {
 
 const ProfileInfo = () => {
   const [ref, inView] = useInView({
-    triggerOnce: true,
-    root: null,
-    threshold: 0.5,
+    once: true,
+    amount: 0.5,
   });
   const controls = useAnimation();
 

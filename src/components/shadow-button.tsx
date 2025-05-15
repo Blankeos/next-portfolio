@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/cn';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { FC, MouseEventHandler, PropsWithChildren, useState } from 'react';
 
@@ -86,7 +86,7 @@ const ShadowButton: FC<ShadowButtonProps> = (props) => {
       <div
         style={{ height: elevation + elevation * 0.8 }}
         className={cn(
-          'absolute bottom-0 left-0 right-0 bg-primary-500',
+          'bg-primary absolute right-0 bottom-0 left-0',
           shadowClassName
         )}
       />
