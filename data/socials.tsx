@@ -1,24 +1,26 @@
-import { IconType } from 'react-icons';
+import { IconGithubAlt, IconInstagram, IconLinkedIn } from '@/assets/icons';
+import { ReactNode } from 'react';
 
-export type Social = { name: string; Icon: IconType; url: string };
+export type Social = { name: string; icon: ReactNode; url: string };
 
 type Socials = Social[];
 
 // Icons
 
-import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
-import { GrInstagram } from 'react-icons/gr';
-
 const socials: Socials = [
-  { name: 'GitHub', Icon: FaGithub, url: 'https://github.com/blankeos' },
+  {
+    name: 'GitHub',
+    icon: <IconGithubAlt />,
+    url: 'https://github.com/blankeos',
+  },
   {
     name: 'Instagram',
-    Icon: GrInstagram,
+    icon: <IconInstagram />,
     url: 'https://www.instagram.com/taleoncarlo/',
   },
   {
     name: 'LinkedIn',
-    Icon: FaLinkedinIn,
+    icon: <IconLinkedIn />,
     url: 'https://www.linkedin.com/in/carlotaleon/',
   },
 ];

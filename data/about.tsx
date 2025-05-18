@@ -46,7 +46,7 @@ const about = {
       seriously with C# back in 2016 and published my game in the same year
       called{' '}
       <Link
-        className="text-blue-400 hover:text-blue-300"
+        className="text-primary hover:text-primary-foreground"
         target="_blank"
         href="https://play.google.com/store/apps/details?id=com.DigikattStudios.Chromeleon&hl=en&gl=US"
       >
