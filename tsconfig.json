@@ -26,6 +26,7 @@
     ]
   },
   "include": [
+    "src/assets/icons/icons.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
