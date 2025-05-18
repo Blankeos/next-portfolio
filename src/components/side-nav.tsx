@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import sections from '../../data/sections';
+import sections from '@/data/sections';
 import Container from './container';
 import SectionLink from './section-link';
 

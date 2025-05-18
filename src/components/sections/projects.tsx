@@ -6,14 +6,14 @@ import SectionHeading from '../section-heading';
 import { RiArrowUpLine as Arrow } from 'react-icons/ri';
 import { SectionProps } from './types';
 
-import { motion, useAnimation, Variants } from 'framer-motion';
+import { useInView } from '@/hooks/use-in-view';
+import { motion, useAnimation, Variants } from 'motion/react';
 import Image from 'next/image';
-import { useInView } from 'react-intersection-observer';
 
 import { useElementSize } from '@/hooks/use-element-size';
-import { PageRoutes } from '@/lib/page-routes';
 import { byOrderAndDate } from '@/lib/sort-utils';
 import { allProjects, Project } from 'contentlayer/generated';
+import { $path } from 'next-typesafe-url';
 import Link from 'next/link';
 
 // ===========================================================================
@@ -26,11 +26,11 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
     <section
       id="projects-section"
       ref={sectionRef}
-      className="w-full bg-gray-50 py-16"
+      className="bg-background-secondary w-full py-16"
     >
       <Container maxWidth="7xl" className="relative">
         <SectionHeading
-          className="absolute z-20 text-4xl font-light text-gray-800 sm:text-5xl"
+          className="text-typography absolute z-20 text-4xl font-light sm:text-5xl"
           text={['Featured', 'Projects']}
         />
         <ProjectsGrid />
@@ -57,7 +57,10 @@ const ProjectsGrid = () => {
               title={project.title}
               description={project.description}
               featuredImage={project.featuredImage}
-              href={`${PageRoutes.Projects}/${project.slug}`}
+              href={$path({
+                route: '/projects/[slug]',
+                routeParams: { slug: project.slug },
+              })}
               tags={project.tags}
             />
           );
@@ -90,17 +93,15 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
   }, [marqueWidthSize, tagsWidthSize]);
 
   const [imageRef, imageInView] = useInView({
-    threshold: 0.3,
-    root: null,
-    rootMargin: '-100px 0px',
-    triggerOnce: true,
+    amount: 0.3,
+    margin: '-100px 0px',
+    once: true,
   });
 
   const [textRef, textInView] = useInView({
-    threshold: 1,
-    root: null,
-    rootMargin: '-100px 0px',
-    triggerOnce: true,
+    amount: 'all',
+    margin: '-100px 0px',
+    once: true,
   });
 
   const imageControls = useAnimation();
@@ -154,7 +155,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
             <div className="absolute inset-0">
               <div
                 ref={imageRef}
-                className="relative flex h-full w-full overflow-hidden bg-gray-200"
+                className="bg-background-secondary relative flex h-full w-full overflow-hidden"
               >
                 <span className="relative h-full w-full">
                   {featuredImage && (
@@ -175,7 +176,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
                 <motion.div
                   initial={{ height: '100%' }}
                   animate={imageControls}
-                  className="will-change-height absolute w-full self-start bg-gray-50"
+                  className="will-change-height bg-background-secondary absolute w-full self-start"
                 ></motion.div>
               </div>
             </div>
@@ -192,18 +193,18 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
               className="flex justify-between"
             >
               <div className="flex flex-col space-y-3">
-                <h3 className="text-2xl font-bold tracking-tighter text-gray-800 transition-[padding] duration-500 group-hover:pl-2 md:text-3xl">
+                <h3 className="text-typography text-2xl font-bold tracking-tighter transition-[padding] duration-500 group-hover:pl-2 md:text-3xl">
                   {title}
                 </h3>
                 <motion.p
                   variants={textChildVariants}
-                  className="text-sm text-gray-500 transition-[padding] delay-100 duration-500 group-hover:pl-2 md:text-base"
+                  className="text-typography-foreground text-sm transition-[padding] delay-100 duration-500 group-hover:pl-2 md:text-base"
                 >
                   {description?.toLowerCase() ?? 'short description'}
                 </motion.p>
               </div>
               <div className="relative flex h-12 w-12 items-center justify-center">
-                <div className="absolute flex h-0 w-0 items-center justify-center rounded-full bg-gradient-to-t from-[#1532ff] to-blue-500 transition-all duration-300 ease-out group-hover:h-12 group-hover:w-12"></div>
+                <div className="to-primary from-primary-darker absolute flex h-0 w-0 items-center justify-center rounded-full bg-gradient-to-t transition-all duration-300 ease-out group-hover:h-12 group-hover:w-12"></div>
                 <Arrow
                   size="2rem"
                   className="relative rotate-90 transform text-gray-800 transition duration-500 ease-out group-hover:rotate-45 group-hover:text-white"
@@ -220,7 +221,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
                     tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="mr-2 rounded-full border border-blue-500 px-2.5 py-1 text-xs text-blue-500 transition group-hover:bg-blue-500 group-hover:text-white"
+                        className="group-hover:bg-primary border-primary text-primary mr-2 rounded-full border px-2.5 py-1 text-xs transition group-hover:text-white"
                       >
                         <span className="block translate-y-[0.10rem] transform">
                           {tag}

@@ -1,3 +1,5 @@
+import { IconGithubAlt, IconSearch } from '@/assets/icons';
+import AestheticKeyboard from '@/components/aesthetic-keyboard';
 import { cn } from '@/lib/cn';
 import { formatDateRangeWithDuration } from '@/lib/format-date';
 import { Metadata } from 'next';
@@ -53,28 +55,64 @@ const AboutPage: FC<AboutPageProps> = () => {
               backgroundPosition: 'center',
             }}
           ></div>
-          <div className="absolute inset-0 bg-gradient-to-tl from-primary-600 to-primary-500/80 opacity-70"></div>
+          <div className="from-primary-dark to-primary/80 absolute inset-0 bg-gradient-to-tl opacity-70"></div>
         </div>
-        <h1 className="mb-1 mt-10 text-2xl font-semibold tracking-tighter">
+        <div className="mt-2 flex w-max flex-row-reverse justify-end gap-x-[2.5px] rounded-xl border bg-black p-[3px]">
+          <AestheticKeyboard
+            width={110}
+            containerClass="p-2 px-3"
+            className="text-xs"
+          >
+            <span className="absolute top-2 right-2 text-[8px]">4</span>
+            Enter
+          </AestheticKeyboard>
+          <AestheticKeyboard
+            className="overflow-hidden"
+            // containerClass="bg-white"
+          >
+            <span className="bg-primary absolute inset-0 z-10 opacity-30"></span>
+            <img
+              src="https://avatars.githubusercontent.com/u/38070918?v=4"
+              className="pointer-events-none object-cover grayscale"
+              alt="Avatar"
+            />
+          </AestheticKeyboard>
+          <AestheticKeyboard className="bg-white" containerClass="bg-white">
+            <span className="absolute top-2 right-2 text-[8px]">3</span>
+          </AestheticKeyboard>
+          <AestheticKeyboard>
+            <span className="absolute top-2 right-2 text-[8px]">2</span>
+            <IconGithubAlt className="h-5 w-5" />
+          </AestheticKeyboard>
+          <AestheticKeyboard
+            className="relative bg-orange-500 text-white/80"
+            containerClass="bg-orange-500"
+          >
+            <span className="absolute top-2 right-2 text-[8px]">1</span>
+            <IconSearch className="h-5 w-5" />
+          </AestheticKeyboard>
+        </div>
+
+        <h1 className="text-typography mt-10 mb-1 text-2xl font-semibold tracking-tighter">
           Carlo Antonio Taleon
         </h1>
-        <p className="text-sm text-neutral-600">
+        <p className="text-typography-foreground-light text-sm">
           A pretty okay software engineer from the Philippines.
         </p>
         <div className="h-8" />
-        <p className="text-sm text-neutral-700">
+        <p className="text-typography-foreground text-sm">
           I love creating web apps, dev tools, games, and doing machine
           learning! Professionally, I&apos;ve been doing React, Svelte, and
           NextJS. But my latest grind right now is{' '}
           <b className="font-medium">SolidJS</b> and solo-building SaaS apps.
         </p>
         <div className="h-5" />
-        <p className="text-sm text-neutral-700">
+        <p className="text-typography-foreground text-sm">
           I love exploring unconventional bleeding edge tech so you can always
           catch me learning the next big thing.
         </p>
         <div className="h-5" />
-        <p className="text-sm text-neutral-700">
+        <p className="text-typography-foreground text-sm">
           I contribute to open-source too!{' '}
           <Link href="https://vike.dev/team" className="underline">
             vike.dev
@@ -95,7 +133,7 @@ const AboutPage: FC<AboutPageProps> = () => {
           </Link>
         </p>
         <div className="h-5" />
-        <p className="text-sm text-neutral-700">
+        <p className="text-typography-foreground text-sm">
           I author some libraries as well:{' '}
           <Link href="https://bagon-hooks.pages.dev" className="underline">
             bagon-hooks
@@ -119,11 +157,9 @@ const AboutPage: FC<AboutPageProps> = () => {
             tsdot
           </Link>
         </p>
-        <div className="h-2" />
-        <p className="text-sm text-neutral-700"></p>
         <div className="h-8" />
-        <h2 className="mb-3 font-medium">Education</h2>
-        <div className="flex flex-col gap-y-3 text-sm text-typography-400">
+        <h2 className="text-typography mb-3 font-medium">Education</h2>
+        <div className="text-typography-foreground flex flex-col gap-y-3 text-sm">
           <p className="flex gap-x-1.5">
             <span className="">🏫</span> West Visayas State University
           </p>
@@ -139,7 +175,7 @@ const AboutPage: FC<AboutPageProps> = () => {
             <span className="">🏆</span> Most Outstanding CICT Student
           </p>
         </div>
-        <h1 className="mb-3 mt-10 text-2xl font-semibold tracking-tighter">
+        <h1 className="text-typography mt-10 mb-3 text-2xl font-semibold tracking-tighter">
           Work Experience
           {/* <span className="text-blue-500">{'(╯•ᗣ•╰)'}</span> */}
         </h1>
@@ -180,7 +216,7 @@ const WorkExperienceCard: FC<WorkExperienceCardProps> = (props) => {
   return (
     <div
       className={cn(
-        'flex justify-between gap-x-2 overflow-hidden rounded-md border border-neutral-200 bg-neutral-50 p-3'
+        'bg-background-secondary border-background-secondary flex justify-between gap-x-2 overflow-hidden rounded-md border p-3'
       )}
     >
       <div className="flex items-center gap-x-2">
@@ -189,10 +225,10 @@ const WorkExperienceCard: FC<WorkExperienceCardProps> = (props) => {
         </div>
 
         <div className="flex flex-col gap-y-1">
-          <p className="truncate font-medium text-neutral-800">
+          <p className="text-typography truncate font-medium">
             {props.company}
           </p>
-          <span className="truncate text-sm text-neutral-500">
+          <span className="text-typography-foreground-light truncate text-sm">
             {formatDateRangeWithDuration(props.dates)}
           </span>
           <span className="pt-3 text-sm text-neutral-600 sm:hidden">

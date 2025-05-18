@@ -1,3 +1,5 @@
+'use client';
+
 import FloatingCircle, { getContainerVariants } from '../floating-circle';
 // Icons
 import { FaReact } from 'react-icons/fa';
@@ -5,26 +7,33 @@ import { HiOutlineDocumentDownload as ResumeIcon } from 'react-icons/hi';
 import { SiTypescript } from 'react-icons/si';
 
 // React
-import React from 'react';
+import React, { useState } from 'react';
 
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants } from 'motion/react';
 import { Link as ScrollLink } from 'react-scroll';
 
 import Container from '../container';
 
-import Image from 'next/image';
+import { IconCamera, IconCommandKey, IconGithubAlt } from '@/assets/icons';
 import Link from 'next/link';
+import AestheticKeyboard from '../aesthetic-keyboard';
 import ParticlesBackground from '../particles-background';
+import { TvScreen, useGlitch } from '../tv-screen';
 import { SectionProps } from './types';
 
 interface HeroProps extends SectionProps {}
 
 const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
+  const [tvState, setTvState] = useState<'github' | 'command' | 'picture'>(
+    'picture'
+  );
+  const { glitch, triggerGlitch } = useGlitch();
+
   return (
     <section id="hero-section" ref={sectionRef} className="relative">
       <ParticlesBackground />
       <Container className="relative" maxWidth="7xl">
-        <div className="grid grid-cols-1 pb-24 pt-24 lg:grid-cols-[3fr,2fr]">
+        <div className="flex flex-col gap-5 gap-y-20 pt-24 pb-24 lg:flex-row">
           {/* Left Side */}
           <div className="flex flex-grow flex-col space-y-5 py-0">
             <div className="flex flex-col space-y-5">
@@ -39,7 +48,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                   duration: 2,
                 }}
               >
-                <span className="flex space-x-2">
+                <span className="text-typography-foreground flex space-x-2">
                   <motion.div
                     initial={{ rotate: 0 }}
                     animate={{
@@ -61,7 +70,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.7 }}
-                className="c relative z-10 mt-1 max-w-sm text-sm text-gray-600 md:text-base lg:max-w-md"
+                className="text-typography-foreground relative z-10 mt-1 max-w-sm text-sm md:text-base lg:max-w-md"
               >
                 A code-slinging <b>Software Engineer</b> from the Philippines
                 who&apos;s on a quest to touch people&apos;s lives, one app at a
@@ -80,59 +89,97 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
                 offset={5}
                 duration={500}
               >
-                <button className="secondary-btn">Get In Touch</button>
+                {/* TODO: Make into a button.tsx component. */}
+                <button className="hover:bg-primary text-primary border-primary relative z-10 truncate border bg-transparent bg-clip-padding px-6 py-3 text-sm backdrop-blur-sm backdrop-filter transition ease-out select-none hover:text-white md:text-base">
+                  Get In Touch
+                </button>
               </ScrollLink>
               <Link
                 target="_blank"
                 className="group relative z-20 transition hover:shadow-lg"
                 href="/CarloTaleonResume_LATEST.pdf"
               >
-                <span className="relative z-10 flex transform select-none items-center space-x-1 bg-blue-500 px-6 py-3 text-sm text-white transition ease-out will-change-transform group-hover:-translate-y-1.5 md:text-base">
+                <span className="bg-primary relative z-10 flex transform items-center space-x-1 px-6 py-3 text-sm text-white transition ease-out will-change-transform select-none group-hover:-translate-y-1.5 md:text-base">
                   <ResumeIcon size="1.2rem" className="relative" />
                   <span className="relative">Resume</span>
                 </span>
-                <span className="absolute inset-0 bg-blue-600"></span>
+                <span className="bg-primary-dark absolute inset-0"></span>
               </Link>
             </motion.div>
           </div>
           {/* Right Side Container*/}
-          <div className="hidden lg:block">
-            {/* Image Div (Floaty Animation) */}
-            <motion.div
-              initial={{ y: -5 }}
-              animate={{ y: 5 }}
-              transition={{
-                duration: 1.8,
-                repeat: Infinity,
-                repeatType: 'reverse',
-              }}
-              className="flex"
-            >
-              <motion.div
-                initial={{
-                  scale: 0.8,
-                  opacity: 0,
-                }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                  delay: 2.2,
-                  duration: 0.6,
-                  ease: 'easeOut',
+          <div className="flex shrink-0 flex-col gap-4 self-center">
+            <TvScreen glitch={glitch}>
+              {tvState === 'github' ? (
+                <IconGithubAlt />
+              ) : tvState === 'command' ? (
+                <IconCommandKey />
+              ) : tvState === 'picture' ? (
+                <>
+                  <span className="absolute top-2 right-4 z-20 font-mono text-xs">
+                    That&apos;s me
+                  </span>
+                  <img
+                    src="https://avatars.githubusercontent.com/u/38070918?v=4"
+                    className="pointer-events-none object-cover grayscale"
+                    alt="Avatar"
+                  />
+                  {/* <IconCamera /> */}
+                </>
+              ) : (
+                <></>
+              )}
+            </TvScreen>
+            <div className="active pointer-events-auto z-40 grid h-max shrink-0 grid-cols-3 gap-[3px] self-center rounded-lg bg-black p-[4px]">
+              <AestheticKeyboard
+                width={160 + 3}
+                spanContainerClass="col-span-2 z-[5]"
+                className="col-span-2 bg-[#DBD6CB]"
+                containerClass="bg-[#DBD6CB]"
+              ></AestheticKeyboard>
+              <AestheticKeyboard
+                spanContainerClass="z-[4]"
+                className="bg-[#DBD6CB]"
+                containerClass="bg-[#DBD6CB]"
+                onPointerDown={() => {
+                  setTvState('command');
+                  setTimeout(() => {
+                    triggerGlitch();
+                  }, 20);
                 }}
               >
-                <Image
-                  src="/imgs/hero_img.png"
-                  width={320}
-                  height={320}
-                  alt="Carlo's Picture"
-                  className="select-none"
-                  style={{
-                    maxWidth: '100%',
-                    height: 'auto',
-                  }}
-                />
-              </motion.div>
-            </motion.div>
+                <IconCommandKey className="text-neutral-800" />
+              </AestheticKeyboard>
+              <AestheticKeyboard
+                spanContainerClass="z-[3]"
+                onPointerDown={() => {
+                  setTvState('github');
+                  setTimeout(() => {
+                    triggerGlitch();
+                  }, 20);
+                }}
+              >
+                <IconGithubAlt />
+              </AestheticKeyboard>
+              <AestheticKeyboard
+                spanContainerClass="z-[2]"
+                className="bg-[#DBD6CB]"
+                containerClass="bg-[#DBD6CB]"
+                onPointerDown={() => {
+                  setTvState('picture');
+                  setTimeout(() => {
+                    triggerGlitch();
+                  }, 20);
+                }}
+              >
+                <IconCamera className="text-neutral-600" />
+              </AestheticKeyboard>
+              <AestheticKeyboard
+                spanContainerClass="z-[1]"
+                className="bg-[#DBD6CB]"
+                containerClass="bg-[#DBD6CB]"
+              ></AestheticKeyboard>
+            </div>
           </div>
         </div>
         <motion.div
@@ -239,12 +286,12 @@ const HeroHeading: React.FC = () => {
   };
 
   return (
-    <h1 className="relative z-10 flex flex-wrap text-blue-500">
+    <h1 className="text-primary relative z-10 flex flex-wrap">
       <motion.div
         variants={parentVariants}
         initial="hidden"
         animate="visible"
-        className="hero-text flex overflow-hidden pr-1 pt-2 font-black leading-none tracking-tight lg:text-8xl"
+        className="hero-text flex overflow-hidden pt-2 pr-1 leading-none font-black tracking-tight lg:text-8xl"
       >
         {'Carlo'.split('').map((letter, i) => {
           return (
@@ -254,10 +301,10 @@ const HeroHeading: React.FC = () => {
               className="block will-change-transform"
             >
               <div className="relative">
-                <div className="hero-letter-bg absolute inset-0 select-none text-[#1229d5]">
+                <div className="hero-letter-bg text-primary-darker absolute inset-0 select-none">
                   {letter}
                 </div>
-                <div className="hero-letter relative bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent">
+                <div className="hero-letter via-primary to-primary from-primary-dark relative bg-gradient-to-t bg-clip-text text-transparent">
                   {letter}
                 </div>
               </div>
@@ -265,14 +312,14 @@ const HeroHeading: React.FC = () => {
           );
         })}
       </motion.div>
-      <span className="hero-text font-black leading-none tracking-tight lg:text-8xl">
+      <span className="hero-text leading-none font-black tracking-tight lg:text-8xl">
         {' '}
       </span>
       <motion.div
         variants={parentVariants2}
         initial="hidden"
         animate="visible"
-        className="hero-text flex overflow-hidden pr-1 pt-2 font-black leading-none tracking-tight lg:text-8xl"
+        className="hero-text flex overflow-hidden pt-2 pr-1 leading-none font-black tracking-tight lg:text-8xl"
       >
         {'Taleon'.split('').map((letter, i) => {
           return (
@@ -282,10 +329,10 @@ const HeroHeading: React.FC = () => {
               className="block will-change-transform"
             >
               <div className="relative">
-                <div className="hero-letter-bg absolute inset-0 select-none text-[#1229d5]">
+                <div className="hero-letter-bg text-primary-darker absolute inset-0 select-none">
                   {letter}
                 </div>
-                <div className="hero-letter relative bg-gradient-to-t from-[#1532ff] via-blue-500 to-blue-500 bg-clip-text text-transparent">
+                <div className="hero-letter via-primary to-primary from-primary-dark relative bg-gradient-to-t bg-clip-text text-transparent">
                   {letter}
                 </div>
               </div>
@@ -297,6 +344,46 @@ const HeroHeading: React.FC = () => {
   );
 };
 export default Hero;
+
+// EVEN OLDER RIGHT FLOATING IMAGE
+// <div className="hidden lg:block">
+//   {/* Image Div (Floaty Animation) */}
+//   {/* <motion.div
+//     initial={{ y: -5 }}
+//     animate={{ y: 5 }}
+//     transition={{
+//       duration: 1.8,
+//       repeat: Infinity,
+//       repeatType: 'reverse',
+//     }}
+//     className="flex"
+//   >
+//     <motion.div
+//       initial={{
+//         scale: 0.8,
+//         opacity: 0,
+//       }}
+//       animate={{ scale: 1, opacity: 1 }}
+//       transition={{
+//         delay: 2.2,
+//         duration: 0.6,
+//         ease: 'easeOut',
+//       }}
+//     >
+//       <Image
+//         src="/imgs/hero_img.png"
+//         width={320}
+//         height={320}
+//         alt="Carlo's Picture"
+//         className="select-none"
+//         style={{
+//           maxWidth: '100%',
+//           height: 'auto',
+//         }}
+//       />
+//     </motion.div>
+//   </motion.div> */}
+// </div>;
 
 // OLD RIGHT SIDE IMAGE IN HERO
 {

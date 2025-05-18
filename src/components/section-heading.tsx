@@ -1,5 +1,6 @@
-import { motion, useAnimation, Variants } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useInView } from '@/hooks/use-in-view';
+import { motion, useAnimation, Variants } from 'motion/react';
+
 import { useEffect } from 'react';
 
 interface SectionHeadingProps {
@@ -36,10 +37,9 @@ const SectionHeading = ({
   noOffset = false,
 }: SectionHeadingProps) => {
   const [ref, inView] = useInView({
-    threshold: 1,
-    root: null,
-    rootMargin: '-150px 0px',
-    triggerOnce: true,
+    amount: 'all',
+    margin: '-150px 0px',
+    once: true,
   });
   const controls = useAnimation();
 

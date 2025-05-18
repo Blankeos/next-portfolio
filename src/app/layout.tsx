@@ -3,13 +3,14 @@ import Nav from '@/components/nav';
 import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
+import { Epilogue } from 'next/font/google';
 
 import NextTopLoader from 'nextjs-toploader';
 
 import { Analytics } from '@vercel/analytics/react';
 
-import ClientLayout from '@/components/client-layout';
-import { themes } from '@/styles/themes';
+import { SearchContextProvider } from '@/contexts/search.context';
+import { ThemeContextProvider } from '@/contexts/theme.context';
 import { Metadata } from 'next';
 import { FC, ReactNode } from 'react';
 
@@ -38,10 +39,14 @@ export const metadata: Metadata = {
   },
 };
 
+const epilogueFont = Epilogue({
+  subsets: ['latin'],
+});
+
 const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    <html lang="en" style={{ ...(themes.light as any) }}>
+    <html lang="en" className={epilogueFont.className}>
       <meta
         name="google-site-verification"
         content="Xc9Om93PVgBy3xwN6aPgKLGs4UNRZXQ5WsqMqeOiBMQ"
@@ -56,14 +61,28 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
       <meta name="theme-color" content="#3B82F6" />
       <meta property="og:type" content="website" />
       {process.env.NODE_ENV === 'production' && <Analytics />}
-      <body className="flex min-h-screen flex-col">
-        <ClientLayout>
-          <NextTopLoader color="#3B82F6" showSpinner={false} />
-          <Nav />
-          <main className="flex flex-grow flex-col">{props.children}</main>
-          <Footer />
-          <Toaster />
-        </ClientLayout>
+      <body
+        className="flex min-h-screen flex-col"
+        style={{ overscrollBehaviorY: 'contain' }}
+      >
+        <ThemeContextProvider>
+          <SearchContextProvider>
+            <NextTopLoader color="var(--primary)" showSpinner={false} />
+            <Nav />
+            <main className="flex flex-grow flex-col">{props.children}</main>
+            <Footer />
+            <Toaster
+              toastOptions={{
+                style: {
+                  background: 'var(--background)',
+                  color: 'var(--foreground)',
+                  borderWidth: '1px',
+                  borderColor: 'var(--border)',
+                },
+              }}
+            />
+          </SearchContextProvider>
+        </ThemeContextProvider>
       </body>
     </html>
   );

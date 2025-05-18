@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import skills, { Skill } from '../../../data/skills';
+import skills, { Skill } from '@/data/skills';
 import Container from '../container';
 import SectionHeading from '../section-heading';
 import { SectionProps } from './types';
 
-import { motion, useAnimation, Variants } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useInView } from '@/hooks/use-in-view';
+import { motion, useAnimation, Variants } from 'motion/react';
 
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
+import { ToolTipComp } from '../ui/tooltip';
 
 interface SkillsProps extends SectionProps {}
 
@@ -36,7 +36,7 @@ const Skills: React.FC<SkillsProps> = ({ sectionRef }) => {
 
 const GrayCircle = () => {
   return (
-    <div className="absolute -left-20 -top-20 flex h-20 w-20 items-center justify-center rounded-full bg-gray-200">
+    <div className="absolute -top-20 -left-20 flex h-20 w-20 items-center justify-center rounded-full bg-gray-200">
       <div className="absolute h-72 w-72 rounded-full border border-gray-200"></div>
     </div>
   );
@@ -71,9 +71,8 @@ const skillItemVariants: Variants = {
 
 const SkillsGrid = () => {
   const [ref, inView] = useInView({
-    threshold: 0.8,
-    root: null,
-    triggerOnce: true,
+    amount: 0.8,
+    once: true,
   });
 
   const controls = useAnimation();
@@ -110,14 +109,14 @@ const SkillsGrid = () => {
 interface SkillItem extends Skill {}
 const SkillItem: React.FC<SkillItem> = ({ name, Icon }) => {
   return (
-    <Tippy content={name}>
+    <ToolTipComp content={name}>
       <motion.div
         variants={skillItemVariants}
         className="flex h-20 w-20 items-center justify-center text-5xl md:text-6xl"
       >
         <Icon className="text-blue-500" />
       </motion.div>
-    </Tippy>
+    </ToolTipComp>
   );
 };
 

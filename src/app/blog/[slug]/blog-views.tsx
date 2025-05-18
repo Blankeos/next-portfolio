@@ -4,7 +4,7 @@ import { IconLoadingLoop } from '@/assets/icons';
 import { usePathname } from 'next/navigation';
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { animate } from 'framer-motion';
+import { animate } from 'motion/react';
 
 type BlogViewsProps = {};
 
@@ -52,7 +52,7 @@ const BlogViews: FC<BlogViewsProps> = (_props) => {
   }, []);
 
   return (
-    <span className="flex items-center text-sm text-primary-500">
+    <span className="text-primary flex items-center text-sm">
       <IconLoadingLoop
         className={`text-neutral-400 ${isLoading ? '' : 'hidden'}`}
         width={20}

@@ -1,6 +1,6 @@
 // Icons
 
-import Tippy from '@tippyjs/react';
+import { ToolTipComp } from '@/components/ui/tooltip';
 import Link from 'next/link';
 
 const about = {
@@ -8,10 +8,10 @@ const about = {
   bio: [
     <p key={'1'} className="leading-relaxed">
       ✍ I graduated from{' '}
-      <Tippy
-        placement="bottom"
+      <ToolTipComp
+        contentProps={{ side: 'bottom' }}
         content={
-          <div className="flex flex-col p-1">
+          <div className="bg-background flex flex-col p-1">
             <div className="font-semibold">Notable Awards I got:</div>
             <div className="h-2" />
             <div className="text-xs text-gray-200">
@@ -24,7 +24,7 @@ const about = {
         }
       >
         <span className="font-semibold">West Visayas State University</span>
-      </Tippy>{' '}
+      </ToolTipComp>{' '}
       with a CS degree and a major in Artificial Intelligence. I&apos;m a
       software engineer by trade: making apps, games, and solving problems that
       frustrate me.
@@ -46,7 +46,7 @@ const about = {
       seriously with C# back in 2016 and published my game in the same year
       called{' '}
       <Link
-        className="text-blue-400 hover:text-blue-300"
+        className="text-primary hover:text-primary-foreground"
         target="_blank"
         href="https://play.google.com/store/apps/details?id=com.DigikattStudios.Chromeleon&hl=en&gl=US"
       >

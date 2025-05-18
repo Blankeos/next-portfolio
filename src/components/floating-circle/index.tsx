@@ -1,5 +1,5 @@
+import { motion, Variants } from 'motion/react';
 import { CSSProperties } from 'react';
-import { motion, Variants } from 'framer-motion';
 
 export const getContainerVariants = (
   staggerChildren: number = 0.2,
@@ -46,6 +46,7 @@ const nucleusChildVariants: Variants = {
   },
 };
 
+import toast from 'react-hot-toast';
 import { Renderable } from 'react-hot-toast/headless';
 interface FloatingCircleProps {
   style: CSSProperties | undefined;
@@ -55,7 +56,6 @@ interface FloatingCircleProps {
   floatDelay?: number;
   toastMessage?: Renderable;
 }
-import toast from 'react-hot-toast';
 const FloatingCircle: FCC<FloatingCircleProps> = ({
   style,
   orbitSize = '35rem',

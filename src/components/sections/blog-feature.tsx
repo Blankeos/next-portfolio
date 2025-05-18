@@ -1,8 +1,8 @@
 import { IconArrowUp } from '@/assets/icons';
 import { formatDateShort } from '@/lib/format-date';
-import { PageRoutes } from '@/lib/page-routes';
 import { byDate } from '@/lib/sort-utils/date';
 import { allPosts } from 'contentlayer/generated';
+import { $path } from 'next-typesafe-url';
 import Link from 'next/link';
 import { FC } from 'react';
 import Container from '../container';
@@ -20,13 +20,13 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
     >
       <Container maxWidth="7xl" className="relative z-10 grid grid-cols-1">
         <SectionHeading
-          className="relative z-10 text-4xl font-light text-gray-800 sm:text-5xl"
+          className="text-typography relative z-10 text-4xl font-light sm:text-5xl"
           text={['Recent', 'Posts']}
         />
 
         <div className="h-5" />
 
-        <p className="text-neutral-500">
+        <p className="text-typography-foreground">
           I also write about stuff I&apos;m learning for fun.
         </p>
 
@@ -43,7 +43,7 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
               >
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="pointer-events-auto text-neutral-800 group-hover:underline"
+                  className="text-typography pointer-events-auto group-hover:underline"
                 >
                   {post.title}
                 </Link>
@@ -58,13 +58,13 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
             ))}
 
           <Link
-            href={PageRoutes.Blog}
-            className="relative flex items-center gap-x-1 self-start text-neutral-800"
+            href={$path({ route: '/blog' })}
+            className="text-typography relative flex items-center gap-x-1 self-start"
           >
             <span>all posts</span>
             <IconArrowUp className="rotate-90" />
 
-            <span className="absolute bottom-1 left-0 right-0 h-[1px] bg-neutral-700"></span>
+            <span className="absolute right-0 bottom-1 left-0 h-[1px] bg-neutral-700"></span>
           </Link>
         </div>
       </Container>
