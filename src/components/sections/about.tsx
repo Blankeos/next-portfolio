@@ -6,7 +6,7 @@ import { SectionProps } from './types';
 import { useInView } from '@/hooks/use-in-view';
 import { motion, useAnimation, Variants } from 'motion/react';
 import Link from 'next/link';
-import about from '../../../data/about';
+import about from '@/data/about';
 
 // Icons
 import { cn } from '@/lib/cn';

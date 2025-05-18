@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Container from '../container';
 import SectionHeading from '../section-heading';
 
-import Link from 'next/link';
 import { SectionProps } from './types';
 
+import socials from '@/data/socials';
 import 'tippy.js/dist/tippy.css'; // optional
-import socials, { Social } from '../../../data/socials';
 
 import { useInView } from '@/hooks/use-in-view';
 import { motion, useAnimation, Variants } from 'motion/react';
@@ -55,7 +54,7 @@ const Contact: React.FC<ContactProps> = ({ sectionRef }) => {
         >
           <ClickableEmail />
           <div className="text-primary mt-5 flex flex-row-reverse gap-[2.5px] rounded-xl border bg-black p-[2.5px]">
-            {socials.toReversed().map((social, i) => {
+            {socials.map((social, i) => {
               return (
                 <AestheticKeyboard
                   key={i}

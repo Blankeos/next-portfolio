@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import skills, { Skill } from '../../../data/skills';
+import skills, { Skill } from '@/data/skills';
 import Container from '../container';
 import SectionHeading from '../section-heading';
 import { SectionProps } from './types';

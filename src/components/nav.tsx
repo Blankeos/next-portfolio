@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Container from './container';
 
-import { useThemeContext } from '@/contexts/theme.context';
 import { cn } from '@/lib/cn';
 import { motion, Variants } from 'motion/react';
 import { $path } from 'next-typesafe-url';
@@ -62,8 +61,6 @@ const Nav = () => {
     useState<boolean>(false);
 
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-
-  const { theme, setTheme } = useThemeContext();
 
   return (
     <motion.nav
