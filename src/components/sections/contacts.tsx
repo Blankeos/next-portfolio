@@ -160,19 +160,20 @@ const contactInfoChildVariants: Variants = {
   },
 };
 
-interface SocialLink extends Social {}
+// interface SocialLinkProps extends Social {}
 
-const SocialLink: React.FC<SocialLink> = ({ name, Icon, url }) => {
-  return (
-    <Link href={url} target="_blank" className="group relative p-1">
-      <div className="will-change relative transform overflow-hidden transition ease-in-out group-hover:-translate-y-2">
-        <motion.span variants={contactInfoChildVariants} className="block">
-          <Icon />
-        </motion.span>
-      </div>
-      <span className="bg-primary absolute right-0 bottom-0 left-0 mx-auto h-1.5 w-8/12 rounded-[50%] opacity-0 transition group-hover:opacity-70"></span>
-    </Link>
-  );
-};
+// const SocialLink: React.FC<SocialLinkProps> = ({ name, icon, url }) => {
+//   return (
+//     <Link href={url} target="_blank" className="group relative p-1">
+//       <div className="will-change relative transform overflow-hidden transition ease-in-out group-hover:-translate-y-2">
+//         <motion.span
+//           variants={contactInfoChildVariants}
+//           className="block"
+//         ></motion.span>
+//       </div>
+//       <span className="bg-primary absolute right-0 bottom-0 left-0 mx-auto h-1.5 w-8/12 rounded-[50%] opacity-0 transition group-hover:opacity-70"></span>
+//     </Link>
+//   );
+// };
 
 export default Contact;
