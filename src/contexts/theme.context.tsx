@@ -13,20 +13,33 @@ import {
 // Context
 // ===========================================================================
 
-export const themes = ['light', 'dark', 'system'] as const;
+export const themes = ['light', 'dark', 'system', 'batman'] as const;
+
+export const intrinsicMap: Record<
+  Exclude<(typeof themes)[number], 'system'>,
+  'light' | 'dark'
+> = {
+  light: 'light',
+  dark: 'dark',
+  batman: 'dark',
+} as const;
 
 export type Theme = (typeof themes)[number];
 
 export type ThemeContextValue = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  /** A theme value that doesn't include 'system' because it will be inferred. */
   inferredTheme: Exclude<Theme, 'system'>;
+  /** Infers what any theme is intrinsically 'light' or 'dark'. */
+  intrinsicTheme: 'light' | 'dark';
 };
 
 const ThemeContext = createContext<ThemeContextValue>({
   theme: 'light',
   setTheme: () => {},
   inferredTheme: 'light',
+  intrinsicTheme: 'light',
 });
 
 // ===========================================================================
@@ -42,12 +55,16 @@ export const ThemeContextProvider: React.FC<{ children: ReactNode }> = (
 ) => {
   const [theme, setTheme] = useLocalStorage<Theme>({
     key: 'carlo-portfolio-theme',
-    defaultValue: 'system',
+    defaultValue: 'light',
   });
 
   /** For logic that relies on literally just `light` or `dark` themes (i.e. CodeMirror). Also infers system. */
   const [inferredTheme, setInferredTheme] =
     useState<Exclude<Theme, 'system'>>('light');
+
+  const [intrinsicTheme, setIntrinsicTheme] = useState<'light' | 'dark'>(
+    'light'
+  );
 
   useEffect(() => {
     let themeValue = theme;
@@ -68,6 +85,7 @@ export const ThemeContextProvider: React.FC<{ children: ReactNode }> = (
     });
 
     setInferredTheme(themeValue);
+    setIntrinsicTheme(intrinsicMap[themeValue]);
   }, [theme]);
 
   return (
@@ -76,6 +94,7 @@ export const ThemeContextProvider: React.FC<{ children: ReactNode }> = (
         theme,
         setTheme,
         inferredTheme,
+        intrinsicTheme,
       }}
     >
       {props.children}
