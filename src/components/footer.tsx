@@ -5,13 +5,13 @@ import HomeLinkButton from './home-link-button';
 
 const Footer = () => {
   return (
-    <footer className="relative bg-blue-500 text-white">
-      <Container className="flex flex-col items-center space-y-5 py-20">
+    <footer className="bg-primary relative h-[276px] text-white">
+      <Container className="relative flex flex-col items-center space-y-5 py-20">
         <Link
           href="/"
-          className="group relative flex cursor-pointer select-none items-center px-5 text-xl font-extrabold"
+          className="group relative flex cursor-pointer items-center px-5 text-xl font-extrabold select-none"
         >
-          <span className="absolute text-blue-600 group-hover:opacity-100">
+          <span className="text-primary-darker absolute group-hover:opacity-100">
             CATT
           </span>
           <span className="relative transition group-hover:-translate-y-1">

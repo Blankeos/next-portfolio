@@ -60,8 +60,10 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
       </div>
 
       <div className="overflow relative z-20 mx-auto w-full max-w-5xl px-7">
-        <h1 className="mb-1 text-3xl">{project.title}</h1>
-        <p className="text-typography-300">{project.description}</p>
+        <h1 className="text-typography mb-1 text-3xl">{project.title}</h1>
+        <p className="text-typography-foreground-light">
+          {project.description}
+        </p>
 
         <div className="h-5" />
 
@@ -69,7 +71,7 @@ const ProjectPost: FC<ProjectPostProps> = async (props) => {
           {project.tags?.map((tag) => (
             <div
               key={tag}
-              className="rounded-full border border-blue-500 bg-blue-50 px-2 py-0.5 pb-0 text-blue-500"
+              className="border-primary text-primary rounded-full border bg-blue-50 px-2 py-0.5 pb-0"
             >
               {tag}
             </div>

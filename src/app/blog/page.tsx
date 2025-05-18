@@ -17,9 +17,9 @@ const BlogPage: FC<BlogPageProps> = (props) => {
   return (
     <>
       <Container maxWidth="7xl">
-        <h1 className="mb-1 text-3xl">
+        <h1 className="text-typography mb-1 text-3xl">
           Blog{' '}
-          <span className="ml-3 text-xs text-typography-300">
+          <span className="text-typography-foreground-light ml-3 text-xs">
             I just write about
           </span>
         </h1>
@@ -31,7 +31,8 @@ const BlogPage: FC<BlogPageProps> = (props) => {
             className="absolute inset-0 z-10"
             style={{
               // background: `rgb(2,0,36)`,
-              background: `radial-gradient(circle, rgba(2,0,36,0) 0%, rgba(232,232,235,0) 76%, rgba(255,255,255,1) 100%)`,
+              // background: `radial-gradient(circle, rgba(2,0,36,0) 0%, rgba(232,232,235,0) 76%, rgba(255,255,255,1) 100%)`,
+              background: `radial-gradient(circle, rgba(2,0,36,0) 0%, rgba(232,232,235,0) 76%, var(--background) 100%)`,
             }}
           />
           <Marquee speed={50} className="relative" autoFill={true}>
@@ -58,7 +59,7 @@ const BlogPage: FC<BlogPageProps> = (props) => {
             </div>
           </Marquee>
         </div>
-        {/* <p className="text-typography-300">
+        {/* <p className="text-typography-foreground-light">
           This is pretty much just me writing about stuff I like.
         </p> */}
       </Container>

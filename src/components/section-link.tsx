@@ -20,20 +20,20 @@ const SectionLink: FCC<SectionLinkProps> = ({
       smooth={true}
       offset={5}
       duration={500}
-      className="group relative cursor-pointer select-none px-1 py-0.5"
+      className="group pointer-events-auto relative cursor-pointer px-1 py-0.5 select-none"
       onClick={onClick}
     >
       <div className="relative">
         <span
           className={`${
-            active && 'text-blue-500'
-          } relative transition-all duration-500 ease-out group-hover:text-blue-500`}
+            active && 'text-primary'
+          } group-hover:text-primary relative transition-all duration-500 ease-out`}
         >
           {children}
         </span>
         <span
-          className={`absolute right-0 block h-[0.115rem] transition-all duration-500 ease-out group-hover:left-0 group-hover:w-full group-hover:bg-blue-500 ${
-            active ? 'left-0 w-full bg-blue-500' : 'w-0 bg-gray-500'
+          className={`group-hover:bg-primary absolute right-0 block h-[0.115rem] transition-all duration-500 ease-out group-hover:left-0 group-hover:w-full ${
+            active ? 'bg-primary left-0 w-full' : 'w-0 bg-gray-500'
           }`}
         ></span>
       </div>

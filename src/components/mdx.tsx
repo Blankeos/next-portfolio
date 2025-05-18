@@ -14,7 +14,7 @@ const components = {
     <HeadingElement
       as="h3"
       classNames={[
-        'mt-2 scroll-m-10 text-3xl font-bold tracking-tight text-neutral-800',
+        'mt-2 scroll-m-10 text-3xl font-bold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -24,7 +24,7 @@ const components = {
     <HeadingElement
       as="h3"
       classNames={[
-        'mt-10 scroll-m-10 pb-1 text-2xl font-semibold tracking-tight text-neutral-800 first:mt-0',
+        'mt-10 scroll-m-10 pb-1 text-2xl font-semibold tracking-tight text-typography first:mt-0',
         className,
       ]}
       {...props}
@@ -34,7 +34,7 @@ const components = {
     <HeadingElement
       as="h3"
       classNames={[
-        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight',
+        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -44,7 +44,7 @@ const components = {
     <HeadingElement
       as="h4"
       classNames={[
-        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight',
+        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -54,7 +54,7 @@ const components = {
     <HeadingElement
       as="h5"
       classNames={[
-        'mt-8 scroll-m-10 text-lg font-semibold tracking-tight',
+        'mt-8 scroll-m-10 text-lg font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -64,7 +64,7 @@ const components = {
     <HeadingElement
       as="h5"
       classNames={[
-        'mt-8 scroll-m-10 text-base font-semibold tracking-tight',
+        'mt-8 scroll-m-10 text-base font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -82,7 +82,7 @@ const components = {
   p: ({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) => (
     <p
       className={cn(
-        'leading-7 text-neutral-700 [&:not(:first-child)]:mt-6',
+        'text-typography-foreground leading-7 [&:not(:first-child)]:mt-6',
         className
       )}
       {...props}
@@ -95,7 +95,7 @@ const components = {
     <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
   ),
   li: ({ className, ...props }: HTMLAttributes<HTMLLIElement>) => (
-    <li className={cn('mt-2 text-neutral-800', className)} {...props} />
+    <li className={cn('text-typography mt-2', className)} {...props} />
   ),
   blockquote: ({ className, ...props }: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
@@ -164,8 +164,8 @@ const components = {
           )}
           {...props}
         >
-          <span className="absolute -top-0.5 right-0 -bottom-0.5 left-0 rounded bg-neutral-200" />
-          <span className="relative text-neutral-800">{props.children}</span>
+          <span className="bg-typography-foreground-light absolute -top-0.5 right-0 -bottom-0.5 left-0 rounded" />
+          <span className="text-background relative">{props.children}</span>
         </code>
       );
 
@@ -230,7 +230,7 @@ function HeadingElement(props: HeadingElementProps) {
       /> */}
       <span
         aria-hidden
-        className="absolute right-full hidden w-max pr-1 text-neutral-500 opacity-30 group-hover:block"
+        className="text-typography-foreground-light absolute right-full hidden w-max pr-1 opacity-30 group-hover:block"
       >
         #
       </span>

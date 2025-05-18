@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Container from './container';
 
+import { useThemeContext } from '@/contexts/theme.context';
 import { cn } from '@/lib/cn';
-import { PageRoutes } from '@/lib/page-routes';
 import { motion, Variants } from 'motion/react';
+import { $path } from 'next-typesafe-url';
 import { usePathname } from 'next/navigation';
+import { CmdNav } from './cmd-nav';
 
 const navVariants: Variants = {
   hidden: {
@@ -41,15 +43,15 @@ const navChildVariants: Variants = {
 const navLinks = [
   {
     label: 'About',
-    href: PageRoutes.About,
+    href: $path({ route: '/about' }),
   },
   {
     label: 'Projects',
-    href: PageRoutes.Projects,
+    href: $path({ route: '/projects' }),
   },
   {
     label: 'Blog',
-    href: PageRoutes.Blog,
+    href: $path({ route: '/blog' }),
   },
 ];
 
@@ -61,11 +63,13 @@ const Nav = () => {
 
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
+  const { theme, setTheme } = useThemeContext();
+
   return (
     <motion.nav
       variants={navVariants}
       // 👇 Only show animation when on `/home`
-      initial={pathname === PageRoutes.Home ? 'hidden' : 'visible'}
+      initial={pathname === $path({ route: '/' }) ? 'hidden' : 'visible'}
       animate="visible"
       className="relative z-30 h-24 w-full"
     >
@@ -75,10 +79,10 @@ const Nav = () => {
       >
         <Link
           href="/"
-          className="group flex h-full cursor-pointer items-center pr-5 text-2xl font-black tracking-tight text-blue-500 select-none lg:text-2xl"
+          className="group text-primary flex h-full cursor-pointer items-center pr-5 text-2xl font-black tracking-tight select-none lg:text-2xl"
         >
           <motion.span variants={navChildVariants} className="relative block">
-            <span className="absolute block text-[#1532ff]">CATT</span>
+            <span className="text-primary-darker absolute block">CATT</span>
             <span className="text-primary relative block transition will-change-transform group-hover:-translate-y-[0.20rem]">
               CATT
             </span>
@@ -87,7 +91,7 @@ const Nav = () => {
 
         <div className="flex space-x-10">
           <div
-            className="flex items-center gap-x-10 text-sm text-gray-600"
+            className="hidden items-center gap-x-10 text-sm text-gray-600 md:flex"
             onMouseEnter={() => setLinksContainerIsHovered(true)}
             onMouseLeave={() => {
               setLinksContainerIsHovered(false);
@@ -97,7 +101,7 @@ const Nav = () => {
               <motion.span
                 variants={navChildVariants}
                 key={index}
-                className="relative block"
+                className="text-typography-foreground relative block"
                 onMouseEnter={() => setHoveredLink(navLink.label)}
               >
                 <Link href={navLink.href} className={cn('relative h-5')}>
@@ -122,7 +126,7 @@ const Nav = () => {
                         animate={{
                           width: linksContainerIsHovered ? undefined : 0,
                         }}
-                        className="absolute bottom-0 h-[1px] w-full bg-blue-500 will-change-auto"
+                        className="bg-primary absolute bottom-0 h-[1px] w-full will-change-auto"
                       />
                     </motion.span>
                   ) : null}
@@ -142,6 +146,7 @@ const Nav = () => {
               </motion.span>
             ))}
           </div>
+          <CmdNav />
         </div>
       </Container>
     </motion.nav>
@@ -157,7 +162,7 @@ const SocialLink: FCC<SocialLinkProps> = ({ href, children }) => {
       href={href}
       className="group relative flex h-10 w-10 cursor-pointer items-center justify-center transition ease-out select-none hover:text-white"
     >
-      <span className="absolute h-0 w-0 rounded-full bg-blue-500 transition-all ease-in-out group-hover:h-10 group-hover:w-10"></span>
+      <span className="bg-primary absolute h-0 w-0 rounded-full transition-all ease-in-out group-hover:h-10 group-hover:w-10"></span>
       <span className="relative">{children}</span>
     </Link>
   );

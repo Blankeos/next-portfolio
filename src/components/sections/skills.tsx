@@ -7,8 +7,8 @@ import { SectionProps } from './types';
 import { useInView } from '@/hooks/use-in-view';
 import { motion, useAnimation, Variants } from 'motion/react';
 
-import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
+import { ToolTipComp } from '../ui/tooltip';
 
 interface SkillsProps extends SectionProps {}
 
@@ -109,14 +109,14 @@ const SkillsGrid = () => {
 interface SkillItem extends Skill {}
 const SkillItem: React.FC<SkillItem> = ({ name, Icon }) => {
   return (
-    <Tippy content={name}>
+    <ToolTipComp content={name}>
       <motion.div
         variants={skillItemVariants}
         className="flex h-20 w-20 items-center justify-center text-5xl md:text-6xl"
       >
         <Icon className="text-blue-500" />
       </motion.div>
-    </Tippy>
+    </ToolTipComp>
   );
 };
 

@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/cn';
 import { formatDate } from '@/lib/format-date';
-import { PageRoutes } from '@/lib/page-routes';
+import { $path } from 'next-typesafe-url';
 import Link from 'next/link';
 import { FC } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -26,9 +26,12 @@ const BlogCard: FC<BlogCardProps> = (props) => {
       }}
     >
       <Link
-        href={`${PageRoutes.Blog}/${props.slug}`}
+        href={$path({
+          route: '/blog/[slug]',
+          routeParams: { slug: props.slug },
+        })}
         className={cn(
-          'border-primary relative flex h-full flex-col gap-y-3 overflow-hidden border bg-white p-5',
+          'border-primary bg-background relative flex h-full flex-col gap-y-3 overflow-hidden border p-5',
           'aspect-auto min-[1140px]:aspect-[0.95/1] lg:aspect-[0.85/1] xl:aspect-[0.8/1]'
         )}
       >
@@ -47,19 +50,19 @@ const BlogCard: FC<BlogCardProps> = (props) => {
 
         <div className="flex flex-1 flex-col items-start">
           {props.category !== undefined && (
-            <span className="bg-primary text-xxs mb-2 self-start rounded-full border px-2 py-0.5 text-white">
+            <span className="bg-primary text-xxs mb-2 self-start rounded-full px-2 py-0.5 text-white">
               {props.category}
             </span>
           )}
-          <h2 className="text-start">{props.title}</h2>
-          <p className="text-typography-300 line-clamp-2 text-left text-sm">
+          <h2 className="text-typography text-start">{props.title}</h2>
+          <p className="text-typography-foreground-light line-clamp-2 text-left text-sm">
             {props.description}
           </p>
 
           <div aria-hidden className="min-h-[20px] flex-1 bg-pink-200" />
 
           <time
-            className="text-xxs text-typography-300 self-end"
+            className="text-xxs text-typography-foreground-light self-end"
             dateTime={props.date}
           >
             {formatDate(props.date)}

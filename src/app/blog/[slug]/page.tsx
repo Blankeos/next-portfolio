@@ -87,7 +87,7 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
               <time className="text-primary text-sm" dateTime={post.date}>
                 {formatDate(post.date)} <span>•</span>
               </time>
-              <span className="text-typography-300 text-sm">
+              <span className="text-typography-foreground-light text-sm">
                 {post.readTimeStats.text}
               </span>
               <span>•</span>
@@ -96,7 +96,7 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <h1 className="text-typography-500 text-2xl font-bold md:text-[36px] md:leading-[50px]">
+            <h1 className="text-typography text-2xl font-bold md:text-[36px] md:leading-[50px]">
               {post.title}
             </h1>
           </FadeIn>
@@ -115,10 +115,10 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
                 target="_blank"
                 className="group flex flex-col"
               >
-                <p className="text-typography-600 text-sm group-hover:underline">
+                <p className="text-typography-foreground text-sm group-hover:underline">
                   Carlo Taleon
                 </p>
-                <p className="text-typography-300 text-xs group-hover:underline">
+                <p className="text-typography-foreground-light text-xs group-hover:underline">
                   @carlo_taleon
                 </p>
               </Link>
