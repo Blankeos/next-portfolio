@@ -1,0 +1,218 @@
+---
+title: Host your apps with Dokku 🐳
+date: 2025-05-17
+featuredImage: /blog-imgs/host-apps-with-dokku.webp
+category: Deployment
+description: The most performant Vercel-like deployment for your cheap VPS.
+---
+
+Okay, so I've been messing around with Dokku, and honestly? It's a breath of fresh air after pleasantly using Dokploy/Coolify. Yes, it looks harder, there's no interface, but what if that actually is the best part about it?
+
+I wrote this guide as a cheatsheet for myself. This whole markdown is basically my brain-dump on getting it set up. So feel free to save it and use it as a reference!
+
+### To convince you...
+
+- ⚡️ **It's efficient.** There's no fancy web frontend that takes up your server's resources. It definitely is the "smallest PaaS" you've ever seen. I've personally had my VPS crashing with Dokploy/Coolify while building Next.js (it was that bad), but Dokploy didn't even make my VPS sweat!
+- 🖱️ **All commands.** Everything's a CLI command-away so you can pretty much get a full-blown Vercel-like deployment after copy-pasting a few commands.
+
+### Let's do this!
+
+Let's walk through deploying a fictional: 🐳 **"Whale App"** – because why not? It's got a frontend and a CMS, because that's how we roll.
+
+This goes without saying, but I'm assuming you already have: a VPS (Digital Ocean, Linode, Heztner, etc), a domain, and a GitHub account.
+
+Here's the game plan for the **smoothest Dokku Deployment setup** (in my opinion):
+
+1. 🌎 **VPS Setup** - Get Dokku installed and do some initial tweaking.
+2. 🐳 **App Setup** - Create our "whaleapp" apps, tell Dokku where the code lives, etc.
+3. 🔑 **Local Setup** - SSH keys ahoy! We'll set up keys to push code directly from your machine.
+4. 🤖 **Bonus: GitHub Actions Setup** - (Optional, but HIGHLY recommended) Automate deployments like a boss.
+
+```sh
+# ==================================
+# ========== 🌎 VPS SETUP ==========
+# ==================================
+# 1. Install Dokku
+wget -NP . https://dokku.com/install/v0.35.16/bootstrap.sh
+sudo DOKKU_TAG=v0.35.16 bash bootstrap.sh
+
+# 2. Some initial config.
+dokku git:set --global deploy-branch main # Unless you use `master` as your deploy branch, you need this.
+
+# ==================================
+# ========== 🐳 APP SETUP ==========
+# ==================================
+# 1. Create the apps.
+dokku apps:create whaleapp-frontend
+dokku apps:create whaleapp-cms
+
+# 2. Set **Build Dir** (for Monorepos) - This will act as if, this becomes the root directory.
+# That also makes it so the other commands are relative to this directory.
+dokku builder:set whaleapp-frontend build-dir packages/frontend
+dokku builder:set whaleapp-cms build-dir packages/cms
+
+# 3. Set **Builder Instructions**
+# - Dokku supports Buildpacks (Nix or Heroku), Dockerfiles, and even pre-built Docker images.
+# - We're going the Dockerfile route because it's the easier to setup than Images, and less limited than Buildpacks.
+dokku builder-dockerfile:set whaleapp-frontend dockerfile-path Dockerfile # Notice that this ./Dockerfile is actually relative to the build-dir, if not it would be packages/frontend/Dockerfile.
+dokku builder-dockerfile:set whaleapp-cms dockerfile-path Dockerfile
+
+# 4. Set **Env Variables** - Crucial for configuring your app!
+dokku config:set whaleapp-frontend <VAR1=VALUE1> <VAR2=VALUE2> <VAR3=VALUE3>
+dokku config:set whaleapp-cms <VAR1=VALUE1> <VAR2=VALUE2> <VAR3=VALUE3>
+
+### ⚠️ Note: Build-time variables (like VITE_ or PUBLIC_ variables in Vite) are NOT available in Dockerfile deployments for security reasons based on Docker.
+### You need to use `--build-arg` to pass them in.
+### Luckily, you don't need to reset the value, just the key!
+dokku docker-options:add whaleapp-frontend '--build-arg PUBLIC_CMS_ENDPOINT'
+### Then in your Dockerfile, add this line so the arg can be used:
+ARG PUBLIC_CMS_ENDPOINT # or PUBLIC_CMS_ENDPOINT="localhost:8080" if you want default values.
+
+# 5. Set **Domain** (Don't forget to configure your A records in your DNS settings!)
+# Replace these with YOUR actual domains, of course!
+dokku domains:add whaleapp-frontend whale.mydomain.com
+dokku domains:add whaleapp-cms whale-cms.mydomain.com
+
+# 6. Set the **Storage** mount (Just an example, if you need volumes for your app, like a local image store for a CMS)
+dokku storage:mount whaleapp-cms ~/whaleapp-cms-volume/media:/app/media
+# This assumes you have a folder called ac-publications-v2-volume/media/
+# Also assumes your CMS app has workdir /app, and /media is in the same directory as package.json.
+
+# 7. Set **SSL** - Gotta have that sweet HTTPS! (I haven't done this yet. Will update)
+dokku letsencrypt:enable (idk, needs email or whatever)
+
+# 8. Now, you can try trigger a deployment via git pull from the server. (But you won't really do this regularly)
+dokku git:sync --build whaleapp-frontend https://github.com/Blankeos/whale-app.git # Clones, syncs, and builds the repo!
+
+# ====================================
+# ========== 🔑 LOCAL SETUP ==========
+# ====================================
+
+# 1. Setup **Git Remote** on your device:
+git remote add dokku-frontend dokku@<ip-address>:whaleapp-frontend
+git remote add dokku-cms dokku@<ip-address>:whaleapp-cms
+
+# 2. Set up SSH Keys from your device (Each developer needs to do this).
+ssh-keygen -t rsa -b 4096 -N "" -f ~/.ssh/id_rsa # -N means no passphrase (easier, but less secure!)
+# This creates id_rsa and id_rsa.pub. Copy the contents of id_rsa.pub.
+
+# 3. On the server, add the public key by running:
+echo <ID_RSA.PUB CONTENTS> | dokku ssh-keys:add admin
+
+# 4. Now you're ready to deploy! Run this on your device:
+git push dokku main:main # Pushes to the main branch (same as the deploy branch).  BOOM!
+```
+
+In most cases, this is actually enough, this is how everyone during the Heroku days classically deployed their apps.
+Even that was convenient enough. The only problem with this is that for every new developer you have, they'll have to
+do this local setup, which is kind of a pain.
+
+### GitHub Actions Setup
+
+In order to get the same developer experience as Vercel when pushing to deploy, GitHub Actions is the missing piece.
+I mostly used the [Dokku GitHub Actions Guide](https://dokku.com/docs/deployment/continuous-integration/github-actions/) for this. But tailored it a bit to fit my needs.
+
+You can ditch the local setup and the need for individual SSH keys for every new developer. Just one for GitHub Actions is enough. Just follow these steps from what you already know:
+
+```sh
+# 1. Generate an SSH Key
+# 2. On the server, add the Public Key using the echo + dokku ssh-keys:add command
+# 3. Create a GitHub Workflow: https://dokku.com/docs/deployment/continuous-integration/github-actions/
+# 4. In your GitHub Repository > Settings > Secrets and Variables > Actions, add a Repository Secret: the Private Key under SSH_PRIVATE_KEY
+```
+
+```yaml
+# .github/workflows/deploy.yml
+name: 'deploy'
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check if frontend changed
+        id: frontend-changed
+        uses: tj-actions/changed-files@v41
+        with:
+          files: packages/frontend/**/*
+
+      - name: Push frontend to dokku
+        if: steps.frontend-changed.outputs.any_changed == 'true'
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@${{ secrets.VPS_IP }}:22/whaleapp-frontend' # 22 is the port
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          git_push_flags: '--force'
+          branch: 'main'
+
+  deploy-cms:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check if cms changed
+        id: cms-changed
+        uses: tj-actions/changed-files@v41
+        with:
+          files: packages/cms/**/*
+
+      - name: Push cms to dokku
+        if: steps.cms-changed.outputs.any_changed == 'true'
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@${{ secrets.VPS_IP }}:22/whaleapp-cms' # 22 is the port
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          git_push_flags: '--force'
+          branch: 'main'
+```
+
+And that's it! Anyone who has permissions to push or merge to your main branch will be able to deploy!
+
+### Other Guides
+
+Below are just a few cheatsheet of commands that you might actually find useful when trying to interface with Dokku from your VPS. I'll be adding more here!
+
+```sh
+# Enabling VHosts - Run multiple domains on the same IP.
+dokku domains:set-global 192.xx.1.nip.io # The main domain.
+dokku domains:enable whaleapp-frontend # Enables the vhost. Sets the subdomain to: whaleapp-frontend.192.xx.1.nip.io. Can't change it, which is weird.
+# If using vhosts, you can't mix vhosts + a regular domain on the same server (I think).
+
+# Disable VHosts
+dokku domains:clear-global
+dokku domains:disable whaleapp-frontend
+```
+
+```sh
+# Change the URLs the app proxy is served on, overriding the main domain.
+
+# 1. Check the current port.
+dokku config:show whaleapp-frontend #  Check the current port.
+
+# - Another way to check the port.
+dokku ports:report whaleapp-frontend
+
+# 2. Set the port.
+dokku config:set whaleapp-frontend DOKKU_PROXY_PORT=3000
+
+# 3. Restart the app.
+dokku ps:restart whaleapp-frontend
+```
+
+```sh
+# Check your logs!
+dokku logs whaleapp-frontend -t # -t makes it tail the logs. So you can see them in real-time.
+```
