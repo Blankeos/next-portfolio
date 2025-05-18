@@ -23,12 +23,15 @@
 @layer base {
   :root {
     --background: hsl(0, 0%, 100%);
+    --background-secondary: oklch(98.5% 0.002 247.839);
+
     --foreground: hsl(20, 14.3%, 4.1%);
     --card: hsl(0, 0%, 100%);
     --card-foreground: hsl(20, 14.3%, 4.1%);
     --popover: hsl(0, 0%, 100%);
     --primary: rgb(59, 130, 246);
     --primary-dark: rgb(37, 99, 235);
+    --primary-darker: #1532ff;
     --primary-foreground: rgb(96, 165, 250);
     --secondary: hsl(60, 4.8%, 95.9%);
     --secondary-dark: hsl(60 4.8% 82%);
@@ -48,18 +51,25 @@
     --chart-3: hsl(197, 37%, 24%);
     --chart-4: hsl(43, 74%, 66%);
     --chart-5: hsl(27, 87%, 67%);
+
+    --typography: rgb(10, 10, 10);
+    --typography-foreground: rgb(64, 64, 64);
+    --typography-foreground-light: rgba(163, 163, 163);
   }
 
   .dark {
-    --background: hsl(20, 14.3%, 4.1%);
+    --background: hsl(20, 14.3%, 9%);
+    --background-secondary: hsl(20, 12%, 12%);
+
     --foreground: hsl(60, 9.1%, 97.8%);
-    --card: hsl(20, 14.3%, 4.1%);
+    --card: hsl(20, 14.3%, 9%);
     --card-foreground: hsl(60, 9.1%, 97.8%);
-    --popover: hsl(20, 14.3%, 4.1%);
+    --popover: hsl(20, 14.3%, 9%);
     --popover-foreground: hsl(60, 9.1%, 97.8%);
-    --primary: #dda440;
-    --primary-dark: #bc6823;
-    --primary-foreground: hsl(60, 9.1%, 97.8%);
+    --primary: rgb(59, 130, 246);
+    --primary-dark: rgb(37, 99, 235);
+    --primary-darker: #1532ff;
+    --primary-foreground: rgb(96, 165, 250);
     --secondary: hsl(12, 6.5%, 15.1%);
     --secondary-dark: hsl(12 6.5% 13%);
     --secondary-foreground: hsl(60, 9.1%, 97.8%);
@@ -77,6 +87,46 @@
     --chart-3: hsl(30, 80%, 55%);
     --chart-4: hsl(280, 65%, 60%);
     --chart-5: hsl(340, 75%, 55%);
+
+    --typography: rgb(255, 255, 255);
+    --typography-foreground: rgb(200, 200, 200);
+    --typography-foreground-light: rgb(150, 150, 150);
+  }
+
+  .batman {
+    --background: hsl(20, 14.3%, 4.1%);
+    --background-secondary: hsl(20, 12%, 9%);
+
+    --foreground: hsl(60, 9.1%, 97.8%);
+    --card: hsl(20, 14.3%, 4.1%);
+    --card-foreground: hsl(60, 9.1%, 97.8%);
+    --popover: hsl(20, 14.3%, 4.1%);
+    --popover-foreground: hsl(60, 9.1%, 97.8%);
+    --primary: #dda440;
+    --primary-dark: #bc6823;
+    --primary-darker: #99752b;
+    --primary-foreground: #dda440;
+    --secondary: hsl(12, 6.5%, 15.1%);
+    --secondary-dark: hsl(12 6.5% 13%);
+    --secondary-foreground: hsl(60, 9.1%, 97.8%);
+    --muted: hsl(12, 6.5%, 15.1%);
+    --muted-foreground: hsl(24, 5.4%, 63.9%);
+    --accent: hsl(12, 6.5%, 15.1%);
+    --accent-foreground: hsl(60, 9.1%, 97.8%);
+    --destructive: hsl(0, 72.2%, 50.6%);
+    --destructive-foreground: hsl(60, 9.1%, 97.8%);
+    --border: hsl(12, 6.5%, 15.1%);
+    --input: hsl(12, 6.5%, 15.1%);
+    --ring: #dda440;
+    --chart-1: hsl(220, 70%, 50%);
+    --chart-2: hsl(160, 60%, 45%);
+    --chart-3: hsl(30, 80%, 55%);
+    --chart-4: hsl(280, 65%, 60%);
+    --chart-5: hsl(340, 75%, 55%);
+
+    --typography: rgb(255, 255, 255);
+    --typography-foreground: rgb(200, 200, 200);
+    --typography-foreground-light: rgb(150, 150, 150);
   }
 }
 
@@ -84,10 +134,17 @@
 @theme inline {
   --font-epilogue: 'Epilogue';
 
+  --color-typography: var(--typography);
+  --color-typography-foreground: var(--typography-foreground);
+  --color-typography-foreground-light: var(--typography-foreground-light);
+
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
+  --color-primary-darker: var(--primary-darker);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-dark: var(--secondary-dark);
@@ -141,6 +198,7 @@
 /* Portfolio-specific stuff. */
 html,
 body {
+  background-color: var(--background);
   padding: 0;
   margin: 0;
   font-family:
@@ -158,32 +216,30 @@ body {
     sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
 }
 
 /* START: HeroLetter */
 .hero-letter {
-  transition-duration: 500ms;
+  transition-duration: 1000ms;
   transform: TranslateY(0px);
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: transform;
 }
 
 .hero-letter-bg {
   transition-duration: 800ms;
   transform: TranslateY(0px);
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: transform;
 }
 
 .hero-letter:hover {
   transition-duration: 100ms;
-  transform: TranslateY(-0.375rem);
+  transform: TranslateY(-7.5px);
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: transform;
 }
 /* END: HeroLetter */
 .nucleus:hover ~ .orbit {
@@ -264,7 +320,7 @@ a {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 0rem solid #f9fafb;
+  border: 0rem solid var(--background-secondary);
   transition: 250ms ease-out;
   /* will-change: border; */
 }
@@ -272,7 +328,7 @@ a {
 .project-card-wrapper:hover .project-card-image-highlight::after {
   content: '';
   position: absolute;
-  border: 0.5rem solid #f9fafb;
+  border: 0.5rem solid var(--background-secondary);
   transition: 250ms ease-out;
   /* will-change: border; */
 }
@@ -316,6 +372,6 @@ a {
   border-left: 1px solid #d1d5db;
 } */
 
-.secondary-btn {
-  @apply relative z-10 border border-blue-500 bg-transparent bg-clip-padding px-6 py-3 text-sm text-blue-500 backdrop-blur-sm backdrop-filter transition ease-out select-none hover:bg-blue-500 hover:text-white md:text-base;
-}
+/* .secondary-btn {
+  @apply;
+} */
