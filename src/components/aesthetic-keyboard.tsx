@@ -15,7 +15,7 @@ type AestheticKeyboardProps = {
   height?: number;
   /** @defaultValue 3 */
   gradientBlur?: number;
-  onPointerDown?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onPointerDown?: () => void;
 };
 
 export default function AestheticKeyboard(
@@ -77,16 +77,15 @@ export default function AestheticKeyboard(
             width,
             height,
           }}
-          onPointerDown={props.onPointerDown}
-          onMouseDown={() => {
+          onPointerDown={() => {
             if (soundDown.current) {
               soundDown.current.pause();
               soundDown.current.currentTime = 0;
               soundDown.current.play();
             }
-            // console.log('CARLO');
+            props.onPointerDown?.();
           }}
-          onMouseUp={() => {
+          onPointerUp={() => {
             if (soundUp.current) {
               soundUp.current.pause();
               soundUp.current.currentTime = 0;

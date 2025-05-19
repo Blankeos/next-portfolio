@@ -145,16 +145,19 @@ export function CmdNav() {
         <DialogOverlay />
 
         <DialogContent
-          className="bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] border-primary fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 shadow-lg duration-200"
+          className={cn(
+            'top-[8%] left-1/2 -translate-x-1/2',
+            '"bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] border-primary duration-200" ap-4 fixed z-50 grid w-full max-w-lg shadow-lg outline-none'
+          )}
           // Prevents autoscroll
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <div
             aria-hidden
-            className="bg-primary absolute -inset-3 -z-10 rotate-[6deg]"
+            className="bg-primary absolute -inset-0.5 -z-10 mx-2 rotate-[3deg] rounded-lg"
           />
-          <div className="bg-background border-primary relative z-10 border-2 p-6">
-            <DialogTitle className="hidden">Global search</DialogTitle>
+          <DialogTitle className="hidden">Global search</DialogTitle>
+          <div className="bg-background border-primary relative z-10 mx-2 rounded-md border py-1">
             {isChoosingTheme && (
               <ThemeChangeContent
                 setIsChoosingTheme={setIsChoosingTheme}
@@ -172,7 +175,8 @@ export function CmdNav() {
                   autoFocus
                   value={query}
                   onValueChange={onCommandInputChange}
-                  placeholder="Global search (really)..."
+                  placeholder="Global search..."
+                  className="text-base sm:text-sm"
                   onKeyDown={(event) => {
                     // Close
                     if (event.metaKey && event.key === 'k') {
@@ -180,7 +184,7 @@ export function CmdNav() {
                     }
                   }}
                 />
-                <CommandList className="mt-2">
+                <CommandList className="no-scrollbar mt-2">
                   {noResults && query?.length > 0 ? (
                     <CommandEmpty>No results found.</CommandEmpty>
                   ) : (
@@ -334,7 +338,7 @@ function ThemeChangeContent(props: {
   }, [theme, themes]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 p-6">
       <div className="flex items-center gap-2">
         <button
           onClick={() => props.setIsChoosingTheme(false)}

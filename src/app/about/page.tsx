@@ -57,7 +57,7 @@ const AboutPage: FC<AboutPageProps> = () => {
           ></div>
           <div className="from-primary-dark to-primary/80 absolute inset-0 bg-gradient-to-tl opacity-70"></div>
         </div>
-        <div className="mt-2 flex w-max flex-row-reverse justify-end gap-x-[2.5px] rounded-xl border bg-black p-[3px]">
+        <div className="mt-2 flex max-w-max shrink flex-row-reverse flex-wrap justify-end gap-x-[2.5px] rounded-xl border bg-black p-[3px]">
           <AestheticKeyboard
             width={110}
             containerClass="p-2 px-3"
