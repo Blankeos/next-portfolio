@@ -44,7 +44,7 @@ const components = {
     <HeadingElement
       as="h4"
       classNames={[
-        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight text-typography',
+        'mt-5 scroll-m-10 text-xl font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -54,7 +54,7 @@ const components = {
     <HeadingElement
       as="h5"
       classNames={[
-        'mt-8 scroll-m-10 text-lg font-semibold tracking-tight text-typography',
+        'mt-4 scroll-m-10 text-lg font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -64,7 +64,7 @@ const components = {
     <HeadingElement
       as="h5"
       classNames={[
-        'mt-8 scroll-m-10 text-base font-semibold tracking-tight text-typography',
+        'mt-0 scroll-m-10 text-base font-semibold tracking-tight text-typography',
         className,
       ]}
       {...props}
@@ -89,10 +89,10 @@ const components = {
     />
   ),
   ul: ({ className, ...props }: HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn('my-6 ml-6 list-disc', className)} {...props} />
+    <ul className={cn('my-0 ml-6 list-disc', className)} {...props} />
   ),
   ol: ({ className, ...props }: HTMLAttributes<HTMLOListElement>) => (
-    <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
+    <ol className={cn('my-0 ml-6 list-decimal', className)} {...props} />
   ),
   li: ({ className, ...props }: HTMLAttributes<HTMLLIElement>) => (
     <li className={cn('text-typography mt-2', className)} {...props} />
