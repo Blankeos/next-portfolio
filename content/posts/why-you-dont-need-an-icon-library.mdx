@@ -263,7 +263,6 @@ import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 ```js
 // next.config.js
 const nextConfig = {
-  // Currently webpack-only. Turbo guide is not yet needed (even in Turbo, but you can reference this if you face issues: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15)
   webpack: (config, { webpack }) => {
     config.externals.push(
       ...[
@@ -281,7 +280,18 @@ const nextConfig = {
     );
     return config;
   },
-};
+  // If you are using next dev --turbo, use this.
+  // Can also refer to this if you face issues: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15
+  turbopack: {
+    rules: {
+      /** For SVG as JSX Component Support. */
+      '*.svg': {
+        as: '*.js',
+        loaders: ['@svgr/webpack'],
+      },
+    },
+  },
+;
 
 module.exports = nextConfig;
 ```
