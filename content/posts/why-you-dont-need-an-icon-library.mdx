@@ -6,6 +6,23 @@ category: TypeScript
 description: Don't install an icon library, you actually don't need one
 ---
 
+<div class="text-xs">
+###### Table of Contents
+
+- [This is the BEST way to add icons.](#this-is-the-best-way-to-add-icons)
+- [First, find an icon.](#first-find-an-icon)
+- [Second, add it to your JS app.](#second-add-it-to-your-js-app)
+  - [React](#react)
+  - [Svelte 5](#svelte-5)
+  - [SolidJS](#solidjs)
+- [Using your Icons](#using-your-icons)
+- [BONUS: Just save them as `.svg` files.](#bonus-just-save-them-as-svg-files)
+  - [Use `.svg`-only with SolidJS](#use-svg-only-with-solidjs)
+  - [Use `.svg`-only with React (Vite)](#use-svg-only-with-react-vite)
+  - [Use `.svg`-only with React (Next.js)](#use-svg-only-with-react-nextjs)
+
+</div>
+
 Believe it or not, you don't need extra dependencies to add icons in your App as actual components. Be it <span className="text-orange-500">Svelte</span>, <span className="text-indigo-600">React</span>, or <span className="text-sky-500">SolidJS</span>.
 
 ## This is the BEST way to add icons.
@@ -192,16 +209,16 @@ export default defineConfig({
 }
 ```
 
-4. In your `assets/index.ts` file, you can import the `.svg` this way:
+4. In your `assets/icons/index.ts` file, you can import the `.svg` this way:
 
 ```tsx
-// src/assets/index.ts
-import { default as IconMarkerDuotone } from './icons/marker-duotone.svg';
+// src/assets/icons/index.ts
+import { default as IconMarkerDuotone } from './marker-duotone.svg';
 ```
 
 <br />
 
-#### Use `.svg`-only with React
+#### Use `.svg`-only with React (Vite)
 
 1. Install `vite-plugin-svgr`.
 2. Add it to your `vite.config.ts` file.
@@ -231,16 +248,95 @@ export default defineConfig({
 }
 ```
 
-4. In your `assets/index.ts` file, you can import the `.svg` this way:
+4. In your `assets/icons/index.ts` file, you can import the `.svg` this way:
 
 ```tsx
 // src/assets/index.ts
 import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 ```
 
+#### Use `.svg`-only with React (Next.js)
+
+1. Install `@svgr/webpack`.
+2. Add it to your `next.config.js` file.
+
+```js
+// src/assets/icons/icon.d.ts
+const nextConfig = {
+  // Currently webpack-only. Turbo guide is not yet needed (even in Turbo, but you can reference this if you face issues: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15)
+  webpack: (config, { webpack }) => {
+    config.externals.push(
+      ...[
+        {
+          test: /\.svg$/i,
+          type: 'asset',
+          resourceQuery: /url/, // *.svg?url
+        },
+        {
+          test: /\.svg$/i,
+          resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
+          use: ['@svgr/webpack'],
+        },
+      ]
+    );
+    return config;
+  },
+};
+
+module.exports = nextConfig;
+```
+
+3. Usually, `.svg` imports are 'string' types, not JSX. You need to create a definition file (because svgr/webpack doesn't include one). Then you should add this to your `tsconfig.json`:
+
+```ts
+// Reference: https://www.mwskwong.com/blog/one-extra-step-after-configuring-svgr-webpack-in-typescript-projects
+
+/**
+ * import Svg from './assets/file.svg'
+ * Svg should be in FC<SVGProps<SVGSVGElement>> type
+ * i.e. an SVG component
+ */
+declare module '*.svg' {
+  import { FC, SVGProps } from 'react';
+
+  const content: FC<SVGProps<SVGSVGElement>>;
+  export default content;
+}
+
+/**
+ * instruct TS that, when we do
+ * import svg from './assets/file.svg?url'
+ * svg should be in string type
+ */
+declare module '*.svg?url' {
+  const content: string;
+  export default content;
+}
+```
+
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "include": [
+      "src/assets/icons/icons.d.ts", // Make sure this is above any nextjs types.
+      "next-env.d.ts",
+    ],
+  },
+}
+```
+
+4. In your `assets/index.ts` file, you can import the `.svg` this way:
+
+```tsx
+// src/assets/icons/index.ts
+import { default as IconMarkerDuotone } from './marker-duotone.svg';
+```
+
 <br />
 <br />
 
 <p className="text-center">
-  You've reached the end!**** Thanks for reading! 🥳
+  **You've reached the end!** Thanks for reading! 🥳
 </p>
