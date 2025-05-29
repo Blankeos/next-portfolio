@@ -258,12 +258,12 @@ import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 #### Use `.svg`-only with React (Next.js)
 
 1. Install `@svgr/webpack`.
-2. Add it to your `next.config.js` file.
+2. Add it to your `next.config.js` file. (Read comments because Next.js's edge-cases are tricky)
 
 ```js
 // next.config.js
 const nextConfig = {
-  // Always used for `next dev` and `next build`
+  // For `next dev` (without Turbo) and `next build`
   webpack: (config) => {
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg')
@@ -291,19 +291,28 @@ const nextConfig = {
     return config;
   },
 
-  // Used for `next dev --turbo` (Ref: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15)
-  // If you are using an older version of NextJS. Wrap the rules under "experimental.turbo"
-  // i.e. experimental: { turbo: { rules: { ... } } }
+  // For `next dev --turbo` (Ref: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15)
   turbopack: {
     rules: {
-      /** For SVG as JSX Component Support. */
       '*.svg': {
         as: '*.js',
         loaders: ['@svgr/webpack'],
       },
     },
   },
-;
+
+  // For `next dev --turbo` in older Next versions (Where turbo wasn't stable for dev, this was tricky lol)
+  experimental: {
+    turbo: {
+      rules: {
+        '*.svg': {
+          as: '*.js',
+          loaders: ['@svgr/webpack'],
+        },
+      },
+    },
+  },
+};
 
 module.exports = nextConfig;
 ```
