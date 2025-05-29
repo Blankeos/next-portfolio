@@ -82,8 +82,8 @@ export default function MarkerDuotone(props: SVGProps<SVGSVGElement>) {
 Prefix the named export with `Icon` it's easy to find with intellisense:
 
 ```ts
-// src/assets/index.ts
-export { default as IconMarkerDuotone } from './icons/marker-duotone';
+// src/assets/icons/index.ts
+export { default as IconMarkerDuotone } from './marker-duotone';
 // ... Do the same for the other icons here
 ```
 
@@ -112,8 +112,8 @@ Create a new `.svelte` for your icon and extend the props with `SVGAttributes<SV
 Prefix the named export with `Icon` it's easy to find with intellisense:
 
 ```ts
-// src/assets/index.ts
-export { default as IconMarkerDuotone } from './icons/marker-duotone.svelte';
+// src/assets/icons/index.ts
+export { default as IconMarkerDuotone } from './marker-duotone.svelte';
 // ... Do the same for the other icons here
 ```
 
@@ -148,8 +148,8 @@ export default function MarkerDuotone(
 Prefix the named export with `Icon` it's easy to find with intellisense:
 
 ```ts
-// src/assets/index.ts
-export { default as IconMarkerDuotone } from './icons/marker-duotone';
+// src/assets/icons/index.ts
+export { default as IconMarkerDuotone } from './marker-duotone';
 // ... Do the same for the other icons here
 ```
 
@@ -251,7 +251,7 @@ export default defineConfig({
 4. In your `assets/icons/index.ts` file, you can import the `.svg` this way:
 
 ```tsx
-// src/assets/index.ts
+// src/assets/icons/index.ts
 import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 ```
 
@@ -263,25 +263,37 @@ import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 ```js
 // next.config.js
 const nextConfig = {
-  webpack: (config, { webpack }) => {
-    config.externals.push(
-      ...[
-        {
-          test: /\.svg$/i,
-          type: 'asset',
-          resourceQuery: /url/, // *.svg?url
-        },
-        {
-          test: /\.svg$/i,
-          resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
-          use: ['@svgr/webpack'],
-        },
-      ]
+  // Always used for `next dev` and `next build`
+  webpack: (config) => {
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.('.svg')
     );
+
+    config.module.rules.push(
+      // Reapply the existing rule, but only for svg imports ending in ?url
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
+      },
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        use: ['@svgr/webpack'],
+      }
+    );
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i;
+
     return config;
   },
-  // If you are using next dev --turbo, use this.
-  // Can also refer to this if you face issues: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15
+
+  // Used for `next dev --turbo` (Ref: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15)
+  // If you are using an older version of NextJS. Wrap the rules under "experimental.turbo"
+  // i.e. experimental: { turbo: { rules: { ... } } }
   turbopack: {
     rules: {
       /** For SVG as JSX Component Support. */
@@ -296,17 +308,12 @@ const nextConfig = {
 module.exports = nextConfig;
 ```
 
-3. Usually, `.svg` imports are 'string' types, not JSX. You need to create a definition file (because svgr/webpack doesn't include one). Then you should add this to your `tsconfig.json`:
+3. Usually, `.svg` imports are 'string' types, not JSX.
+   You need to create a definition file [(source)](https://react-svgr.com/docs/next/)
+   because svgr/webpack doesn't include one. Then you should add this to your `tsconfig.json`:
 
 ```ts
 // src/assets/icons/icon.d.ts
-// Reference: https://www.mwskwong.com/blog/one-extra-step-after-configuring-svgr-webpack-in-typescript-projects
-
-/**
- * import Svg from './assets/file.svg'
- * Svg should be in FC<SVGProps<SVGSVGElement>> type
- * i.e. an SVG component
- */
 declare module '*.svg' {
   import { FC, SVGProps } from 'react';
 
@@ -314,11 +321,6 @@ declare module '*.svg' {
   export default content;
 }
 
-/**
- * instruct TS that, when we do
- * import svg from './assets/file.svg?url'
- * svg should be in string type
- */
 declare module '*.svg?url' {
   const content: string;
   export default content;
@@ -338,7 +340,7 @@ declare module '*.svg?url' {
 }
 ```
 
-4. In your `assets/index.ts` file, you can import the `.svg` this way:
+4. In your `assets/icons/index.ts` file, you can import the `.svg` this way:
 
 ```tsx
 // src/assets/icons/index.ts
