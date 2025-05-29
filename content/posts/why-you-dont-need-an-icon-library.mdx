@@ -261,7 +261,7 @@ import { default as IconMarkerDuotone } from './icons/marker-duotone.svg?react';
 2. Add it to your `next.config.js` file.
 
 ```js
-// src/assets/icons/icon.d.ts
+// next.config.js
 const nextConfig = {
   // Currently webpack-only. Turbo guide is not yet needed (even in Turbo, but you can reference this if you face issues: https://stackoverflow.com/questions/79329145/how-to-import-svg-icons-in-nextjs-15)
   webpack: (config, { webpack }) => {
@@ -289,6 +289,7 @@ module.exports = nextConfig;
 3. Usually, `.svg` imports are 'string' types, not JSX. You need to create a definition file (because svgr/webpack doesn't include one). Then you should add this to your `tsconfig.json`:
 
 ```ts
+// src/assets/icons/icon.d.ts
 // Reference: https://www.mwskwong.com/blog/one-extra-step-after-configuring-svgr-webpack-in-typescript-projects
 
 /**
