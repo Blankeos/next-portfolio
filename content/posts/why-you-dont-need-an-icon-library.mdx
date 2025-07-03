@@ -349,7 +349,20 @@ declare module '*.svg?url' {
 }
 ```
 
-4. In your `assets/icons/index.ts` file, you can import the `.svg` this way:
+4. Remove bad default from SVGO.
+
+```yaml
+# svgo.yml
+# We need to do this because of a bad default w/ svgr that strips away view-box from the svg: https://github.com/gregberge/svgr/discussions/735#discussioncomment-2981376
+# If view-box is stripped, passing width and height to the SVGs will not work properly.
+plugins:
+  - name: preset-default
+    params:
+      overrides:
+        removeViewBox: false
+```
+
+5. In your `assets/icons/index.ts` file, you can import the `.svg` this way:
 
 ```tsx
 // src/assets/icons/index.ts
