@@ -100,63 +100,78 @@ const AboutPage: FC<AboutPageProps> = () => {
           A pretty okay software engineer from the Philippines.
         </p>
         <div className="h-8" />
-        <p className="text-typography-foreground text-sm">
-          I love creating web apps, dev tools, games, and doing machine
-          learning! Professionally, I&apos;ve been doing React, Svelte, and
-          NextJS. But my latest grind right now is{' '}
-          <b className="font-medium">SolidJS</b> and solo-building SaaS apps.
-        </p>
-        <div className="h-5" />
-        <p className="text-typography-foreground text-sm">
-          I love exploring unconventional bleeding edge tech so you can always
-          catch me learning the next big thing.
-        </p>
-        <div className="h-5" />
-        <p className="text-typography-foreground text-sm">
-          I contribute to open-source too!{' '}
-          <Link href="https://vike.dev/team" className="underline">
-            vike.dev
-          </Link>
-          ,{' '}
-          <Link
-            href="https://github.com/wobsoriano/solid-sonner"
-            className="underline"
-          >
-            solid-sonner
-          </Link>
-          ,{' '}
-          <Link
-            href="https://github.com/solidjs-community/solid-primitives/pull/629"
-            className="underline"
-          >
-            create-spring (Solid primitives)
-          </Link>
-        </p>
-        <div className="h-5" />
-        <p className="text-typography-foreground text-sm">
-          I author some libraries as well:{' '}
-          <Link href="https://bagon-hooks.pages.dev" className="underline">
-            bagon-hooks
-          </Link>
-          ,{' '}
-          <Link
-            href="https://solid-number-flow.pages.dev"
-            className="underline"
-          >
-            solid-number-flow
-          </Link>
-          ,{' '}
-          <Link
-            href="https://github.com/blankeos/vike-metadata"
-            className="underline"
-          >
-            vike-metadata
-          </Link>
-          ,{' '}
-          <Link href="https://github.com/blankeos/tsdot" className="underline">
-            tsdot
-          </Link>
-        </p>
+
+        <div className="max-w-4xl">
+          <p className="text-typography-foreground text-sm">
+            I love creating web apps, dev tools, games, and doing machine
+            learning! Professionally, I&apos;ve been doing React, Svelte, and
+            NextJS. But my latest grind right now is{' '}
+            <b className="font-medium">SolidJS</b> and solo-building SaaS apps.
+          </p>
+          <div className="h-5" />
+          <p className="text-typography-foreground text-sm">
+            I love exploring unconventional bleeding edge tech so you can always
+            catch me learning the next big thing.
+          </p>
+          <div className="h-5" />
+          <p className="text-typography-foreground text-sm">
+            I contribute to open-source too!{' '}
+            <Link href="https://vike.dev/team" className="underline">
+              vike.dev
+            </Link>
+            ,{' '}
+            <Link
+              href="https://github.com/wobsoriano/solid-sonner"
+              className="underline"
+            >
+              solid-sonner
+            </Link>
+            ,{' '}
+            <Link
+              href="https://github.com/solidjs-community/solid-primitives/pull/629"
+              className="underline"
+            >
+              create-spring (Solid primitives)
+            </Link>
+            . I author some of my own libraries as well:{' '}
+            <Link href="https://bagon-hooks.pages.dev" className="underline">
+              bagon-hooks
+            </Link>
+            ,{' '}
+            <Link
+              href="https://solid-number-flow.pages.dev"
+              className="underline"
+            >
+              solid-number-flow
+            </Link>
+            ,{' '}
+            <Link
+              href="https://github.com/blankeos/vike-metadata"
+              className="underline"
+            >
+              vike-metadata
+            </Link>
+            ,{' '}
+            <Link
+              href="https://github.com/blankeos/tsdot"
+              className="underline"
+            >
+              tsdot
+            </Link>
+            .
+          </p>
+          <div className="h-5" />
+          <p className="text-typography-foreground text-sm">
+            Outside of coding, I like to travel ✈️, workout 🏋️‍♂️, go for runs 🏃,
+            and filming everyday life with my Sony camera 📹.
+          </p>
+          <div className="h-5" />
+          <p className="text-typography-foreground text-sm">
+            Been to 🇯🇵 Japan, 🇭🇰 Hong Kong, and 🇸🇬 Singapore so far, and
+            it&apos;s been super fun!
+          </p>
+        </div>
+
         <div className="h-8" />
         <h2 className="text-typography mb-3 font-medium">Education</h2>
         <div className="text-typography-foreground flex flex-col gap-y-3 text-sm">
@@ -169,10 +184,23 @@ const AboutPage: FC<AboutPageProps> = () => {
           </p>
           <p className="flex gap-x-1.5">
             <span className="">🏆</span> 1.12 GWA (2nd highest in the
-            University) + Summa Cum Laude
+            University)
           </p>
           <p className="flex gap-x-1.5">
-            <span className="">🏆</span> Most Outstanding CICT Student
+            <span className="">🥇</span> Summa Cum Laude
+          </p>
+          <p className="flex gap-x-1.5">
+            <span className="">🏆</span>Most Outstanding CICT Student (Rank 1 -
+            College)
+          </p>
+          <p className="flex gap-x-1.5">
+            <span className="">🥇</span> Dean&apos;s Medal for Proficiency in
+            Computer Science - Artificial Intelligence Track (Rank 1 -
+            Department)
+          </p>
+          <p className="flex gap-x-1.5">
+            <span className="">🥇</span> Most Outstanding Intern - Computer
+            Science
           </p>
         </div>
         <h1 className="text-typography mt-10 mb-3 text-2xl font-semibold tracking-tighter">
