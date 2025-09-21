@@ -44,7 +44,6 @@ import { useHotkeys } from '@mantine/hooks';
 import { Content as DialogContent, DialogTitle } from '@radix-ui/react-dialog';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Kbd } from './kbd';
 import {
   Command,
   CommandEmpty,
@@ -133,9 +132,9 @@ export function CmdNav() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className="border-border bg-muted/50 text-typography-foreground-light text-xxs flex items-center gap-x-2 truncate border px-2 py-1 outline-none">
-        Search...
-        <Kbd className="flex gap-x-1">
+      <DialogTrigger className="bg-primary/20 text-primary border-primary flex h-[32px] items-center gap-x-2 truncate rounded-sm border px-4 py-2 pr-2 text-sm transition outline-none active:scale-[98%]">
+        <span className="text-[12px]">Search...</span>
+        <Kbd className="flex gap-x-1 border-none bg-transparent">
           <span>⌘</span>
           <span>K</span>
         </Kbd>
@@ -266,6 +265,7 @@ export function CmdNav() {
 import { useSearchContext } from '@/contexts/search.context';
 import { Theme } from '@/contexts/theme.context';
 import { cn } from '@/lib/cn';
+import { Kbd } from './kbd';
 
 const themes: { name: Theme; color: string; icon: string }[] = [
   { name: 'light', color: 'bg-neutral-200', icon: '☀️' },
