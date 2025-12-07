@@ -225,10 +225,11 @@ const AboutPage: FC<AboutPageProps> = () => {
 };
 
 export default AboutPage;
-
 // ===========================================================================
 // Subcomponents
 // ===========================================================================
+
+import { useMemo } from 'react';
 
 type WorkExperienceCardProps = {
   icon: React.ReactNode;
@@ -241,6 +242,7 @@ type WorkExperienceCardProps = {
 };
 
 const WorkExperienceCard: FC<WorkExperienceCardProps> = (props) => {
+  const duration = useMemo(() => formatDateRangeWithDuration(props.dates), [props.dates]);
   return (
     <div
       className={cn(
@@ -257,7 +259,7 @@ const WorkExperienceCard: FC<WorkExperienceCardProps> = (props) => {
             {props.company}
           </p>
           <span className="text-typography-foreground-light truncate text-sm">
-            {formatDateRangeWithDuration(props.dates)}
+            {duration}
           </span>
           <span className="pt-3 text-sm text-neutral-600 sm:hidden">
             {props.location.icon} {props.location.name}
