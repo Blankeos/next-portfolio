@@ -10,14 +10,31 @@ Recently bought a server for my indie hacking projects. This is my brain dump fo
 do for any new VPS I have:
 
 - [x] **The essentials**
+  - [x] System Updates
   - [x] SSH Setup
   - [x] Disable root password login
-  - [x] System Updates
   - [x] Firewall (UFW)
   - [x] Fail2Ban
 - [x] **Good-to-haves**
   - [x] Self-hosted Vercel/Heroku: Dokploy/Coolify/Nixopus
   - [x] Monitor w/ Uptime Kuma
+
+### System Updates
+
+First thing I always do is make sure everything is up to date.
+
+```sh
+# 🌐 On your server:
+sudo apt update && sudo apt upgrade -y
+```
+
+If you're not on Ubuntu, also do this to auto-install security patches (it's a set-and-forget):
+
+```sh
+# 🌐 On your server:
+sudo apt install unattended-upgrades -y
+sudo dpkg-reconfigure --priority=low unattended-upgrades
+```
 
 ### SSH Setup
 
@@ -33,6 +50,8 @@ ssh-keygen -t ed25519 -C "my-server-key" # my-server-key is a human-readable lab
 # 2.1: ⚡ The fast way
 # 🖥️ Do this
 ssh-copy-id -i ~/.ssh/id_ed25519.pub root@your-server-ip
+# It should say: Number of key(s) added:        1
+
 
 # 2.2: 🐌 The slow way
 # 🖥️ Copy it
@@ -40,7 +59,7 @@ cat ~/.ssh/id_ed25519.pub | pbcopy # Copies on Mac; xclip on Linux; clip on Wind
 
 # 🌐 Write to authorized_keys
 mkdir -p ~/.ssh
-nano ~/.ssh/authorized_keys
+vi ~/.ssh/authorized_keys
 # Paste key, save, and exit.
 
 # Important: Lock down permissions or SSH might ignore it! (ssh doesn't like it if it's readable by other users)
@@ -70,7 +89,7 @@ This command creates two files:
 
 ```sh
 # 🖥️ Run this on your computer
-nano ~/.ssh/config
+vi ~/.ssh/config
 
 # Add this block of code there
 Host myserver
@@ -89,13 +108,20 @@ ssh myserver
 Once you have logged in using your SSH key, disable the password "door mat" so bots stop trying to guess it.
 
 ```sh
-nano /etc/ssh/sshd_config
+vi /etc/ssh/sshd_config
 # Find: PasswordAuthentication yes
+# 💡 You might find ones that start with `#`, those are comments, find the ones that don't.
 # Change to: PasswordAuthentication no
 sudo systemctl restart ssh
+
+# Logout, then try to go back in with the password just to see if it's disabled.
+exit
+
+ssh -o PubkeyAuthentication=no -o PreferredAuthentications=password -o PasswordAuthentication=yes root@your-server-ip
+# It should say: root@1.2.3.4: Permission denied (publickey).
 ```
 
-Log out, then back in with your key to be 100 % sure it still works.
+Log out, then back in with your key to be 100% sure it still works.
 
 <br />
 <details>
@@ -107,21 +133,6 @@ Boot into it, mount your disk, edit `/etc/ssh/sshd_config` → `PasswordAuthenti
 After that, add a second SSH key and bookmark the console URL + root password in your password manager so this never ruins a weekend.
 
 </details>
-
-### System Updates
-
-First thing I always do is make sure everything is up to date.
-
-```sh
-sudo apt update && sudo apt upgrade -y
-```
-
-If you're not on Ubuntu, also do this to auto-install security patches (it's a set-and-forget):
-
-```sh
-sudo apt install unattended-upgrades -y
-sudo dpkg-reconfigure --priority=low unattended-upgrades
-```
 
 ### Firewall (UFW)
 
