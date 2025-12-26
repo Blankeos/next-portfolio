@@ -18,7 +18,7 @@ const navVariants: Variants = {
     y: 0,
     transition: {
       delay: 0.4,
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,
       when: 'beforeChildren',
     },
   },
@@ -26,7 +26,7 @@ const navVariants: Variants = {
 
 const navChildVariants: Variants = {
   hidden: {
-    y: -35,
+    y: -25,
     opacity: 0,
   },
   visible: {
@@ -34,7 +34,7 @@ const navChildVariants: Variants = {
     opacity: 1,
     transition: {
       ease: 'easeOut',
-      duration: 0.8,
+      duration: 0.6,
     },
   },
 };

@@ -89,14 +89,40 @@ const components = {
     />
   ),
   ul: ({ className, ...props }: HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn('my-0 ml-6 list-disc', className)} {...props} />
+    <ul className={cn('my-0 ml-6', className, !className?.includes('contains-task-list') && "list-disc")} {...props} />
   ),
   ol: ({ className, ...props }: HTMLAttributes<HTMLOListElement>) => (
     <ol className={cn('my-0 ml-6 list-decimal', className)} {...props} />
   ),
   li: ({ className, ...props }: HTMLAttributes<HTMLLIElement>) => (
-    <li className={cn('text-typography mt-2', className)} {...props} />
+    <li className={cn('text-typography mt-2 task-list-item', className)} {...props} />
   ),
+  input: ({ className, type, checked, ...props }: React.InputHTMLAttributes<HTMLInputElement>) => {
+    if (type === 'checkbox') {
+      return (
+        <label className={cn('relative mr-2 inline-flex cursor-pointer items-center', className)}>
+          <input
+            type="checkbox"
+            className="peer sr-only"
+            checked={checked}
+            {...props}
+          />
+          <span className="peer flex size-5 items-center justify-center rounded-md border border-neutral-300 bg-white ring-offset-2 transition hover:border-neutral-400 peer-focus:ring-2 peer-focus:ring-primary-dark peer-checked:border-primary peer-checked:bg-primary">
+            <svg
+              className={cn('size-3.5 text-white transition-transform', checked ? 'scale-100' : 'scale-0')}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={3}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </span>
+        </label>
+      );
+    }
+    return null;
+  },
   blockquote: ({ className, ...props }: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
       className={cn(
