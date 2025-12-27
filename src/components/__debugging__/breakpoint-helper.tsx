@@ -33,7 +33,7 @@ const BreakPointHelper = () => {
   }, [size]);
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center space-x-4 bg-green-400 p-2 text-center text-xs text-white sm:bg-blue-600 md:bg-red-600 lg:bg-yellow-400 xl:bg-indigo-400 2xl:bg-pink-500">
+    <div className="fixed top-0 left-0 z-50 flex w-full items-center justify-center space-x-4 bg-green-400 p-2 text-center text-xs text-white sm:bg-blue-600 md:bg-red-600 lg:bg-yellow-400 xl:bg-indigo-400 2xl:bg-pink-500">
       {text}
     </div>
   );

@@ -242,7 +242,10 @@ type WorkExperienceCardProps = {
 };
 
 const WorkExperienceCard: FC<WorkExperienceCardProps> = (props) => {
-  const duration = useMemo(() => formatDateRangeWithDuration(props.dates), [props.dates]);
+  const duration = useMemo(
+    () => formatDateRangeWithDuration(props.dates),
+    [props.dates]
+  );
   return (
     <div
       className={cn(
