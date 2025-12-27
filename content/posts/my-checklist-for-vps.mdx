@@ -67,12 +67,11 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-<details>
-<summary>I'm new... How do SSH keys work?</summary>
+<Details>
+
+<Summary>I'm new... How do SSH keys work?</Summary>
 
 Here is the easiest analogy to understand SSH keys. It is asymmetric encryption, which works like a specific Lock and Key pair:
-
-This command creates two files:
 
 - **id_ed25519** (The Private Key 🔑): This stays on your computer. You never share this. It is the only key in the world that can open the lock. Generally most devs have just 1 of this for all their servers (this is fine 🐶🔥).
 
@@ -80,11 +79,11 @@ This command creates two files:
 
 **Isn't it safer if the private key is on the server?** Think of the Public Key as a Padlock you install on the server's door. The Private Key is the only key in the world that can open that padlock. When you connect, the server points to the padlock and says "Prove you have the key for this." Your laptop uses the private key to solve a math puzzle to prove it, without ever actually sending the secret key over the internet..
 
-</details>
+</Details>
 
-<details>
+<Details>
 
-<summary>Typing `ssh root@123.123.123.123` is hard.</summary>
+<Summary>Typing `ssh root@123.123.123.123` is hard.</Summary>
 
 ```sh
 # 🖥️ Run this on your computer
@@ -100,7 +99,7 @@ Host myserver
 ssh myserver
 ```
 
-</details>
+</Details>
 
 ### Remove password login
 
@@ -122,16 +121,18 @@ ssh -o PubkeyAuthentication=no -o PreferredAuthentications=password -o PasswordA
 
 Log out, then back in with your key to be 100% sure it still works.
 
-<br />
-<details>
-<summary>How do I recover my server if I can't ssh `root@your-server-ip` anymore?”</summary>
+<Details>
+
+<Summary>
+  How do I recover my server if I can't ssh `root@your-server-ip` anymore?”
+</Summary>
 
 Every serious host (Hetzner has “Rescue”, Netcup has “Recovery Console”) gives you a browser-console.  
 Boot into it, mount your disk, edit `/etc/ssh/sshd_config` → `PasswordAuthentication yes`, reboot, log in with the root password you set at install, drop in a fresh pubkey, then lock it back down.
 
 After that, add a second SSH key and bookmark the console URL + root password in your password manager so this never ruins a weekend.
 
-</details>
+</Details>
 
 ### Firewall (UFW)
 
@@ -144,8 +145,11 @@ sudo ufw allow https
 sudo ufw enable
 ```
 
-<details>
-<summary>Still need to hit your Postgres from your laptop? (SSH tunnel)</summary>
+<Details>
+
+<Summary>
+  Still need to hit your Postgres from your laptop? (SSH tunnel)
+</Summary>
 
 **SSH-tunnel in your GUI** (TablePlus, DBeaver, etc.).
 
@@ -153,7 +157,7 @@ sudo ufw enable
 
 The client rides the already-allowed SSH port (22) and hops to 5432 internally—no extra firewall rules needed.
 
-</details>
+</Details>
 
 ### Fail2Ban
 

@@ -9,6 +9,37 @@ import { MdxCard } from '@/components/mdx-card';
 import { cn } from '@/lib/cn';
 import toast from 'react-hot-toast';
 
+const Details = (props: HTMLAttributes<HTMLDetailsElement>) => (
+  <details {...props} className={cn('group my-2 w-full', props.className)} />
+);
+
+const Summary = (props: HTMLAttributes<HTMLElement>) => (
+  <summary
+    {...props}
+    className={cn(
+      'text-muted-foreground hover:text-primary flex cursor-pointer list-none items-center font-medium transition-colors [&::-webkit-details-marker]:hidden',
+      props.className
+    )}
+  >
+    <span className="mr-2 flex h-5 w-5 items-center justify-center rounded transition-colors hover:bg-neutral-500/10">
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="opacity-50 transition-transform duration-200 group-open:rotate-90"
+      >
+        <path d="M8 5L18 12L8 19Z" />
+      </svg>
+    </span>
+    <span>{props.children}</span>
+  </summary>
+);
+
 const components = {
   h1: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <HeadingElement
@@ -239,24 +270,10 @@ const components = {
   Image,
   Callout,
   Card: MdxCard,
-  details: ({ className, ...props }: HTMLAttributes<HTMLDetailsElement>) => (
-    <details
-      className={cn(
-        'my-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4 [&>*:not(summary)]:mt-3',
-        className
-      )}
-      {...props}
-    />
-  ),
-  summary: ({ className, ...props }: HTMLAttributes<HTMLElement>) => (
-    <summary
-      className={cn(
-        'text-typography hover:text-primary cursor-pointer font-semibold marker:text-neutral-400 list-item',
-        className
-      )}
-      {...props}
-    />
-  ),
+  // details: Details,
+  // summary: Summary,
+  Details: Details,
+  Summary: Summary,
 };
 interface MdxProps {
   code: string;
@@ -294,11 +311,6 @@ function HeadingElement(props: HeadingElementProps) {
       }}
       {...rest}
     >
-      {/* <span
-        aria-hidden
-        className="absolute -inset-0.5 -left-5 -right-2 -z-10 rounded-md group-hover:bg-neutral-100"
-        id={props.id}
-      /> */}
       <span
         aria-hidden
         className="text-typography-foreground-light absolute right-full hidden w-max pr-1 opacity-30 group-hover:block"
