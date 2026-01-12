@@ -1,0 +1,358 @@
+---
+title: Host a modded minecraft server on a vps
+date: 2026-01-11
+featuredImage: /blog-imgs/host-a-modded-minecraft-server-on-a-vps.jpg
+category: Deployment
+description: A complete step-by-step guide to hosting a modded Minecraft server on a VPS.
+---
+
+# Complete Step-by-Step Guide to Installing Cobbleverse on a VPS
+
+I was playing Minecraft with 4-6 friends on an EU-based Aternos server from the Philippines. We needed something beefier and closer to us, like Singapore and costs way less (I foresaw Exaroton bill costing $21/month). A $5/month VPS costs way less than any "Minecraft hosting" platform out there, especially on a dollar-per-RAM basis.
+
+I think people only shy away from this with the technical setup, but having been a VPS-pilled software engineered with webapps... I thought "How hard would it even be to run a gameserver?"—turns out 100% not hard (I'd argue even easier than hosting a NextJS app)!
+
+And after trying it, it actually performed even better than any minecraft hosting platform I've tried. I would 100% host every minecraft server in the future on a VPS. I wrote this guide for future me as a cheatsheet. I'll springkle in `💡` as tips for stuff you might be unsure of.
+
+## Why This Guide?
+
+This guide focuses on:
+
+- **Written for VPS-pilled people** - SSH, systemd, grep, iptables—everything you already know
+- **100% terminal** - No FTP clients, no additional software to install anywhere
+- **Zero platform overhead** - Only pay for the specs without the middleman. No performance penalty, no baked-in profit margins, just raw VPS power from your provider.
+- **Straightforward cheatsheet for any minecraft hosting setup** - I will be polishing and making use of this guide for ANY (even non-modded SMP) minecraft servers in the future.
+
+> **Note:** This guide has been tested on Debian 11/12 with Cobbleverse 1.7.2. Commands may need adjustment for other distributions.
+
+## Prerequisites
+
+- A VPS with at least 8GB RAM (Debian/Ubuntu recommended)
+- SSH access to your VPS
+- Basic terminal knowledge
+- The Cobbleverse modpack file (`.mrpack`) – get it here: https://modrinth.com/modpack/cobbleverse/versions
+- Optional: A domain for easier access
+
+**Recommended VPS providers:** OVH, Hetzner, DigitalOcean, Linode
+
+## Step 1: Set Up Your VPS
+
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Java 21 (required for Minecraft 1.21.1)
+sudo apt install openjdk-21-jre-headless -y
+
+# Verify Java installation
+java -version
+
+# Install Screen to keep server running after disconnect
+# 💡 I was new to screen, it runs a new terminal session on its own process
+# (for synced/blocking programs i.e. the run.sh so we can still use other commands)
+sudo apt install screen -y
+
+# Create server directory
+mkdir ~/cobbleverse-server # 💡 Any name you want btw
+cd ~/cobbleverse-server
+```
+
+## Step 2: Download Fabric Server Launcher
+
+> 💡 It depends on your modpack, but generally they have tools like: [fabricmc.net](https://fabricmc.net/use/server/)
+> If you're unsure with versions, my train-of-thought here is:
+>
+> - **Minecraft version** MUST match the modpack's.
+> - **Fabric Loader version** Just use the latest.
+> - **Installer version** Just use the latest.
+
+```bash
+# Download Fabric server launcher for 1.21.1 (Loader 0.17.2 required for Cobbleverse)
+curl -OJ https://meta.fabricmc.net/v2/versions/loader/1.21.1/0.17.2/1.0.1/server/jar
+```
+
+## Step 3: First Run to Generate Files
+
+```bash
+# Run once to generate eula.txt and other files
+# 💡 Change both 6G values to your desired RAM allocation (e.g., 4G, 8G, 12G)
+java -Xmx6G -Xms6G -jar fabric-server-mc.1.21.1-loader.0.17.2-launcher.1.0.1.jar nogui
+
+# Accept the EULA (required)
+sed -i 's/eula=false/eula=true/g' eula.txt
+```
+
+## Step 4: Install the Cobbleverse Modpack
+
+Upload your `COBBLEVERSE 1.7.2.mrpack` file to the server:
+
+```bash
+# From your local machine:
+scp "COBBLEVERSE 1.7.2.mrpack" user@your-vps-ip:~/cobbleverse-server/
+```
+
+Install the modpack using mrpack-install:
+
+```bash
+# SSH back into your server
+cd ~/cobbleverse-server
+
+# Download mrpack-install
+wget https://github.com/nothub/mrpack-install/releases/download/v0.16.10/mrpack-install-linux
+chmod +x mrpack-install-linux
+
+# Install the modpack (this downloads all 150+ mods automatically)
+./mrpack-install-linux "COBBLEVERSE 1.7.2.mrpack" --server-dir .
+
+# This will take a few minutes. You'll see download progress.
+# Done when you see: "Done :) Have a nice day ✌️"
+# ^[OB characters in output are normal
+```
+
+Verify installation:
+
+```bash
+# Should show 150+ mods
+ls -1 mods/*.jar | wc -l
+```
+
+## Step 5: Create Launch Script
+
+```bash
+vi start.sh
+```
+
+Add this optimized JVM launch command:
+
+```bash
+#!/bin/bash
+# Optimized JVM flags for modded servers (Aikar's flags)
+# Reduces lag spikes and improves garbage collection
+java -Xmx6G -Xms6G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar fabric-server-mc.1.21.1-loader.0.17.2-launcher.1.0.1.jar nogui
+
+# Or use this simpler one-liner if you want to keep it simple
+java -Xmx6G -jar fabric-server-mc.1.21.1-loader.0.17.2-launcher.1.0.1.jar nogui
+```
+
+**RAM Settings:**
+
+- `-Xmx6G` = Maximum RAM (6GB)
+- `-Xms6G` = Starting RAM (match Xmx to prevent resizing lag)
+- For 8GB VPS: Use 6GB to leave room for OS
+- For 16GB VPS: Use 12-14GB
+
+```bash
+chmod +x start.sh
+```
+
+## Step 6: Configure Firewall (Recommended)
+
+```bash
+# Install UFW
+sudo apt install ufw -y
+
+# Allow SSH (important!)
+sudo ufw allow 22/tcp
+
+# Allow Minecraft
+sudo ufw allow 25565/tcp
+
+# Enable firewall
+sudo ufw enable
+```
+
+## Step 7: Configure Server Properties (Optional)
+
+```bash
+vi server.properties
+```
+
+Key settings to consider:
+
+- `server-port=25565` (default)
+- `max-players=20` (adjust as needed)
+- `view-distance=10` (lower for better performance)
+- `simulation-distance=10`
+- `motd=Your Server Name Here`
+
+## Step 8: Start the Server
+
+```bash
+# Start a screen session
+screen -S minecraft
+
+# Run the server
+./start.sh
+
+# Detach from screen: Ctrl+A, then D
+# Reattach later: screen -r minecraft
+```
+
+## Step 8.5: Import an Existing World (Optional)
+
+If you have a world backup to import:
+
+```bash
+# Upload your world.zip from local machine
+scp world.zip user@your-vps-ip:~/cobbleverse-server/
+
+# SSH into server and extract
+cd ~/cobbleverse-server
+unzip world.zip
+chmod -R u+rwX world/
+
+# Make sure server.properties has the correct world name
+vi server.properties
+# Verify: level-name=world
+```
+
+Start the server and it will load your existing world.
+
+## Step 9: Test Your Server
+
+```bash
+# Get your VPS IP
+curl ifconfig.me
+```
+
+Try connecting in Minecraft:
+
+- Server Address: `YOUR_IP:25565`
+
+If this works, your server is running correctly!
+
+### Set Up Domain (Cloudflare)
+
+1. Go to Cloudflare DNS settings
+2. Add an **A record**:
+   - **Name:** `minecraft`
+   - **IPv4:** Your VPS IP
+   - **Proxy:** **DNS only (gray cloud)** ← Critical!
+   - **TTL:** Auto
+
+Wait 1-5 minutes for DNS propagation, then connect at: `minecraft.yourdomain.com:25565`
+
+<p class="mt-10 text-2xl">
+  🎉 You're all set! If you want to go play, you can stop here!
+</p>
+Just read the rest here for extra info...
+
+## Server Management
+
+Just some quick commands to remember whenever you're on your VPS and tweaking the server
+
+### Restarting the Server
+
+```bash
+# Reattach to screen
+screen -r minecraft
+
+# Type in console:
+stop
+
+# Wait for shutdown, then:
+./start.sh
+
+# Detach: Ctrl+A, D
+```
+
+**Never use Ctrl+C** - it can corrupt your world. Always use `stop` command.
+
+### Viewing Logs
+
+```bash
+# Real-time logs
+tail -f logs/latest.log
+
+# Search for errors
+grep ERROR logs/latest.log
+```
+
+## Adding Extra Mods (Optional)
+
+> 💡 If you play `online-mode=false`, you would definitely want these mods:
+>
+> - https://modrinth.com/mod/teleport-commands/versions
+> - https://modrinth.com/mod/skinrestorer/versions
+
+To add additional mods after installation:
+
+```bash
+# From your local machine
+scp your-mod.jar user@your-vps-ip:~/cobbleverse-server/mods/
+
+# Restart the server
+screen -r minecraft
+stop
+./start.sh
+# Ctrl+A, D to detach
+```
+
+**Important:** Only add mods that are:
+
+- Compatible with Minecraft 1.21.1
+- Built for Fabric
+- Server-compatible (not client-only)
+
+## Auto-Restart on Reboot (Optional)
+
+```bash
+sudo vi /etc/systemd/system/cobbleverse.service
+```
+
+Add this content (replace `YOUR_USERNAME`):
+
+```ini
+[Unit]
+Description=Cobbleverse Minecraft Server
+After=network.target
+
+[Service]
+User=YOUR_USERNAME
+WorkingDirectory=/home/YOUR_USERNAME/cobbleverse-server
+ExecStart=/home/YOUR_USERNAME/cobbleverse-server/start.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl enable cobbleverse
+sudo systemctl start cobbleverse
+```
+
+## Performance Tips
+
+For an 8GB VPS with the Cobbleverse modpack (142MB with all those mods):
+
+- **6GB RAM** for Minecraft is appropriate
+- Monitor with `htop`
+- The modpack includes optimization mods (Lithium, FerriteCore, ModernFix, Sodium) which help server-side performance
+
+## Troubleshooting
+
+**Server won't start?**
+
+```bash
+cat logs/latest.log
+```
+
+**Can't connect?**
+
+```bash
+sudo netstat -tulpn | grep 25565
+sudo ufw status
+```
+
+**Out of memory?**
+
+- Reduce RAM allocation in `start.sh`
+- Lower `view-distance` in `server.properties`
+- Consider upgrading your VPS
+
+**Startup issues with Aikar's flags?**
+Try simple JVM args: `java -Xmx6G -Xms6G -jar fabric-server-mc.1.21.1-loader.0.17.2-launcher.1.0.1.jar nogui`
+
+Let me know if you need help with any specific step!
