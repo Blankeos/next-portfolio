@@ -323,6 +323,12 @@ sudo systemctl enable cobbleverse
 sudo systemctl start cobbleverse
 ```
 
+Watch the logs with systemd:
+
+```bash
+sudo journalctl -u cobbleverse -f
+```
+
 ## Performance Tips
 
 For an 8GB VPS with the Cobbleverse modpack (142MB with all those mods):
