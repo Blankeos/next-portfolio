@@ -1,0 +1,105 @@
+---
+title: Cloudflare Tunnel as a Free ngrok Alternative for Webhooks
+date: 2026-03-24
+featuredImage: /blog-imgs/cloudflared-ngrok-alternative-for-testing-webhooks.webp
+category: Deployment
+description: How to use Cloudflare Tunnel as a free, persistent ngrok alternative for testing webhooks locally.
+---
+
+# Cloudflare Tunnel — Free ngrok Alternative for Webhooks
+
+I was implementing payments with Stripe and Lemon Squeezy, and needed to test webhooks locally. I've been using ngrok for years, but the free tier gives you a random URL every time you restart. That means updating your webhook URL in every dashboard, every time. And some of my older projects are still pointing to the same ngrok domain — I can't just change it.
+
+I looked into alternatives. [LocalCan](https://www.localcan.com/) looked really compelling but it's $89. [playit.gg](https://playit.gg) exists too. But then I realized — if you already have a domain on Cloudflare, you can do this for free with `cloudflared`. It's not exactly advertised for this use case, but it works perfectly.
+
+Set it up once, run it when you need it, kill it when you don't.
+
+## Prerequisites
+
+- A domain already on Cloudflare (DNS managed by Cloudflare)
+- `cloudflared` installed:
+
+```bash
+# macOS
+brew install cloudflared
+
+# Windows
+winget install --id Cloudflare.cloudflared
+
+# Linux
+curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o cloudflared
+chmod +x cloudflared && sudo mv cloudflared /usr/local/bin
+```
+
+## One-Time Setup
+
+### 1. Login
+
+```bash
+cloudflared tunnel login
+```
+
+This opens your browser — select your domain and approve.
+
+### 2. Create a tunnel
+
+```bash
+cloudflared tunnel create my-dev-tunnel
+```
+
+Copy the UUID from the output (looks like `aaafc451-1eea-47a4-81e2-3c02b3907c37`). You can always get it later with `cloudflared tunnel list`.
+
+### 3. Create the config file
+
+Create `~/.cloudflared/config.yaml`:
+
+```yaml
+tunnel: <YOUR-TUNNEL-UUID>
+credentials-file: /Users/yourname/.cloudflared/<YOUR-TUNNEL-UUID>.json
+
+ingress:
+  - hostname: webhook.yourdomain.com # your subdomain
+    service: http://localhost:3000 # your local dev server port
+  - service: http_status:404
+```
+
+Only two things to change here: the subdomain and the port. Everything else is boilerplate.
+
+### 4. Point your subdomain to the tunnel
+
+```bash
+cloudflared tunnel route dns my-dev-tunnel webhook.yourdomain.com
+```
+
+This auto-creates a CNAME in your Cloudflare DNS. No dashboard clicking needed.
+
+## Daily Usage
+
+```bash
+# Start
+cloudflared tunnel run my-dev-tunnel
+
+# Stop
+Ctrl+C
+```
+
+That's it. Your webhook URL is always `https://webhook.yourdomain.com`. Set it once in Stripe/Lemon Squeezy/whatever and never touch it again.
+
+## Why not just use ngrok?
+
+|                      | Cloudflare Tunnel  | ngrok (free)                        | Other solutions (e.g., untun) |
+| -------------------- | ------------------ | ----------------------------------- | ----------------------------- |
+| Persistent URL       | ✅ Always the same | ❌ Available, but can't ever change | ❌ Changes every restart      |
+| Custom domain        | ✅ Free            | ❌ Paid only                        | ⚠️ Varies                     |
+| Bandwidth limits     | ❌ None            | ✅ Yes                              | ⚠️ Varies by provider         |
+| Session timeouts     | ❌ None            | ✅ Yes                              | ⚠️ Varies by provider         |
+| Request inspector UI | ❌ No              | ✅ Yes                              | ⚠️ Varies                     |
+| Cost                 | Free               | Free / $10+/mo                      | Free / Varies / Expensive     |
+
+The tradeoff is you lose ngrok's request inspector, but honestly I just use the Stripe CLI or check my server logs for that.
+
+## Notes
+
+- The tunnel only runs while the process is running — no background daemon unless you explicitly set one up.
+- All connections are outbound-only from your machine to Cloudflare's edge — no open inbound ports.
+- Config file lives at `~/.cloudflared/config.yaml` on macOS/Linux, `%USERPROFILE%\.cloudflared\config.yaml` on Windows.

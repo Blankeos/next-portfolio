@@ -301,7 +301,7 @@ function HeadingElement(props: HeadingElementProps) {
 
   return (
     <HeadingTag
-      className={cn('group relative inline-block self-start', classNames)}
+      className={cn('group relative block', classNames)}
       onClick={() => {
         const newURL = new URL(window.location.toString());
         newURL.hash = '#' + props.id;

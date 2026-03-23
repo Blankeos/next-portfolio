@@ -13,6 +13,7 @@ import { SearchContextProvider } from '@/contexts/search.context';
 import { ThemeContextProvider } from '@/contexts/theme.context';
 import { Metadata } from 'next';
 import { FC, ReactNode } from 'react';
+import { themeScript } from '@/contexts/theme-script';
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -47,20 +48,26 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <html lang="en" className={epilogueFont.className}>
-      <meta
-        name="google-site-verification"
-        content="Xc9Om93PVgBy3xwN6aPgKLGs4UNRZXQ5WsqMqeOiBMQ"
-      />
-      <link rel="icon" type="image/png" href="favicons/favicon.png" />
-      <link
-        rel="icon"
-        sizes="192x192"
-        href="favicons/android-chrome-192x192.png"
-      />
-      <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" />
-      <meta name="theme-color" content="#3B82F6" />
-      <meta property="og:type" content="website" />
-      {process.env.NODE_ENV === 'production' && <Analytics />}
+        <meta
+          name="google-site-verification"
+          content="Xc9Om93PVgBy3xwN6aPgKLGs4UNRZXQ5WsqMqeOiBMQ"
+        />
+        <link rel="icon" type="image/png" href="favicons/favicon.png" />
+        <link
+          rel="icon"
+          sizes="192x192"
+          href="favicons/android-chrome-192x192.png"
+        />
+        <link rel="apple-touch-icon" href="favicons/apple-touch-icon.png" />
+        <meta name="theme-color" content="#3B82F6" />
+        <meta property="og:type" content="website" />
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: themeScript
+          }}
+        />
       <body
         className="flex min-h-screen flex-col"
         style={{ overscrollBehaviorY: 'contain' }}
