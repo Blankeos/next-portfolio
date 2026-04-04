@@ -107,7 +107,7 @@ export function CmdNav() {
   }, [query]);
 
   const noResults = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+     
     return (
       postsResults.length === 0 &&
       projectsResults.length === 0 &&
