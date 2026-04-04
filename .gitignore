@@ -38,3 +38,4 @@ tsconfig.tsbuildinfo
 # Contentlayer
 .contentlayer
 .env
+.claude/settings.local.json
