@@ -31,7 +31,7 @@ const SideNav: React.FC<SideNavProps> = ({ isVisible = true, activeIndex }) => {
         }`}
       >
         <div>
-          <div className="relative z-20 flex flex-col items-end space-y-4 py-16 text-sm font-light text-gray-900">
+          <div className="relative z-20 flex flex-col items-end space-y-4 py-16 text-sm font-light text-gray-900 dark:text-gray-400">
             {sections.map((section, i) => {
               return (
                 <SectionLink

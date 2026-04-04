@@ -191,7 +191,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           <FloatingCircle
             style={{ right: '50rem', top: '5rem' }}
             orbitSize="45rem"
-            orbitClass="border-gray-300"
+            orbitClass="border-border"
             toastMessage={
               <span>
                 Yes, I&apos;m good at <b className="text-[#60a5fa]">React</b>!
@@ -203,7 +203,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           <FloatingCircle
             style={{ right: '30rem', bottom: '10rem' }}
             orbitSize="25rem"
-            orbitClass="border-gray-300"
+            orbitClass="border-border"
             nucleusClass="bg-[#ffe58e]"
             toastMessage={
               <span>
@@ -223,7 +223,7 @@ const Hero: React.FC<HeroProps> = ({ sectionRef }) => {
           </FloatingCircle>
           <FloatingCircle
             style={{ left: '5rem', bottom: '1.5rem' }}
-            orbitClass="border-gray-300"
+            orbitClass="border-border"
             nucleusClass="bg-[#0044d0]"
             toastMessage={
               <span>

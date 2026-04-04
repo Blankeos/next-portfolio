@@ -57,28 +57,20 @@ const ProfileImage = () => {
   }, [inView, controls]);
   return (
     <div className="relative flex h-full w-full flex-col">
-      <div ref={ref} className="relative inline-block md:w-5/6">
+      <div ref={ref} className="relative aspect-square md:w-5/6">
         <div
-          className="relative"
+          className="absolute h-full w-full"
           style={{
-            marginTop: '100%',
+            backgroundImage: `url("/imgs/carlo_about.png")`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top',
           }}
         ></div>
-        <div className="absolute inset-0">
-          <div
-            className="absolute h-full w-full"
-            style={{
-              backgroundImage: `url("/imgs/carlo_about.png")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center top',
-            }}
-          ></div>
-          <motion.div
-            initial={{ width: '100%' }}
-            animate={controls}
-            className="absolute h-full w-full self-end bg-gray-50"
-          ></motion.div>
-        </div>
+        <motion.div
+          initial={{ width: '100%' }}
+          animate={controls}
+          className="absolute right-0 h-full w-full bg-background-secondary"
+        ></motion.div>
       </div>
     </div>
   );
