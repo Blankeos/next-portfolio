@@ -6,6 +6,20 @@ import { FC } from 'react';
 
 type GiscusCommentsProps = {};
 
+function getGiscusTheme(intrinsicTheme: string) {
+  const isLocalhost =
+    typeof window !== 'undefined' && window.location.hostname === 'localhost';
+
+  if (isLocalhost) {
+    return intrinsicTheme === 'light' ? 'light_tritanopia' : 'dark_tritanopia';
+  }
+
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  return intrinsicTheme === 'light'
+    ? `${origin}/giscus-light.css`
+    : `${origin}/giscus-dark.css`;
+}
+
 const GiscusComments: FC<GiscusCommentsProps> = (props) => {
   const { intrinsicTheme } = useThemeContext();
 
@@ -22,9 +36,7 @@ const GiscusComments: FC<GiscusCommentsProps> = (props) => {
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="top"
-      theme={
-        intrinsicTheme === 'light' ? 'light_tritanopia' : 'dark_tritanopia'
-      }
+      theme={getGiscusTheme(intrinsicTheme)}
       lang="en"
       loading="lazy"
     />
