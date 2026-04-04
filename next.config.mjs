@@ -4,16 +4,6 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async headers() {
-    return [
-      {
-        source: '/giscus-:path*.css',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: 'https://giscus.app' },
-        ],
-      },
-    ];
-  },
   // reactStrictMode: true,
   // images: {
   //   domains: ['static.wikia.nocookie.net', 'raw.githubusercontent.com'],
