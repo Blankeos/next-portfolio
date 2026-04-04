@@ -1,0 +1,234 @@
+---
+title: NPM Publishing for Dummies
+date: 2026-04-04
+featuredImage: /blog-imgs/npm-publishing-for-dummies.webp
+description: A cheatsheet for publishing NPM packages with tsup, changesets, and GitHub Actions.
+category: Dev Tooling
+---
+
+# NPM Publishing for Dummies
+
+I recently published a few packages on NPM — [solid-number-flow](https://www.npmjs.com/package/solid-number-flow), [bagon-hooks](https://www.npmjs.com/package/bagon-hooks), and a couple more. The first time I did it, I was fumbling through docs, half-guessing what `main` vs `module` vs `types` meant in `package.json`, and manually running `npm publish` like a caveman.
+
+Then I watched [Matt Pocock's](https://www.youtube.com/watch?v=eh89VE3Mk5g) approach and it clicked. There's a really clean pipeline you can set up: **tsup** bundles your code, **changesets** handles versioning and changelogs, and **GitHub Actions** publishes automatically when you merge. Once it's wired up, you literally just write code, run one command to describe your change, push, and merge a PR. That's it.
+
+This is my cheatsheet for setting that up. I use Bun here, but swap `bun` for `pnpm` or `npm` and it's the same thing.
+
+## The Quick and Dirty
+
+If you just want to publish something right now:
+
+```bash
+# Login to NPM (one-time)
+npm login
+
+# Check who's logged in
+npm whoami
+
+# Publish
+npm publish
+
+# Scoped package? (e.g. @carloweb/my-package)
+npm publish --access=public
+```
+
+That works. But if you're maintaining a package and want a proper workflow, keep reading.
+
+## The Proper Setup
+
+Here's what we're wiring up:
+
+- **tsup** — bundles your TypeScript into CJS + ESM with type declarations
+- **Changesets** — manages version bumps and generates changelogs
+- **GitHub Actions** — runs CI on every push, auto-publishes on merge to main
+
+## 1. tsup (Bundling)
+
+tsup is the easiest way to bundle a TypeScript library. Zero-config for simple cases, but here's a solid default:
+
+```bash
+bun add -D tsup
+```
+
+Create `tsup.config.ts`:
+
+```typescript
+import { defineConfig } from 'tsup';
+
+export default defineConfig({
+  entry: ['src/index.tsx'], // or src/index.ts
+  outDir: 'dist',
+  format: ['cjs', 'esm'],
+  dts: true,
+  splitting: true,
+  sourcemap: true,
+  clean: true,
+});
+```
+
+Then update your `package.json` — this is the part that trips people up:
+
+```json
+{
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "lint": "tsc",
+    "build": "tsup"
+  }
+}
+```
+
+- **`main`** — CommonJS entry (for `require()`)
+- **`module`** — ESM entry (for `import`)
+- **`types`** — TypeScript declarations
+- **`files`** — only ship the `dist` folder to NPM (keeps your package small)
+
+Run `bun run build` and check that `dist/` looks right before moving on.
+
+## 2. Changesets (Versioning)
+
+Changesets is what the big open-source projects use (Radix, Solid, etc). It lets you describe what changed, then it auto-bumps versions and writes changelogs for you.
+
+```bash
+bun add -D @changesets/cli @changesets/changelog-github
+
+# Initialize (creates a .changeset/ directory)
+bun changeset init
+```
+
+After init, open `.changeset/config.json` and change `"access"` from `"restricted"` to `"public"` (otherwise scoped packages won't publish):
+
+```json
+{
+  "access": "public"
+}
+```
+
+Add these scripts to `package.json`:
+
+```json
+{
+  "scripts": {
+    "ci": "bun run lint && bun run build",
+    "publish-ci": "bun run lint && bun run build && changeset publish"
+  }
+}
+```
+
+### How changesets work day-to-day
+
+When you're ready to release:
+
+```bash
+bun changeset
+```
+
+It'll ask you:
+
+1. Which packages changed (for monorepos, or just hit enter for single packages)
+2. Is it a **major**, **minor**, or **patch** bump?
+3. Write a short summary of the change
+
+This creates a markdown file in `.changeset/` describing the change. Commit it with your code. The GitHub Action (next section) handles the rest.
+
+## 3. GitHub Actions (CI + Auto Publish)
+
+Two workflows: one for CI on every push, one for publishing on merge to main.
+
+### CI Workflow
+
+`.github/workflows/ci.yml`:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run ci
+```
+
+### Publish Workflow
+
+`.github/workflows/publish.yml`:
+
+```yaml
+name: Publish
+
+on:
+  push:
+    branches:
+      - 'main'
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: bun run publish-ci
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+## 4. NPM + GitHub Setup
+
+A few one-time things to wire up:
+
+### NPM Access Token
+
+1. Go to [npmjs.com](https://www.npmjs.com) > **Access Tokens** > **Generate New Token**
+2. Choose **Automation** type (bypasses 2FA for CI)
+3. Copy the token
+
+### GitHub Secrets
+
+1. Go to your repo > **Settings** > **Secrets and variables** > **Actions**
+2. Add a new secret: `NPM_TOKEN` with the token you just copied
+
+### GitHub Permissions
+
+In your repo > **Settings** > **Actions** > **General**:
+
+- Set Workflow Permissions to **"Read and write permissions"**
+- Check **"Allow GitHub Actions to create and approve pull requests"**
+
+This lets the changesets action create release PRs automatically.
+
+## The Workflow (Once Everything's Set Up)
+
+Here's what your day-to-day looks like:
+
+1. Write code, commit, push
+2. When you're ready to release, run `bun changeset` — describe what changed
+3. Commit the changeset file and push to main
+4. The **publish workflow** automatically creates a "Release PR" that bumps versions and updates changelogs
+5. **Merge the Release PR** — this triggers the publish workflow again, which runs `changeset publish` and pushes to NPM
+
+That's it. No manual `npm publish`, no forgetting to bump versions, no changelog maintenance. Just code, changeset, push, merge.
