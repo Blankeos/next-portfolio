@@ -1,8 +1,9 @@
 'use client';
 
+import { useClipboard } from '@mantine/hooks';
 import { useMDXComponent } from 'next-contentlayer2/hooks';
 import Image from 'next/image';
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useRef } from 'react';
 
 import { Callout } from '@/components/callout';
 import { MdxCard } from '@/components/mdx-card';
@@ -43,9 +44,9 @@ const Summary = (props: HTMLAttributes<HTMLElement>) => (
 const components = {
   h1: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <HeadingElement
-      as="h3"
+      as="h1"
       classNames={[
-        'mt-2 scroll-m-10 text-3xl font-bold tracking-tight text-typography',
+        'mt-2 scroll-m-10 text-[1.65em] font-semibold leading-tight text-typography',
         className,
       ]}
       {...props}
@@ -53,9 +54,9 @@ const components = {
   ),
   h2: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <HeadingElement
-      as="h3"
+      as="h2"
       classNames={[
-        'mt-10 scroll-m-10 pb-1 text-2xl font-semibold tracking-tight text-typography first:mt-0',
+        'mt-8 scroll-m-10 pb-1 text-[1.35em] font-semibold leading-tight text-typography first:mt-0',
         className,
       ]}
       {...props}
@@ -65,7 +66,7 @@ const components = {
     <HeadingElement
       as="h3"
       classNames={[
-        'mt-8 scroll-m-10 text-xl font-semibold tracking-tight text-typography',
+        'mt-6 scroll-m-10 text-[1.15em] font-semibold leading-tight text-typography',
         className,
       ]}
       {...props}
@@ -75,7 +76,7 @@ const components = {
     <HeadingElement
       as="h4"
       classNames={[
-        'mt-5 scroll-m-10 text-xl font-semibold tracking-tight text-typography',
+        'mt-5 scroll-m-10 text-[1.1em] font-semibold leading-tight text-typography',
         className,
       ]}
       {...props}
@@ -85,7 +86,7 @@ const components = {
     <HeadingElement
       as="h5"
       classNames={[
-        'mt-4 scroll-m-10 text-lg font-semibold tracking-tight text-typography',
+        'mt-4 scroll-m-10 text-[1.05em] font-semibold leading-tight text-typography',
         className,
       ]}
       {...props}
@@ -93,9 +94,9 @@ const components = {
   ),
   h6: ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <HeadingElement
-      as="h5"
+      as="h6"
       classNames={[
-        'mt-0 scroll-m-10 text-base font-semibold tracking-tight text-typography',
+        'mt-3 scroll-m-10 text-[1.02em] font-semibold leading-tight text-typography',
         className,
       ]}
       {...props}
@@ -113,7 +114,7 @@ const components = {
   p: ({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) => (
     <p
       className={cn(
-        'text-typography-foreground leading-7 [&:not(:first-child)]:mt-6',
+        'text-typography-foreground [&:not(:first-child)]:mt-[1.25em]',
         className
       )}
       {...props}
@@ -122,7 +123,7 @@ const components = {
   ul: ({ className, ...props }: HTMLAttributes<HTMLUListElement>) => (
     <ul
       className={cn(
-        'my-0 ml-6',
+        'my-[1.25em] ml-[1.75em]',
         className,
         !className?.includes('contains-task-list') && 'list-disc'
       )}
@@ -130,11 +131,14 @@ const components = {
     />
   ),
   ol: ({ className, ...props }: HTMLAttributes<HTMLOListElement>) => (
-    <ol className={cn('my-0 ml-6 list-decimal', className)} {...props} />
+    <ol className={cn('my-[1.25em] ml-[1.75em] list-decimal', className)} {...props} />
   ),
   li: ({ className, ...props }: HTMLAttributes<HTMLLIElement>) => (
     <li
-      className={cn('text-typography task-list-item mt-2', className)}
+      className={cn(
+        'text-typography-foreground task-list-item mt-[0.5em]',
+        className
+      )}
       {...props}
     />
   ),
@@ -184,7 +188,7 @@ const components = {
   blockquote: ({ className, ...props }: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
       className={cn(
-        '[&>*]:text-muted-foreground mt-6 border-l-2 pl-6 italic',
+        '[&>*]:text-muted-foreground my-[1.5em] border-l-[3px] border-border pl-[1em] italic',
         className
       )}
       {...props}
@@ -228,22 +232,14 @@ const components = {
       {...props}
     />
   ),
-  pre: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      className={cn(
-        'mt-6 mb-4 overflow-x-auto rounded-lg border bg-black py-4 dark:border-muted',
-        className
-      )}
-      {...props}
-    />
-  ),
+  pre: (props: HTMLAttributes<HTMLPreElement>) => <CodeBlock {...props} />,
   code: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => {
     // An inline code element. It only has `children` as a prop.
     if (Object.keys(props).length === 1)
       return (
         <code
           className={cn(
-            'relative rounded border bg-neutral-200 px-1.5 py-0.5 font-mono dark:border-muted dark:bg-secondary',
+            'relative rounded border bg-neutral-200 px-[0.4em] py-[0.2em] font-mono text-[0.9em] dark:border-muted dark:bg-secondary',
             className
           )}
           {...props}
@@ -283,8 +279,78 @@ export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
 
   return (
-    <div className="mdx">
+    <div className="mdx text-[14px] leading-[1.75]">
       <Component components={components} />
+    </div>
+  );
+}
+
+function CodeBlock({ className, ...props }: HTMLAttributes<HTMLPreElement>) {
+  const clipboard = useClipboard({ timeout: 1500 });
+  const preRef = useRef<HTMLPreElement>(null);
+
+  const handleCopy = () => {
+    const code =
+      preRef.current?.querySelector('code')?.textContent ??
+      preRef.current?.textContent ??
+      '';
+    if (!code.trim()) return;
+    clipboard.copy(code.replace(/\n+$/, ''));
+  };
+
+  return (
+    <div className="group/code relative my-[1.5em]">
+      <pre
+        ref={preRef}
+        className={cn(
+          'overflow-x-auto rounded-lg border bg-black py-4 pr-12 text-[0.875em] leading-[1.5] dark:border-muted',
+          className
+        )}
+        {...props}
+      />
+      <button
+        type="button"
+        onClick={handleCopy}
+        aria-label={clipboard.copied ? 'Copied' : 'Copy code'}
+        title={clipboard.copied ? 'Copied' : 'Copy code'}
+        className={cn(
+          'absolute top-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-md border backdrop-blur-sm transition-all',
+          clipboard.copied
+            ? 'border-green-500/40 text-green-400'
+            : 'border-white/10 text-white/40 opacity-0 hover:border-white/25 hover:text-white/70 group-hover/code:opacity-100'
+        )}
+      >
+        {clipboard.copied ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+        )}
+      </button>
     </div>
   );
 }

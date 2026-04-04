@@ -40,6 +40,10 @@ export const Post = defineDocumentType(() => ({
         return readingTime(body);
       },
     },
+    headings: {
+      type: 'json',
+      resolve: (post) => extractHeadingsFromMarkdown(post.body.raw),
+    },
     slug: {
       type: 'string',
       resolve: (post) => `${post._raw.flattenedPath.split('/').at(1)}`,
@@ -50,6 +54,48 @@ export const Post = defineDocumentType(() => ({
     },
   },
 }));
+
+function extractHeadingsFromMarkdown(content: string) {
+  const headings: Array<{ level: number; text: string; slug: string }> = [];
+  const lines = content.split('\n');
+  let inFence = false;
+  let fenceChar: string | null = null;
+  let fenceLength = 0;
+
+  for (const line of lines) {
+    const fenceMatch = line.match(/^\s*(```+|~~~+)/);
+    if (fenceMatch) {
+      const marker = fenceMatch[1];
+      if (!inFence) {
+        inFence = true;
+        fenceChar = marker[0];
+        fenceLength = marker.length;
+        continue;
+      }
+      if (fenceChar && marker[0] === fenceChar && marker.length >= fenceLength) {
+        inFence = false;
+        fenceChar = null;
+        fenceLength = 0;
+        continue;
+      }
+    }
+    if (inFence) continue;
+
+    const match = line.match(/^(#{1,6})\s+(.+)$/);
+    if (!match) continue;
+    const level = match[1].length;
+    const text = match[2].trim();
+    const slug = text
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+    headings.push({ level, text, slug });
+  }
+
+  return headings;
+}
 
 export const Project = defineDocumentType(() => ({
   name: 'Project',

@@ -9,6 +9,7 @@ import BackButton from '@/components/buttons/back-button';
 
 import GiscusComments from '@/components/giscus-comments';
 import { Mdx } from '@/components/mdx';
+import { TableOfContents } from '@/components/table-of-contents';
 import { allPosts } from 'contentlayer/generated';
 import Link from 'next/link';
 import BlogViews from './blog-views';
@@ -128,21 +129,34 @@ const BlogPostPage: FC<BlogPostPageProps> = async (props) => {
 
         <div className="h-12" />
 
-        {/*
-          Use this for .md files.
-          <div
-            className="[&>*:last-child]:mb-0 [&>*]:mb-3"
-            dangerouslySetInnerHTML={{ __html: post.body.html }}
-          />
-        */}
+        <div className="relative xl:grid xl:grid-cols-[1fr_200px] xl:gap-10">
+          <div className="min-w-0">
+            <Mdx code={post.body.code} />
 
-        <Mdx code={post.body.code} />
+            <div className="h-12" />
 
-        <div className="h-12" />
+            <GiscusComments />
 
-        <GiscusComments />
+            <div className="h-12" />
+          </div>
 
-        <div className="h-12" />
+          {(post.headings as { level: number; text: string; slug: string }[])
+            .length > 0 && (
+            <div className="hidden text-sm xl:block">
+              <div className="sticky top-16">
+                <TableOfContents
+                  headings={(
+                    post.headings as {
+                      level: number;
+                      text: string;
+                      slug: string;
+                    }[]
+                  ).filter((h) => h.level >= 2)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </article>
     </div>
   );
