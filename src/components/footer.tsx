@@ -20,6 +20,9 @@ const Footer = () => {
         </Link>
         <div className="flex space-x-10 text-gray-50">
           <HomeLinkButton>Home</HomeLinkButton>
+          <Link href="/blog">Blog</Link>
+          <Link href="/projects">Projects</Link>
+          <Link href="/about">About</Link>
         </div>
         <span className="text-center">
           2021 © Carlo Taleon • All Rights Reserved.
