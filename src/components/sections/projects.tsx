@@ -29,10 +29,23 @@ const Projects: React.FC<ProjectsProps> = ({ sectionRef }) => {
       className="bg-background-secondary w-full py-16"
     >
       <Container maxWidth="7xl" className="relative">
-        <SectionHeading
-          className="text-typography absolute z-20 text-4xl font-light sm:text-5xl"
-          text={['Featured', 'Projects']}
-        />
+        <div className="flex items-center justify-between">
+          <SectionHeading
+            className="text-typography absolute z-20 text-4xl font-light sm:text-5xl"
+            text={['Featured', 'Projects']}
+          />
+          <Link
+            href="/projects"
+            className="group text-typography-foreground hover:text-typography absolute right-0 top-0 z-20 text-sm transition-colors duration-300 mr-13"
+          >
+            <span className="inline-flex items-center gap-1">
+              View all
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </span>
+          </Link>
+        </div>
         <ProjectsGrid />
       </Container>
     </section>

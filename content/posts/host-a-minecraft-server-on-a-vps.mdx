@@ -241,6 +241,30 @@ Just read the rest here for extra info...
 
 Just some quick commands to remember whenever you're on your VPS and tweaking the server
 
+### Usual Operations + Backups (Cheatsheet)
+
+```bash
+# Attach to server console
+screen -r minecraft
+
+# Stop safely from the console (never Ctrl+C)
+stop
+
+# Start in a detached screen session
+screen -dmS minecraft ./start.sh
+
+# Watch live logs
+tail -f logs/latest.log
+
+# Create a backup into ~/backups/*
+cd ~/cobbleverse-server
+mkdir -p ~/backups
+backup_dir=~/backups/cobbleverse-$(date +%F-%H%M)
+mkdir -p "$backup_dir"
+cp -a world mods config defaultconfigs server.properties start.sh "$backup_dir"/
+ls -lah "$backup_dir"
+```
+
 ### Restarting the Server
 
 ```bash
@@ -294,6 +318,91 @@ stop
 - Built for Fabric
 - Server-compatible (not client-only)
 
+## Updating Mods or the Whole Modpack
+
+When you update, treat it like a deployment: stop the server, backup first, update, check logs, then rollback if needed.
+
+### 1) Stop the server and create a backup (required)
+
+```bash
+# Reattach to your screen session and stop cleanly
+screen -r minecraft
+stop
+
+# Back in SSH shell
+cd ~/cobbleverse-server
+mkdir -p ~/backups
+backup_dir=~/backups/cobbleverse-$(date +%F-%H%M)
+mkdir -p "$backup_dir"
+cp -a world mods config defaultconfigs server.properties start.sh "$backup_dir"/
+```
+
+> 💡 If you use `kubejs/` or custom `scripts/`, include those in the backup too.
+
+### 2) Pick your update type
+
+**A) Update one mod only**
+
+```bash
+# Upload the new jar from your local machine
+scp your-mod-new.jar user@your-vps-ip:~/cobbleverse-server/mods/
+
+# Optional: move old version out so both versions do not load together
+mkdir -p ~/cobbleverse-server/mods-disabled
+mv ~/cobbleverse-server/mods/your-mod-old.jar ~/cobbleverse-server/mods-disabled/
+```
+
+**B) Update the full modpack (recommended for pack releases)**
+
+> 💡 Do this in a fresh directory so you do not mix old and new files.
+
+```bash
+mkdir ~/cobbleverse-server-next
+cd ~/cobbleverse-server-next
+
+# Download mrpack-install
+wget https://github.com/nothub/mrpack-install/releases/download/v0.16.10/mrpack-install-linux
+chmod +x mrpack-install-linux
+
+# Upload latest pack from local machine
+# scp "COBBLEVERSE x.y.z.mrpack" user@your-vps-ip:~/cobbleverse-server-next/
+
+# Install fresh server files for the new pack version
+./mrpack-install-linux "COBBLEVERSE x.y.z.mrpack" --server-dir .
+
+# Copy your world and key config files
+cp -a ~/cobbleverse-server/world ~/cobbleverse-server-next/
+cp -a ~/cobbleverse-server/server.properties ~/cobbleverse-server-next/
+cp -a ~/cobbleverse-server/start.sh ~/cobbleverse-server-next/
+```
+
+### 3) Compatibility checklist (do not skip)
+
+- Minecraft version matches the mod/modpack version
+- Loader matches (`Fabric` vs `Forge`/`NeoForge`)
+- Required dependencies are installed
+- Mods are server-compatible (not client-only)
+
+### 4) Start and verify
+
+```bash
+# Start whichever directory you are using
+cd ~/cobbleverse-server
+# or: cd ~/cobbleverse-server-next
+
+screen -S minecraft
+./start.sh
+```
+
+Watch for issues immediately:
+
+```bash
+tail -f logs/latest.log
+grep -Ei "missing|incompatible|failed|error" logs/latest.log
+```
+
+If it breaks, restore your backup and roll back to the previous working versions.
+
 ## Auto-Restart on Reboot (Optional)
 
 ```bash
@@ -323,10 +432,14 @@ sudo systemctl enable cobbleverse
 sudo systemctl start cobbleverse
 ```
 
-Watch the logs with systemd:
+Good commands to know:
 
 ```bash
+# Watching/Monitoring Logs (exit with 'q' or ctrl+c)
 sudo journalctl -u cobbleverse -f
+
+# Stopping (you'll need this when updating)
+sudo systemctl stop cobbleverse
 ```
 
 ## Performance Tips
