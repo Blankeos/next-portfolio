@@ -206,14 +206,14 @@ const components = {
   ),
   tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
     <tr
-      className={cn('even:bg-muted m-0 border-t p-0', className)}
+      className={cn('even:bg-secondary m-0 border-t border-border p-0', className)}
       {...props}
     />
   ),
   th: ({ className, ...props }: HTMLAttributes<HTMLTableCellElement>) => (
     <th
       className={cn(
-        'border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right',
+        'border border-border bg-secondary-dark px-4 py-2 text-left font-bold text-foreground [&[align=center]]:text-center [&[align=right]]:text-right',
         className
       )}
       {...props}
@@ -222,7 +222,7 @@ const components = {
   td: ({ className, ...props }: HTMLAttributes<HTMLTableCellElement>) => (
     <td
       className={cn(
-        'border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right',
+        'border border-border px-4 py-2 text-left text-foreground [&[align=center]]:text-center [&[align=right]]:text-right',
         className
       )}
       {...props}
@@ -231,7 +231,7 @@ const components = {
   pre: ({ className, ...props }: HTMLAttributes<HTMLPreElement>) => (
     <pre
       className={cn(
-        'mt-6 mb-4 overflow-x-auto rounded-lg border bg-black py-4',
+        'mt-6 mb-4 overflow-x-auto rounded-lg border bg-black py-4 dark:border-muted',
         className
       )}
       {...props}
@@ -243,13 +243,13 @@ const components = {
       return (
         <code
           className={cn(
-            'relative rounded bg-neutral-200 px-1.5 py-0.5 font-mono',
+            'relative rounded border bg-neutral-200 px-1.5 py-0.5 font-mono dark:border-muted dark:bg-secondary',
             className
           )}
           {...props}
         >
-          <span className="bg-typography-foreground-light absolute -top-0.5 right-0 -bottom-0.5 left-0 rounded" />
-          <span className="text-background relative">{props.children}</span>
+          <span className="bg-typography-foreground-light absolute -top-0.5 right-0 -bottom-0.5 left-0 rounded dark:hidden" />
+          <span className="text-background relative dark:text-foreground">{props.children}</span>
         </code>
       );
 
