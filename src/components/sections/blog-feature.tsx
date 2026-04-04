@@ -32,41 +32,50 @@ const BlogFeature: FC<BlogFeatureProps> = (props) => {
 
         <div className="h-10" />
 
-        <div className="flex w-full max-w-xl flex-col justify-between gap-y-8">
+        <div className="flex w-full max-w-3xl flex-col">
           {allPosts
             .sort(byDate('date'))
-            .slice(0, 7)
-            .map((post) => (
-              <div
+            .slice(0, 5)
+            .map((post, i) => (
+              <Link
                 key={post._id}
-                className="group pointer-events-none flex w-full items-center justify-between gap-5"
+                href={`/blog/${post.slug}`}
+                className="group border-border/60 flex items-start gap-4 border-t py-5 transition-colors duration-200 last:border-b sm:gap-6"
               >
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="text-typography pointer-events-auto group-hover:underline"
-                >
-                  {post.title}
-                </Link>
+                <span className="text-typography-foreground-light mt-0.5 font-light tabular-nums text-sm select-none shrink-0 w-5">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
 
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="pointer-events-auto flex-shrink-0 text-end text-sm text-neutral-500 group-hover:underline"
-                >
-                  {formatDateShort(post.date)}
-                </Link>
-              </div>
+                <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-4">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-typography text-[0.95rem] leading-snug font-normal transition-colors duration-200 group-hover:text-[var(--primary)]">
+                      {post.title}
+                    </span>
+
+                    {post.description && (
+                      <p className="text-typography-foreground-light mt-1 line-clamp-1 text-sm leading-relaxed">
+                        {post.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <span className="shrink-0 text-xs tabular-nums text-typography-foreground-light">
+                    {formatDateShort(post.date, { lower: true })}
+                  </span>
+                </div>
+              </Link>
             ))}
-
-          <Link
-            href={$path({ route: '/blog' })}
-            className="text-typography relative flex items-center gap-x-1 self-start"
-          >
-            <span>all posts</span>
-            <IconArrowUp className="rotate-90" />
-
-            <span className="absolute right-0 bottom-1 left-0 h-[1px] bg-neutral-700"></span>
-          </Link>
         </div>
+
+        <div className="h-8" />
+
+        <Link
+          href={$path({ route: '/blog' })}
+          className="text-typography group inline-flex items-center gap-1.5 text-sm transition-colors duration-200 hover:text-[var(--primary)]"
+        >
+          <span>all posts</span>
+          <IconArrowUp className="rotate-90 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </Link>
       </Container>
     </section>
   );

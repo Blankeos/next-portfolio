@@ -46,7 +46,7 @@ const epilogueFont = Epilogue({
 
 const RootLayout: FC<RootLayoutProps> = (props) => {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     <html lang="en" className={epilogueFont.className}>
         <meta
           name="google-site-verification"
