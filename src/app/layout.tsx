@@ -1,5 +1,4 @@
-import Footer from '@/components/footer';
-import Nav from '@/components/nav';
+import SiteChrome from '@/components/site-chrome';
 import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
@@ -75,9 +74,7 @@ const RootLayout: FC<RootLayoutProps> = (props) => {
         <ThemeContextProvider>
           <SearchContextProvider>
             <NextTopLoader color="var(--primary)" showSpinner={false} />
-            <Nav />
-            <main className="flex flex-grow flex-col">{props.children}</main>
-            <Footer />
+            <SiteChrome>{props.children}</SiteChrome>
             <Toaster
               toastOptions={{
                 style: {

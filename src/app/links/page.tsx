@@ -63,7 +63,7 @@ const LinksPage: FC = () => {
         Carlo Taleon
       </h1>
       <p className="text-typography-foreground-light mt-1 text-sm">
-        Software Engineer
+        Software Engineer based in 🇵🇭
       </p>
 
       {/* Socials */}
