@@ -24,3 +24,5 @@ export { default as IconInstagram } from './fa6-brands_instagram.svg';
 export { default as IconLinkedIn } from './fa6-brands_linkedin-in.svg';
 export { default as IconCommandKey } from './material-symbols_keyboard-command-key.svg';
 export { default as IconCamera } from './pepicons-pop_photo-camera.svg';
+export { default as IconTikTok } from './fa6-brands:tiktok';
+export { default as IconGlobe } from './fa6-solid:globe';

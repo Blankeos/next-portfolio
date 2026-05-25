@@ -1,0 +1,905 @@
+---
+title: Host an Ark server on a vps
+date: 2026-05-25
+featuredImage: /blog-imgs/host-an-ark-server-on-a-vps.webp
+category: Deployment
+description: A complete step-by-step guide to hosting an Ark server on a VPS.
+---
+
+# Host an ARK: Survival Evolved Fjordur Server on a Debian VPS
+
+# Complete Step-by-Step Guide to Installing an ARK Fjordur Server on Debian
+
+I already hosted a Minecraft server on a VPS and realized game servers are way less scary than they look. So this is the ARK version of that same cheatsheet: install the dedicated server directly on a Debian VPS, run it with SteamCMD, open the right ports, and keep it alive with `systemd`.
+
+The main difference from Minecraft: ARK is heavier, uses SteamCMD instead of Java, and needs a couple UDP ports opened correctly. The actual setup is still very VPS-pilled: SSH, terminal, firewall, logs, service file, done.
+
+This guide is for **ARK: Survival Evolved** on the **Fjordur** map.
+
+> Note: This is not for ARK: Survival Ascended. Survival Ascended has different server requirements and setup details.
+
+## Why This Guide?
+
+This guide focuses on:
+
+- Debian VPS setup — specifically Debian 13 Trixie, but the general flow also works on recent Debian versions
+- Fjordur as the default ARK map
+- 100% terminal — no game server panel, no FTP client, no Windows-only tool
+- SteamCMD install on Debian using `contrib` / `non-free`
+- `systemd` for auto-start and restart
+- Simple backups of your ARK world/config
+
+This is meant for a small private friends server, not a massive public cluster.
+
+## Prerequisites
+
+You need:
+
+- A Debian VPS with SSH access
+- Debian 13 Trixie or similar
+- x86-64 architecture, not ARM
+- At least **8GB RAM** for a small private server
+- Preferably **16GB RAM** for Fjordur, mods, or less pain
+- At least **80GB SSD/NVMe storage**
+- Basic terminal knowledge
+- ARK: Survival Evolved installed on your PC so you can join the server
+
+For a small 4-6 player Fjordur server, I’d personally start with:
+
+- 4 vCPU
+- 8-16GB RAM
+- 80GB SSD/NVMe
+- Singapore region if you’re playing from the Philippines / SEA
+
+ARK is much heavier than vanilla Minecraft. Don’t cheap out too hard on RAM.
+
+## Step 1: Update Your Debian VPS
+
+SSH into your VPS, then update the system:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+Install basic tools:
+
+```bash
+sudo apt install -y curl wget tar unzip htop screen ca-certificates nano
+```
+
+Check your Debian version:
+
+```bash
+cat /etc/os-release
+```
+
+This guide assumes something like:
+
+```text
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+VERSION_CODENAME=trixie
+```
+
+Also check the CPU architecture:
+
+```bash
+uname -m
+```
+
+You generally want:
+
+```text
+x86_64
+```
+
+If you see ARM/AArch64, don’t continue unless you specifically know what you’re doing. SteamCMD and ARK server setup is much simpler on x86-64.
+
+## Step 2: Enable Debian non-free repositories
+
+SteamCMD is not available from Debian’s plain `main` repo only. You need Debian’s `contrib`, `non-free`, and `non-free-firmware` components enabled.
+
+Check your sources file:
+
+```bash
+cat /etc/apt/sources.list.d/debian.sources
+```
+
+You may see something like this:
+
+```text
+Types: deb deb-src
+URIs: mirror+file:///etc/apt/mirrors/debian.list
+Suites: trixie trixie-updates trixie-backports
+Components: main
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb deb-src
+URIs: mirror+file:///etc/apt/mirrors/debian-security.list
+Suites: trixie-security
+Components: main
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+```
+
+The problem is this part:
+
+```text
+Components: main
+```
+
+Change both `Components:` lines to:
+
+```text
+Components: main contrib non-free non-free-firmware
+```
+
+You can do that with:
+
+```bash
+sudo sed -i 's/^Components: main$/Components: main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/debian.sources
+```
+
+Verify:
+
+```bash
+cat /etc/apt/sources.list.d/debian.sources
+```
+
+You should now see:
+
+```text
+Components: main contrib non-free non-free-firmware
+```
+
+## Step 3: Install SteamCMD on Debian
+
+Enable 32-bit packages:
+
+```bash
+sudo dpkg --add-architecture i386
+```
+
+Update APT:
+
+```bash
+sudo apt update
+```
+
+Install SteamCMD and required 32-bit libraries:
+
+```bash
+sudo apt install -y steamcmd lib32gcc-s1
+```
+
+Test SteamCMD:
+
+```bash
+steamcmd +quit
+```
+
+If SteamCMD prints a `setlocale('en_US.UTF-8') failed` warning, it is usually not fatal. You can ignore it for now while setting up the server.
+
+If `steamcmd` still cannot be found, check whether APT sees it:
+
+```bash
+apt-cache policy steamcmd
+apt search steamcmd
+```
+
+## Step 4: Create a Dedicated ARK User
+
+Don’t run game servers as `root`.
+
+Create a separate `ark` user:
+
+```bash
+sudo adduser ark
+```
+
+Switch to that user:
+
+```bash
+sudo su - ark
+```
+
+Create the server directory:
+
+```bash
+mkdir -p /home/ark/ark-server
+```
+
+## Step 5: Install the ARK Dedicated Server
+
+ARK: Survival Evolved dedicated server uses Steam app ID `376030`.
+
+Important: put `+force_install_dir` **before** `+login anonymous`. If you put it after login, SteamCMD can fail with:
+
+```text
+Please use force_install_dir before logon!
+ERROR! Failed to install app '376030' (Missing configuration)
+```
+
+Run the correct command:
+
+```bash
+steamcmd +force_install_dir /home/ark/ark-server +login anonymous +app_update 376030 validate +quit
+```
+
+This will take a while. ARK is chunky.
+
+When it’s done, check that the server binary exists:
+
+```bash
+ls -lah /home/ark/ark-server/ShooterGame/Binaries/Linux/ShooterGameServer
+```
+
+If that file exists, the install worked.
+
+## Step 6: Create a Fjordur Start Script
+
+Still as the `ark` user, create a start script:
+
+```bash
+nano ~/ark-server/start.sh
+```
+
+Paste this:
+
+```bash
+#!/bin/bash
+
+cd /home/ark/ark-server/ShooterGame/Binaries/Linux
+
+./ShooterGameServer Fjordur?listen?SessionName="YourServerName"?ServerPassword="yourjoinpassword"?ServerAdminPassword="youradminpassword"?Port=7777?QueryPort=27015?MaxPlayers=10 -server -log
+```
+
+Change these values:
+
+```text
+YourServerName
+yourjoinpassword
+youradminpassword
+```
+
+Make the script executable:
+
+```bash
+chmod +x ~/ark-server/start.sh
+```
+
+Important settings:
+
+- `Fjordur` = map name
+- `SessionName` = public server name in the ARK server browser
+- `ServerPassword` = password players need to join
+- `ServerAdminPassword` = admin password for admin commands
+- `Port=7777` = game client port
+- `QueryPort=27015` = Steam query/server browser port
+- `MaxPlayers=10` = max players
+
+If you don’t want a join password, remove this part entirely:
+
+```bash
+?ServerPassword="yourjoinpassword"
+```
+
+Example no-password version:
+
+```bash
+./ShooterGameServer Fjordur?listen?SessionName="YourServerName"?ServerAdminPassword="youradminpassword"?Port=7777?QueryPort=27015?MaxPlayers=10 -server -log
+```
+
+## Step 7: Test Start the Server Manually
+
+Run it manually in a named `screen` session first before turning it into a service:
+
+```bash
+screen -dmS ark ~/ark-server/start.sh
+screen -r ark
+```
+
+The first startup can take a few minutes. ARK may look like it’s stuck, but give it time.
+
+Once it starts, it should generate files under:
+
+```bash
+/home/ark/ark-server/ShooterGame/Saved
+```
+
+To detach from `screen` while keeping the server running, press:
+
+```text
+Ctrl+A
+D
+```
+
+To reconnect to it later:
+
+```bash
+screen -r ark
+```
+
+To stop the server for now while attached to the `screen` session, press:
+
+```text
+Ctrl+C
+```
+
+Later, once it runs under `systemd`, use `systemctl stop ark` instead.
+
+## Step 8: Open Firewall Ports
+
+Exit back to your sudo/admin user:
+
+```bash
+exit
+```
+
+Install UFW if needed:
+
+```bash
+sudo apt install -y ufw
+```
+
+Allow SSH first so you don’t lock yourself out:
+
+```bash
+sudo ufw allow 22/tcp
+```
+
+Open ARK ports:
+
+```bash
+sudo ufw allow 7777/udp
+sudo ufw allow 7778/udp
+sudo ufw allow 27015/udp
+```
+
+Optional RCON port if you plan to use remote console tools:
+
+```bash
+sudo ufw allow 27020/tcp
+```
+
+Enable the firewall:
+
+```bash
+sudo ufw enable
+sudo ufw status
+```
+
+ARK ports cheat sheet:
+
+- `7777/udp` = game client port
+- `7778/udp` = raw UDP socket, usually game port + 1
+- `27015/udp` = Steam query/browser port
+- `27020/tcp` = optional RCON
+
+Also check your VPS provider firewall/security group. Some VPS providers have an external firewall outside the server itself.
+
+## Step 9: Set Up systemd Auto-Restart
+
+Create a systemd service:
+
+```bash
+sudo nano /etc/systemd/system/ark.service
+```
+
+Paste this:
+
+```ini
+[Unit]
+Description=ARK: Survival Evolved Fjordur Dedicated Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=ark
+Group=ark
+WorkingDirectory=/home/ark/ark-server
+LimitNOFILE=100000
+ExecStart=/home/ark/ark-server/start.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+This service uses the same `start.sh` you tested with `screen`.
+
+Reload systemd:
+
+```bash
+sudo systemctl daemon-reload
+```
+
+Enable auto-start on reboot:
+
+```bash
+sudo systemctl enable ark
+```
+
+If your manual `screen` test is still running, attach with `screen -r ark` and stop it with `Ctrl+C` before starting the `systemd` service. Otherwise both processes will try to use the same ARK ports.
+
+Start the server:
+
+```bash
+sudo systemctl start ark
+```
+
+Check status:
+
+```bash
+sudo systemctl status ark
+```
+
+Watch live logs:
+
+```bash
+sudo journalctl -u ark -f
+```
+
+## Step 10: Connect to Your Server
+
+Get your VPS IP:
+
+```bash
+curl ifconfig.me
+```
+
+In ARK:
+
+1. Open **Join ARK**
+2. Filter to **Unofficial** servers
+3. Search for your `SessionName`
+4. Join and enter the password if you set one
+
+If it doesn’t show immediately, give it a few minutes. ARK’s server browser can be slow/weird.
+
+You can also try adding the server through Steam:
+
+1. Steam → View → Game Servers
+2. Favorites → Add Server
+3. Add:
+
+```text
+YOUR_SERVER_IP:27015
+```
+
+Then open ARK and check Favorites.
+
+## Optional: Set Up a Subdomain
+
+If you use Cloudflare:
+
+1. Go to DNS settings
+2. Add an A record:
+
+   - Name: `ark`
+   - IPv4: your VPS IP
+   - Proxy: DNS only / gray cloud
+   - TTL: Auto
+
+Use:
+
+```text
+ark.yourdomain.com
+```
+
+For Steam favorites, you may still need:
+
+```text
+ark.yourdomain.com:27015
+```
+
+Do **not** orange-cloud/proxy game server records through Cloudflare. Cloudflare’s normal proxy is for HTTP traffic, not random UDP game ports.
+
+## Server Management Cheatsheet
+
+```bash
+# Start server
+sudo systemctl start ark
+
+# Stop server
+sudo systemctl stop ark
+
+# Restart server
+sudo systemctl restart ark
+
+# Check status
+sudo systemctl status ark
+
+# Watch live logs
+sudo journalctl -u ark -f
+```
+
+Update the ARK server manually:
+
+```bash
+sudo systemctl stop ark
+sudo -u ark steamcmd +force_install_dir /home/ark/ark-server +login anonymous +app_update 376030 validate +quit
+sudo systemctl start ark
+```
+
+## Back Up Your Server
+
+ARK saves/configs live under:
+
+```bash
+/home/ark/ark-server/ShooterGame/Saved
+```
+
+Create a backup:
+
+```bash
+sudo systemctl stop ark
+
+sudo mkdir -p /home/ark/backups
+sudo tar -czvf /home/ark/backups/ark-fjordur-saved-$(date +%F-%H%M).tar.gz -C /home/ark/ark-server/ShooterGame Saved
+sudo chown -R ark:ark /home/ark/backups
+
+sudo systemctl start ark
+```
+
+Check backups:
+
+```bash
+ls -lah /home/ark/backups
+```
+
+If you’re about to update ARK or install mods, back up first. Don’t be lazy here. ARK saves are the whole point of the server.
+
+## Restore a Backup
+
+Stop the server:
+
+```bash
+sudo systemctl stop ark
+```
+
+Move the current save out of the way:
+
+```bash
+sudo mv /home/ark/ark-server/ShooterGame/Saved /home/ark/ark-server/ShooterGame/Saved-broken-$(date +%F-%H%M)
+```
+
+Extract backup:
+
+```bash
+sudo tar -xzvf /home/ark/backups/YOUR_BACKUP_FILE.tar.gz -C /home/ark/ark-server/ShooterGame
+sudo chown -R ark:ark /home/ark/ark-server/ShooterGame/Saved
+```
+
+Start again:
+
+```bash
+sudo systemctl start ark
+```
+
+## Config Files You’ll Eventually Care About
+
+After the first run, ARK creates config files here:
+
+```bash
+/home/ark/ark-server/ShooterGame/Saved/Config/LinuxServer
+```
+
+Main files:
+
+```bash
+GameUserSettings.ini
+Game.ini
+```
+
+Open them with:
+
+```bash
+sudo -u ark nano /home/ark/ark-server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini
+sudo -u ark nano /home/ark/ark-server/ShooterGame/Saved/Config/LinuxServer/Game.ini
+```
+
+Common things you might configure:
+
+- Taming speed
+- Harvest amount
+- XP multiplier
+- Difficulty
+- PvE/PvP
+- Admin password
+- RCON
+- Server name
+- Mods
+
+For a chill friends-only Fjordur server, this is a good starting `[ServerSettings]` block:
+
+```ini
+[ServerSettings]
+XPMultiplier=2.000000
+SupplyCrateLootQualityMultiplier=3.000000
+FishingLootQualityMultiplier=3.000000
+TamingSpeedMultiplier=3.000000
+HarvestAmountMultiplier=3.000000
+PlayerCharacterWaterDrainMultiplier=0.750000
+PlayerCharacterFoodDrainMultiplier=0.750000
+```
+
+`SupplyCrateLootQualityMultiplier=3.000000` boosts loot quality, not the number of items in each drop.
+
+The dino harvesting damage multiplier goes in `Game.ini`, not `GameUserSettings.ini`:
+
+```ini
+[/script/shootergame.shootergamemode]
+DinoHarvestingDamageMultiplier=5.000000
+```
+
+For the full list of settings you can tune, use the [ARK Official Community Wiki server configuration page](https://ark.wiki.gg/wiki/Server_configuration) as your reference.
+
+Don’t go crazy with multipliers immediately. ARK progression can become meaningless if everything is too boosted.
+
+## Changing Maps
+
+This guide uses Fjordur by default.
+
+The map name is the first argument before `?listen`:
+
+```bash
+Fjordur?listen
+```
+
+Other common official maps:
+
+```text
+Fjordur
+TheIsland
+TheCenter
+ScorchedEarth_P
+Ragnarok
+Aberration_P
+Extinction
+Valguero_P
+Genesis
+CrystalIsles
+Gen2
+LostIsland
+```
+
+Example using Ragnarok instead of Fjordur:
+
+```bash
+./ShooterGameServer Ragnarok?listen?SessionName="YourServerName"?ServerAdminPassword="youradminpassword"?Port=7777?QueryPort=27015?MaxPlayers=10 -server -log
+```
+
+If you change this in `systemd`, remember:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart ark
+```
+
+## Mods / Workshop Mods
+
+ARK mods are possible, but they add more moving parts.
+
+The basic idea is:
+
+1. Add mod IDs to your server startup command with `?GameModIds=`
+2. Use `-automanagedmods`
+3. Restart the server and let ARK download them
+
+Example:
+
+```bash
+./ShooterGameServer Fjordur?listen?SessionName="YourServerName"?ServerAdminPassword="youradminpassword"?GameModIds=731604991,1404697612?Port=7777?QueryPort=27015?MaxPlayers=10 -server -log -automanagedmods
+```
+
+Important notes:
+
+- Steam players can use mods
+- Epic Games players generally cannot use Steam Workshop mods
+- Mods make startup slower
+- Mods increase RAM/disk usage
+- Always back up before adding/removing mods
+
+For a first setup, I’d run vanilla first, confirm friends can join, then add mods later.
+
+## Epic + Steam Crossplay
+
+If you want Epic Games players to join your ARK: Survival Evolved server, add:
+
+```bash
+-crossplay
+```
+
+Example:
+
+```bash
+./ShooterGameServer Fjordur?listen?SessionName="YourServerName"?ServerAdminPassword="youradminpassword"?Port=7777?QueryPort=27015?MaxPlayers=10 -server -log -crossplay
+```
+
+If you enable Epic crossplay, keep the server vanilla. Epic players cannot use Steam Workshop mods.
+
+## Performance Tips
+
+For a small 4-6 friend Fjordur server:
+
+- 8GB RAM is the minimum I’d consider
+- 16GB RAM is more comfortable
+- Use SSD/NVMe, not HDD
+- Keep mods minimal
+- Don’t oversell `MaxPlayers`
+- Monitor with `htop`
+- Back up before updates
+
+Install `htop` if you skipped it:
+
+```bash
+sudo apt install -y htop
+htop
+```
+
+Watch disk usage:
+
+```bash
+df -h
+```
+
+Watch ARK folder size:
+
+```bash
+sudo du -sh /home/ark/ark-server
+sudo du -sh /home/ark/ark-server/ShooterGame/Saved
+```
+
+## Troubleshooting
+
+### `add-apt-repository: command not found`
+
+That command is from Ubuntu guides. You do not need it on Debian for this setup.
+
+On Debian, enable `contrib non-free non-free-firmware` in `/etc/apt/sources.list.d/debian.sources` instead.
+
+### `Unable to locate package steamcmd`
+
+Your Debian sources probably still only have:
+
+```text
+Components: main
+```
+
+Fix it:
+
+```bash
+sudo sed -i 's/^Components: main$/Components: main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/debian.sources
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install -y steamcmd lib32gcc-s1
+```
+
+### `Please use force_install_dir before logon`
+
+Your command order is wrong.
+
+Wrong:
+
+```bash
+steamcmd +login anonymous +force_install_dir /home/ark/ark-server +app_update 376030 validate +quit
+```
+
+Correct:
+
+```bash
+steamcmd +force_install_dir /home/ark/ark-server +login anonymous +app_update 376030 validate +quit
+```
+
+### Server won’t start
+
+Check logs:
+
+```bash
+sudo journalctl -u ark -n 200 --no-pager
+```
+
+Check if the binary exists:
+
+```bash
+ls -lah /home/ark/ark-server/ShooterGame/Binaries/Linux/ShooterGameServer
+```
+
+Try running the update again:
+
+```bash
+sudo -u ark steamcmd +force_install_dir /home/ark/ark-server +login anonymous +app_update 376030 validate +quit
+```
+
+### Server starts but friends can’t connect
+
+Check firewall:
+
+```bash
+sudo ufw status
+```
+
+You should see:
+
+```text
+7777/udp
+7778/udp
+27015/udp
+```
+
+Check if the server process is running:
+
+```bash
+ps aux | grep ShooterGameServer
+```
+
+Check listening ports:
+
+```bash
+sudo ss -lunpt | grep -E '7777|7778|27015'
+```
+
+Also check your VPS provider firewall/security group.
+
+### Server does not appear in ARK browser
+
+Try:
+
+- Wait a few minutes
+- Search exact `SessionName`
+- Use Steam Favorites with `YOUR_IP:27015`
+- Confirm `27015/udp` is open
+- Confirm the server actually started and did not crash
+
+ARK’s server browser is not amazing, so don’t assume your setup is broken immediately.
+
+### Out of memory
+
+Symptoms:
+
+- Server gets killed
+- Random crash
+- VPS becomes unresponsive
+- `journalctl` shows killed process / OOM
+
+Check:
+
+```bash
+free -h
+sudo journalctl -k | grep -i oom
+```
+
+Fixes:
+
+- Upgrade RAM
+- Use fewer mods
+- Lower player count
+- Don’t run other heavy services on the same VPS
+- Add swap only as a last-resort safety net, not as real performance
+
+### Permission issues
+
+Make sure the `ark` user owns the server files:
+
+```bash
+sudo chown -R ark:ark /home/ark/ark-server
+sudo chown -R ark:ark /home/ark/backups
+```
+
+Then restart:
+
+```bash
+sudo systemctl restart ark
+```
+
+## Final Notes
+
+If you’ve hosted Minecraft on a VPS before, ARK is the same mental model but heavier:
+
+- Minecraft: Java jar + one TCP port
+- ARK: SteamCMD app + multiple UDP ports + big saves + more RAM
+
+I’d personally get Fjordur running vanilla first, verify people can join, then only after that add mods, crossplay, domains, and boosted config.
+
+Once it works, this setup is honestly pretty clean: update with SteamCMD, manage with systemd, back up `ShooterGame/Saved`, and you’re good.
