@@ -22,6 +22,7 @@ export { default as IconPalette } from './ph_palette-duotone.svg';
 export { default as IconGithubAlt } from './fa6-brands_github-alt.svg';
 export { default as IconInstagram } from './fa6-brands_instagram.svg';
 export { default as IconLinkedIn } from './fa6-brands_linkedin-in.svg';
+export { default as IconTextBehindMedia } from './textbehindmedia-favicon.svg';
 export { default as IconCommandKey } from './material-symbols_keyboard-command-key.svg';
 export { default as IconCamera } from './pepicons-pop_photo-camera.svg';
 export { default as IconTikTok } from './fa6-brands:tiktok';

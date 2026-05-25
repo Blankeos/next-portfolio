@@ -1,7 +1,7 @@
 import {
   IconGithubAlt,
-  IconGlobe,
   IconInstagram,
+  IconTextBehindMedia,
   IconTikTok,
 } from '@/assets/icons';
 import { Metadata } from 'next';
@@ -45,7 +45,7 @@ const apps: LinkItem[] = [
   {
     name: 'Text Behind Media',
     url: 'https://textbehindmedia.com',
-    icon: <IconGlobe className="h-5 w-5" />,
+    icon: <IconTextBehindMedia className="h-5 w-5 rounded-[5px]" />,
     description: 'textbehindmedia.com',
   },
 ];
