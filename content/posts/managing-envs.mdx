@@ -1,0 +1,52 @@
+---
+title: Managing envs like a boss
+date: 2026-05-27
+featuredImage: /blog-imgs/managing-envs.webp
+category: Dev Tooling
+description: My personal standard for managing environment variables for every project.
+---
+
+I used to think env management was solved even in the age of AI. But I realize even the most experienced folks that code for a living still don't know how to properly manage envs.
+
+## Real problems I personally had
+
+1. **Lots of files.** You have an `.env.example`, the `.env`, your `README.md`, `.github/actions/*.yml`, `.docker/compose.yml`, where you mention your envs and it absolutely gets a little unruly.
+2. **Documentation drift.** Since there's lots of files, it's unrealistic to maintain all of them.
+3. **Default values and typesafety.** Yes you can rawdog just `process.env.*` everywhere, but that's obviously not typesafe + there's a much nicer pattern that you might already be familiar with: config files, a canonical place to define them all. Even the most experienced devs don't seem to do this.
+
+Out of exhaustion from all of this, I decided to make my own standard. I call it [crabenv](https://github.com/Blankeos/crabenv).
+
+On paper the usual stack still sounds fine: `.env` for secrets, `.env.example` in git, maybe Zod in `env.ts`. In practice someone clones the repo, runs `cp .env.example .env`, and half the app breaks because the example was stale. You ship a webhook, update your local `.env`, and only in review notice the schema never got the new key. Monorepos make it worse — three apps, three example files, and nobody agrees which `DATABASE_URL` is canonical.
+
+So the standard isn't "one magic file." It's four surfaces that have to stay aligned.
+
+```sh
+my-app/
+├── .env                      # local
+├── .env.example              # template
+├── src/
+│   └── env.private.ts        # schema  (env.py, config.rs, env.dart, …)
+└── .github/workflows/ci.yml  # sink (optional)
+```
+
+## 1. Local - the .env
+
+Your real values — on your machine or in deployment. Gitignored `.env`, usually **one at the repo root** even when you have multiple apps, so shared vs app-only doesn't turn into guesswork.
+
+## 2. Template - the .env.example
+
+What you **commit**: `.env.example` (and in monorepos, sometimes per-app examples plus a root file that groups shared keys). Placeholders, comments, and templates like `"$(openssl rand -hex 32)"` or `"$(pwd)/data.db"` so onboarding isn't a broken copy-paste.
+
+## 3. Schema - the language-specific file like env.ts
+
+The **contract** your code actually runs on — types, validation, optional vs required, public vs private. In TS that's often `env.private.ts` / `env.public.ts`; other stacks use different filenames, same idea. This is where defaults and typesafety live instead of raw `process.env` everywhere.
+
+## 4. Sink (optional)
+
+Everything else that **consumes** env config but you rarely touch day to day — GitHub Actions `env:` blocks, Docker Compose, deploy dashboards. That's where problem #1 bites: CI ships with the wrong `NEXT_PUBLIC_*` because the workflow never got updated. Sinks are explicit subsets that should match what you documented in template and schema.
+
+---
+
+**The rule I use:** if a variable is in the schema, it belongs in the template (with a sane example), and your local `.env` should follow the same shape and names. Same key name means the same thing everywhere in the repo.
+
+I still miss a surface sometimes. Agents miss two. [crabenv](https://crabenv.pages.dev) is just me automating the boring alignment work — same four surfaces, same commands whether the schema file is TypeScript, Python, Rust, or something else. The standard is what I actually wanted every project to have; the CLI is optional glue.
