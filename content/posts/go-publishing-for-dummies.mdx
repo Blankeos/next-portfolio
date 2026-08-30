@@ -1,0 +1,420 @@
+---
+title: Go Publishing for Dummies
+date: 2026-08-23
+featuredImage: /blog-imgs/go-publishing-for-dummies.webp
+category: CLI
+description: A practical checklist for publishing a Go CLI with GoReleaser, GitHub Releases, Homebrew, NPM, and go install — the Go twin of my Cargo publishing flow.
+---
+
+# Go Publishing for Dummies
+
+This is the Go twin of [Cargo Publishing for Dummies](/blog/cargo-publishing-for-dummies). Same release shape, different tools.
+
+I use this for CLIs like [herdr-serve](https://github.com/Blankeos/herdr-serve): one SemVer tag, GitHub Release binaries, Homebrew formula, optional NPM wrapper, and `go install` from the module path.
+
+Go does **not** have crates.io. The package manager is the module proxy + git tags. That changes one piece of the Rust flow and leaves the rest intact.
+
+## How This Differs from Cargo
+
+| Rust (Cargo) | Go |
+| --- | --- |
+| `Cargo.toml` owns the version | `VERSION` file + git tag `vX.Y.Z` |
+| crates.io publishes source | No registry — `go install github.com/ORG/REPO/cmd/BIN@vX.Y.Z` |
+| cargo-dist builds binaries | [GoReleaser](https://goreleaser.com/) builds binaries |
+| `cargo publish` in CI | Skip — tag is enough for modules |
+| NPM wraps GitHub Release assets | Same |
+| Homebrew via cargo-dist | Homebrew via GoReleaser `brews:` |
+
+The mental model stays the same:
+
+1. One SemVer version.
+2. One git tag: `v[VERSION]`.
+3. GitHub Actions builds native binaries and creates a GitHub Release.
+4. Homebrew points at those binaries.
+5. NPM downloads those binaries in `postinstall`.
+6. `go install ...@v[VERSION]` builds from source (so embedded assets must be in git).
+
+## Prerequisites
+
+You need:
+
+- A public GitHub repository for the CLI (mine are under `Blankeos/`)
+- Go installed locally
+- A GitHub account that can create releases
+- Optional: an NPM account if you want `npm i -g APP_NAME`
+- Optional: a Homebrew tap repo (mine is [`Blankeos/homebrew-tap`](https://github.com/Blankeos/homebrew-tap))
+
+Replace these placeholders everywhere below:
+
+- `APP_NAME` — binary and package name (`herdr-serve`)
+- `ORG` — GitHub owner (`Blankeos`)
+- `REPO` — repository name (`herdr-serve`)
+- `MODULE` — Go module path (`github.com/Blankeos/herdr-serve`)
+- `MAIN_PKG` — main package (`./cmd/herdr-serve`)
+
+## 1. Make the Module Path Match GitHub
+
+`go install` resolves the module path as a URL. If the repo is `github.com/Blankeos/APP_NAME`, the module must be that too:
+
+```go
+// go.mod
+module github.com/Blankeos/APP_NAME
+
+go 1.25.0
+```
+
+Rewrite imports if you started with a different owner:
+
+```bash
+find . -name '*.go' -print0 | xargs -0 sed -i '' \
+  's|github.com/OLD/APP_NAME|github.com/Blankeos/APP_NAME|g'
+sed -i '' 's|github.com/OLD/APP_NAME|github.com/Blankeos/APP_NAME|' go.mod
+```
+
+## 2. Own the Version in a `VERSION` File
+
+Cargo has `Cargo.toml`. Go modules only care about the git tag, but you still need a single bump target for:
+
+- the binary's `version` / `--version` string
+- `npm/package.json`
+- optional plugin manifests
+
+Create:
+
+```text
+0.1.0
+```
+
+Inject it at build time with `-ldflags`:
+
+```go
+// cmd/APP_NAME/main.go
+package main
+
+import (
+	"fmt"
+	"runtime/debug"
+	"strings"
+)
+
+// Set via: -ldflags "-X main.version=..."
+var version = "dev"
+
+func resolveVersion() string {
+	if version != "dev" && version != "" {
+		return version
+	}
+	if info, ok := debug.ReadBuildInfo(); ok &&
+		info.Main.Version != "" &&
+		info.Main.Version != "(devel)" {
+		return strings.TrimPrefix(info.Main.Version, "v")
+	}
+	return version
+}
+
+func main() {
+	fmt.Printf("APP_NAME %s\n", resolveVersion())
+}
+```
+
+Local build:
+
+```bash
+go build -ldflags "-X main.version=$(cat VERSION)" -o bin/APP_NAME ./cmd/APP_NAME
+```
+
+GoReleaser will set the same ldflag from the tag.
+
+## 3. Commit Embedded Assets (If You Embed a UI)
+
+`go:embed` only sees files that exist in the module source. If `web/dist` is gitignored, `go install` builds a binary with an empty UI.
+
+For herdr-serve I:
+
+1. Stop ignoring `web/dist`
+2. Rebuild UI inside `tag_and_release.sh` before the release commit
+3. Still rebuild UI in GoReleaser's `before.hooks` for Release binaries
+
+Prebuilt channels (Homebrew / NPM / `install.sh`) do not need source embeds — they download the Release binary. `go install` does.
+
+## 4. Add GoReleaser (GitHub Releases + Homebrew)
+
+Create `.goreleaser.yml`:
+
+```yml
+version: 2
+
+project_name: APP_NAME
+
+before:
+  hooks:
+    - go mod tidy
+    # If you embed a web UI:
+    # - sh -c "cd web && npm ci && npm run build"
+
+builds:
+  - id: APP_NAME
+    main: ./cmd/APP_NAME
+    binary: APP_NAME
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+archives:
+  - id: default
+    formats: ["tar.xz"]
+    format_overrides:
+      - goos: windows
+        formats: ["zip"]
+    # Match cargo-dist / npm install.js target triples
+    name_template: '{{ .ProjectName }}-{{ if eq .Arch "amd64" }}x86_64{{ else if eq .Arch "arm64" }}aarch64{{ else }}{{ .Arch }}{{ end }}-{{ if eq .Os "darwin" }}apple-darwin{{ else if eq .Os "linux" }}unknown-linux-gnu{{ else if eq .Os "windows" }}pc-windows-msvc{{ else }}{{ .Os }}{{ end }}'
+
+checksum:
+  name_template: sha256.sum
+  algorithm: sha256
+
+changelog:
+  disable: true
+
+release:
+  draft: false
+  replace_existing_draft: true
+  name_template: "v{{.Version}}"
+
+brews:
+  - repository:
+      owner: Blankeos
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/Blankeos/APP_NAME"
+    description: "YOUR SHORT DESCRIPTION"
+    license: "MIT"
+    install: |
+      bin.install "APP_NAME"
+    test: |
+      system "#{bin}/APP_NAME", "version"
+```
+
+Asset names look like cargo-dist on purpose:
+
+```text
+APP_NAME-aarch64-apple-darwin.tar.xz
+APP_NAME-x86_64-apple-darwin.tar.xz
+APP_NAME-aarch64-unknown-linux-gnu.tar.xz
+APP_NAME-x86_64-unknown-linux-gnu.tar.xz
+APP_NAME-x86_64-pc-windows-msvc.zip
+```
+
+That lets the same `npm/install.js` pattern work for Rust and Go CLIs.
+
+### Release workflow
+
+`.github/workflows/release.yml`:
+
+```yml
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to (re)release (for example, v0.1.0)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  goreleaser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: "~> v2"
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+```
+
+Create a classic PAT (or fine-grained token) with push access to `Blankeos/homebrew-tap`, then add it as the repo secret `HOMEBREW_TAP_TOKEN`.
+
+## 5. Add the NPM Wrapper (Optional but Nice)
+
+Same shape as Crabcode / lazygitrs:
+
+```text
+npm/
+  package.json
+  bin.js
+  install.js
+  README.md
+```
+
+`npm/package.json`:
+
+```json
+{
+  "name": "APP_NAME",
+  "version": "0.1.0",
+  "bin": { "APP_NAME": "./bin.js" },
+  "scripts": { "postinstall": "node install.js" },
+  "files": ["bin.js", "install.js", "README.md"]
+}
+```
+
+`install.js` downloads:
+
+```text
+https://github.com/Blankeos/APP_NAME/releases/download/v${VERSION}/APP_NAME-${target}.tar.xz
+```
+
+Keep `npm/package.json` version identical to `VERSION`. The publish workflow asserts that.
+
+### Publish registries workflow (NPM only)
+
+Unlike Cargo, there is no crates.io job. `.github/workflows/publish-registries.yml`:
+
+1. Verify tag ↔ `VERSION` ↔ `npm/package.json`
+2. Wait until GoReleaser uploaded the expected archives
+3. `npm publish --access public --provenance` with Trusted Publishing (`id-token: write`)
+
+Configure Trusted Publishing on npmjs.com for:
+
+- Repository: `Blankeos/APP_NAME`
+- Workflow: `publish-registries.yml`
+- Environment: leave empty unless you add one
+
+## 6. Add `install.sh` (curl | sh)
+
+For users without Homebrew / Node / Go:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/Blankeos/APP_NAME/main/install.sh | sh
+```
+
+It resolves the latest GitHub Release, picks the host triple, and installs into `/usr/local/bin` (or `$INSTALL_DIR`).
+
+## 7. Wire `just tag`
+
+Install helpers:
+
+```bash
+brew install just git-cliff goreleaser
+```
+
+`justfile` recipe:
+
+```just
+tag:
+  ./tag_and_release.sh
+```
+
+`tag_and_release.sh` should:
+
+1. Refuse a dirty tree or a non-`main` branch or a non-`main` branch
+2. Ask patch / minor / major
+3. Bump `VERSION`, `npm/package.json`, and any plugin manifests
+4. Rebuild embedded UI (if any)
+5. Regenerate `CHANGELOG.md` with `git cliff`
+6. Commit `release: APP_NAME v[VERSION]`
+7. Tag `v[VERSION]` and push commit + tag
+
+That tag triggers both workflows.
+
+## 8. Cut a Release
+
+```bash
+go test ./...
+# optional local smoke:
+goreleaser release --snapshot --clean
+
+just tag
+```
+
+Then verify:
+
+```bash
+# GitHub Release assets exist
+gh release view v0.1.0 --repo Blankeos/APP_NAME
+
+# go install (source + embed)
+go install github.com/Blankeos/APP_NAME/cmd/APP_NAME@v0.1.0
+APP_NAME version
+
+# Homebrew
+brew install blankeos/tap/APP_NAME
+
+# NPM
+npm install -g APP_NAME
+```
+
+## Common Problems
+
+### Tag and `VERSION` disagree
+
+If the tag is `v1.2.3`, `VERSION` and `npm/package.json` must be `1.2.3`. Fix before pushing the tag.
+
+### `go install` serves an empty UI
+
+You forgot to commit `web/dist` (or whatever you `go:embed`). Prebuilt installs still work; source installs do not.
+
+### NPM publishes before binaries exist
+
+Keep the wait-for-assets job. Without it, `postinstall` 404s on fresh tags.
+
+### Homebrew formula did not update
+
+Check `HOMEBREW_TAP_TOKEN`, tap repo permissions, and the GoReleaser `brews:` block. The formula PR/commit lands in `Blankeos/homebrew-tap`, not in the CLI repo.
+
+### Module path ≠ GitHub URL
+
+`go install github.com/Blankeos/APP_NAME/...` fails if `go.mod` still says `github.com/someone-else/APP_NAME`.
+
+## The Final Workflow
+
+1. Commit normal work; keep the tree clean.
+2. Run tests (and optionally `goreleaser release --snapshot`).
+3. Run `just tag` and choose the SemVer bump.
+4. Script bumps `VERSION` + npm, rebuilds embeds, commits, tags, pushes.
+5. `release.yml` → GoReleaser → GitHub Release + Homebrew tap.
+6. `publish-registries.yml` waits for archives → publishes NPM.
+7. Users install via brew / npm / `go install` / `install.sh`.
+
+Remember: **the git tag is the Go registry.** `VERSION` is just the human-editable twin of `Cargo.toml`'s `version`, so every other channel stays aligned.

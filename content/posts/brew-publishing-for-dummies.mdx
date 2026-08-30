@@ -1,0 +1,482 @@
+---
+title: Homebrew Publishing for Dummies
+date: 2026-07-24
+category: Dev Tooling
+description: Publish and recover a Homebrew formula with GitHub Actions.
+keywords:
+  - Homebrew tap
+  - Homebrew formula
+  - GitHub Actions
+  - release automation
+---
+
+# Homebrew Publishing for Dummies
+
+I recently added Homebrew publishing to [NoSleep](https://github.com/omsimos/nosleep). The app already had a GitHub Actions release workflow, so the goal was simple: whenever that workflow creates a release, generate the new Homebrew formula and push it to a tap automatically.
+
+The part that was not obvious was recovery. Publishing your app and updating Homebrew are two separate operations. The app release can succeed while the tap update fails because of a token, formula, or temporary GitHub issue. You do not want to create another release just to retry Homebrew.
+
+This guide sets up both paths:
+
+- The normal release uploads a versioned archive and updates Homebrew automatically.
+- A manually triggered recovery job republishes any existing release to Homebrew.
+
+This is based on [NoSleep's release workflow](https://github.com/omsimos/nosleep/blob/main/.github/workflows/release.yml) and [`publish-homebrew.sh`](https://github.com/omsimos/nosleep/blob/main/scripts/publish-homebrew.sh). It assumes your app already has a release workflow and produces one archive containing the executable you want Homebrew to install.
+
+## How the Setup Works
+
+A Homebrew tap is just a Git repository containing formula files. For a repository named `OWNER/homebrew-tap`, users can install `APP_NAME` with:
+
+```bash
+brew install OWNER/tap/APP_NAME
+```
+
+The release pipeline will:
+
+1. Build `APP_NAME-VERSION.tar.gz`.
+2. Upload it to the GitHub release tagged `vVERSION`.
+3. Calculate the archive's SHA-256 checksum.
+4. Generate `Formula/APP_NAME.rb` with the release URL and checksum.
+5. Commit and push that formula to `OWNER/homebrew-tap`.
+
+The formula must point to an archive that already exists. That ordering matters: upload the release asset first, then update the tap.
+
+## 1. Create the Homebrew Tap
+
+Create a public GitHub repository named `homebrew-tap` under your account or organization. Homebrew recognizes the `homebrew-` prefix and shortens `OWNER/homebrew-tap` to `OWNER/tap` in install commands.
+
+You can create the repository on GitHub, or let Homebrew create the initial structure locally:
+
+```bash
+brew tap-new OWNER/homebrew-tap
+gh repo create OWNER/homebrew-tap \
+  --public \
+  --source "$(brew --repository OWNER/homebrew-tap)" \
+  --push
+```
+
+The formula will live at:
+
+```text
+Formula/APP_NAME.rb
+```
+
+Keep the tap's default branch as `main`.
+
+## 2. Create a Token for the Tap
+
+The built-in `GITHUB_TOKEN` belongs to the application repository and cannot push to a separate tap repository. Create a fine-grained personal access token for the tap instead.
+
+Open **GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens**, then create a token with:
+
+- **Resource owner:** the account or organization that owns `homebrew-tap`
+- **Repository access:** only the `homebrew-tap` repository
+- **Repository permissions → Contents:** Read and write
+
+If an organization owns the tap, an administrator may need to approve the token.
+
+In the **application repository**, open **Settings → Secrets and variables → Actions** and add the token as a repository secret named:
+
+```text
+HOMEBREW_TAP_TOKEN
+```
+
+## 3. Create the Formula Publishing Script
+
+Create `scripts/publish-homebrew.sh`. This script receives a version, the local release archive, and the checked-out tap directory. It validates its inputs, calculates the checksum, writes the formula, and pushes it.
+
+Replace these values:
+
+- `APP_NAME` with the command and archive name, such as `nosleep`
+- `FormulaClass` with the Ruby class name for the formula, such as `Nosleep`
+- The description and license with your app's values
+- The `bin.install` source if the executable inside your archive has a different name
+- The test assertion with output your app actually produces
+
+```bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -ne 3 ]]; then
+  echo "Usage: $0 <version> <archive-path> <tap-directory>" >&2
+  exit 1
+fi
+
+version="${1#v}"
+archive_path="$2"
+tap_directory="$3"
+
+if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+  echo "Invalid version: $1" >&2
+  exit 1
+fi
+
+if [[ ! -f "$archive_path" ]]; then
+  echo "Archive not found: $archive_path" >&2
+  exit 1
+fi
+
+if [[ -z "${GITHUB_REPOSITORY:-}" ]]; then
+  echo "GITHUB_REPOSITORY is required" >&2
+  exit 1
+fi
+
+archive="APP_NAME-$version.tar.gz"
+url="https://github.com/${GITHUB_REPOSITORY}/releases/download/v$version/$archive"
+sha256="$(sha256sum "$archive_path" | awk '{print $1}')"
+formula="$tap_directory/Formula/APP_NAME.rb"
+
+mkdir -p "$(dirname "$formula")"
+cat > "$formula" <<FORMULA
+class FormulaClass < Formula
+  desc "A short description of your app"
+  homepage "https://github.com/${GITHUB_REPOSITORY}"
+  url "$url"
+  version "$version"
+  sha256 "$sha256"
+  license "MIT"
+  head "https://github.com/${GITHUB_REPOSITORY}.git", branch: "main"
+
+  def install
+    bin.install "APP_NAME"
+  end
+
+  test do
+    assert_match "Usage:", shell_output("#{bin}/APP_NAME --help")
+  end
+end
+FORMULA
+
+ruby -c "$formula"
+
+git -C "$tap_directory" add Formula/APP_NAME.rb
+if git -C "$tap_directory" diff --cached --quiet; then
+  echo "Formula is already up to date"
+  exit 0
+fi
+
+git -C "$tap_directory" config user.name "github-actions[bot]"
+git -C "$tap_directory" config user.email \
+  "41898282+github-actions[bot]@users.noreply.github.com"
+git -C "$tap_directory" commit -m "Update APP_NAME to $version"
+git -C "$tap_directory" pull --rebase
+git -C "$tap_directory" push
+```
+
+Make it executable:
+
+```bash
+chmod +x scripts/publish-homebrew.sh
+git add scripts/publish-homebrew.sh
+git commit -m "chore: add Homebrew publishing script"
+```
+
+A couple of details are doing useful work here:
+
+- `${1#v}` accepts either `1.2.3` or `v1.2.3`.
+- The version check catches malformed workflow input before changing the tap.
+- `ruby -c` catches invalid formula syntax before committing it.
+- The no-diff check makes recovery safe to rerun if the formula is already current.
+- `git pull --rebase` reduces push failures when the tap changed after checkout.
+
+> This example runs on Ubuntu, where `sha256sum` is available. If you run the script locally on macOS, replace it with `shasum -a 256` or install GNU coreutils.
+
+## 4. Build and Upload a Release Archive
+
+The Homebrew formula needs a stable URL and checksum, so upload a versioned archive to the matching GitHub release. Add a step like this after your normal release command has published the version and tag.
+
+This example assumes the executable is named `APP_NAME`, the current version is in `package.json`, and the release tag is `vVERSION`:
+
+```yml
+- name: Build and upload GitHub release archive
+  if: steps.changesets.outputs.published == 'true'
+  env:
+    GH_TOKEN: ${{ github.token }}
+  shell: bash
+  run: |
+    set -euo pipefail
+    version="$(node -p 'require("./package.json").version')"
+    tag="v$version"
+    archive="APP_NAME-$version.tar.gz"
+
+    tar \
+      --sort=name \
+      --mtime='UTC 1970-01-01' \
+      --owner=0 \
+      --group=0 \
+      --numeric-owner \
+      -czf "$archive" \
+      APP_NAME README.md LICENSE
+
+    sha256sum "$archive" > "$archive.sha256"
+
+    if gh release view "$tag" >/dev/null 2>&1; then
+      gh release upload "$tag" "$archive" "$archive.sha256" --clobber
+    else
+      gh release create "$tag" \
+        "$archive" "$archive.sha256" \
+        --verify-tag \
+        --generate-notes \
+        --title "APP_NAME $version"
+    fi
+```
+
+The fixed timestamp, owner, group, and file ordering make the archive reproducible. Rebuilding the same files should produce the same checksum instead of changing because of local metadata.
+
+If you are not using Changesets, replace the `if` condition and version lookup with whatever your release workflow uses. The important result is a release like this:
+
+```text
+Tag: v1.2.3
+Asset: APP_NAME-1.2.3.tar.gz
+URL: https://github.com/OWNER/REPOSITORY/releases/download/v1.2.3/APP_NAME-1.2.3.tar.gz
+```
+
+## 5. Publish the Formula During a Release
+
+After the archive upload step, check out the tap and run the script:
+
+```yml
+- name: Check out Homebrew tap
+  if: steps.changesets.outputs.published == 'true'
+  uses: actions/checkout@v6
+  with:
+    repository: OWNER/homebrew-tap
+    token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+    path: homebrew-tap
+
+- name: Publish Homebrew formula
+  if: steps.changesets.outputs.published == 'true'
+  shell: bash
+  run: |
+    set -euo pipefail
+    version="$(node -p 'require("./package.json").version')"
+    scripts/publish-homebrew.sh \
+      "$version" \
+      "APP_NAME-$version.tar.gz" \
+      homebrew-tap
+```
+
+The checkout path and the third script argument must match. The script writes to `homebrew-tap/Formula/APP_NAME.rb`, commits inside that repository, and pushes through the credentials configured by `actions/checkout`.
+
+Your release job also needs permission to create the GitHub release asset:
+
+```yml
+permissions:
+  contents: write
+```
+
+The tap itself is authenticated by `HOMEBREW_TAP_TOKEN`.
+
+## 6. Add a Homebrew Recovery Workflow
+
+Now add the escape hatch. A manual `workflow_dispatch` input lets you enter an existing release version. The recovery job downloads that release's archive and runs the exact same publishing script.
+
+Add this trigger near the top of `.github/workflows/release.yml` alongside your existing `push` trigger:
+
+```yml
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing release version to publish to Homebrew (for example, 1.2.3)
+        required: true
+        type: string
+```
+
+If the normal release job should only run on pushes, guard it so manually starting the workflow does not create another app release:
+
+```yml
+jobs:
+  release:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    # Keep the rest of the normal release job here.
+```
+
+Then add the recovery job:
+
+```yml
+recover-homebrew:
+  if: github.event_name == 'workflow_dispatch'
+  runs-on: ubuntu-latest
+  steps:
+    - name: Check out application
+      uses: actions/checkout@v6
+
+    - name: Check out Homebrew tap
+      uses: actions/checkout@v6
+      with:
+        repository: OWNER/homebrew-tap
+        token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        path: homebrew-tap
+
+    - name: Publish existing release to Homebrew
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VERSION_INPUT: ${{ inputs.version }}
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        version="${VERSION_INPUT#v}"
+        if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+          echo "Invalid version: $VERSION_INPUT" >&2
+          exit 1
+        fi
+
+        tag="v$version"
+        archive="APP_NAME-$version.tar.gz"
+        archive_path="$RUNNER_TEMP/$archive"
+
+        gh release download "$tag" \
+          --repo "$GITHUB_REPOSITORY" \
+          --pattern "$archive" \
+          --dir "$RUNNER_TEMP"
+
+        scripts/publish-homebrew.sh \
+          "$version" \
+          "$archive_path" \
+          homebrew-tap
+```
+
+This job does **not** rebuild the archive or make a new release. It downloads the exact asset already attached to `vVERSION`, calculates its checksum, and updates only the tap.
+
+That makes it useful when:
+
+- The release succeeded but the tap token was missing, expired, or awaiting approval.
+- The tap repository had a temporary conflict or outage.
+- The formula publishing step had a bug that you fixed afterward.
+- You added Homebrew support after an app version was already released.
+
+## How to Run the Recovery Workflow
+
+For NoSleep, go directly to:
+
+[https://github.com/omsimos/nosleep/actions/workflows/release.yml](https://github.com/omsimos/nosleep/actions/workflows/release.yml)
+
+For your own project, the URL has the same shape:
+
+```text
+https://github.com/OWNER/REPOSITORY/actions/workflows/release.yml
+```
+
+Then:
+
+1. Click **Run workflow** above the workflow run list.
+2. Select the default branch, usually `main`.
+3. Enter the existing release version, such as `1.2.3`. `v1.2.3` also works with this script.
+4. Click the green **Run workflow** button.
+5. Open the new run and confirm that `recover-homebrew` succeeds.
+6. Check `Formula/APP_NAME.rb` in the tap repository and verify that its version, URL, and SHA-256 changed.
+
+The **Run workflow** button only appears when `workflow_dispatch` is present in the workflow file on the repository's default branch. You also need write access to the repository.
+
+You can trigger the same recovery from GitHub CLI:
+
+```bash
+gh workflow run release.yml \
+  --repo OWNER/REPOSITORY \
+  --ref main \
+  -f version=1.2.3
+```
+
+Then watch the run:
+
+```bash
+gh run watch --repo OWNER/REPOSITORY
+```
+
+## 7. Test the Formula
+
+After the first successful publish, confirm that this file exists in the tap:
+
+```text
+Formula/APP_NAME.rb
+```
+
+Install it directly:
+
+```bash
+brew install OWNER/tap/APP_NAME
+```
+
+Then run the command and the formula's test:
+
+```bash
+APP_NAME --help
+brew test OWNER/tap/APP_NAME
+```
+
+Audit the formula too:
+
+```bash
+brew audit --strict OWNER/tap/APP_NAME
+```
+
+When testing a formula you just changed, force Homebrew to refresh the tap first:
+
+```bash
+brew update
+brew upgrade OWNER/tap/APP_NAME
+```
+
+If Homebrew appears stuck on an old tap checkout, retap it:
+
+```bash
+brew untap OWNER/tap
+brew tap OWNER/tap
+```
+
+## Common Problems
+
+### The recovery run cannot find the archive
+
+The release tag, filename, and formula URL must agree exactly:
+
+```text
+Tag: v1.2.3
+Archive: APP_NAME-1.2.3.tar.gz
+```
+
+Open the GitHub release and check that the archive is attached. Recovery cannot repair an app release whose asset was never uploaded.
+
+### The tap checkout or push gets a 403
+
+Check that `HOMEBREW_TAP_TOKEN`:
+
+- Exists in the application repository's Actions secrets
+- Has not expired
+- Can access the correct tap repository
+- Has **Contents: Read and write** permission
+- Has been approved if an organization requires approval
+
+### Homebrew reports a checksum mismatch
+
+Never replace a published archive without also regenerating the formula. Run the recovery workflow for that version so it calculates the checksum from the current release asset.
+
+Ideally, treat published assets as immutable. If the application changed, publish a new version instead of silently replacing an old archive.
+
+### The formula has Ruby syntax errors
+
+The script runs `ruby -c` before committing, so the workflow should fail without touching the tap. Fix the generated formula template, commit the fix to the default branch, and run recovery for the existing version.
+
+### The workflow updated npm but skipped Homebrew
+
+Open the failed release run and check whether the GitHub release archive exists. If it does, do not create another package version. Fix the Homebrew issue and run the recovery workflow with the version that already shipped.
+
+## The Final Release Flow
+
+Once everything is wired up, publishing looks like this:
+
+1. Merge your normal release PR or trigger your existing release process.
+2. The app version and `vVERSION` tag are published.
+3. GitHub Actions creates and uploads `APP_NAME-VERSION.tar.gz`.
+4. `publish-homebrew.sh` writes and pushes the matching formula.
+5. Users install or upgrade with Homebrew.
+6. If step 4 fails, manually run `release.yml` with the existing version to retry only Homebrew.
+
+That last recovery step is worth adding from the start. A Homebrew update should be repeatable plumbing, not a reason to cut a fake patch release.

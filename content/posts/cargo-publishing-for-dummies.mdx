@@ -1,0 +1,781 @@
+---
+title: Cargo Publishing for Dummies
+date: 2026-07-24
+category: Dev Tooling
+description: Publish a Rust CLI to crates.io, NPM, GitHub Releases, and Homebrew.
+keywords:
+  - cargo publish
+  - crates.io
+  - cargo-dist
+  - Rust release automation
+  - trusted publishing
+---
+
+# Cargo Publishing for Dummies
+
+Publishing a Rust CLI can mean shipping the same version through four different channels:
+
+- **`cargo publish`** uploads your Rust source package to [crates.io](https://crates.io), so users can run `cargo install APP_NAME` or depend on your crate.
+- **cargo-dist** builds native binaries for macOS, Linux, and Windows, then uploads them to a GitHub Release.
+- **NPM** can distribute a tiny JavaScript wrapper that downloads the correct cargo-dist binary during installation.
+- **Homebrew** installs the cargo-dist archive through your own tap.
+
+They are related, but they are not the same release channel. The important architectural decision is that **`Cargo.toml` owns the version**. The release script updates it first, mirrors that version into `npm/package.json`, and one Git tag coordinates every publisher.
+
+This guide wires both operations to the same version tag while keeping them in separate workflows:
+
+```text
+Push v1.2.3
+├── release.yml            → cargo-dist builds binaries, creates a GitHub Release,
+│                            and updates Homebrew
+└── publish-registries.yml → waits for those binaries, then publishes crates.io
+                             and the NPM wrapper
+```
+
+Keeping registry publishing separate also means cargo-dist can regenerate `release.yml` without overwriting your crates.io and NPM authentication setup.
+
+The crates.io workflow uses **Trusted Publishing through OpenID Connect (OIDC)**. There is no permanent crates.io token saved in GitHub. Instead, each release job proves its identity to crates.io and receives a temporary token that is revoked when the job finishes:
+
+```text
+GitHub Actions
+  └── requests an OIDC identity token from GitHub
+        └── crates.io verifies the repository + workflow
+              └── returns a short-lived publish token
+                    └── cargo publish
+```
+
+That is why the workflow still sets `CARGO_REGISTRY_TOKEN`: Cargo expects a token-shaped credential, but the value is created just in time rather than copied into a GitHub secret.
+
+## 1. Prepare `Cargo.toml`
+
+Before publishing, make sure the package metadata is complete. A reasonable starting point looks like this:
+
+```toml
+[package]
+name = "APP_NAME"
+version = "0.1.0"
+edition = "2024"
+description = "A short description of what the app does"
+license = "MIT"
+repository = "https://github.com/OWNER/REPOSITORY"
+homepage = "https://github.com/OWNER/REPOSITORY"
+readme = "README.md"
+keywords = ["cli", "developer-tools"]
+categories = ["command-line-utilities"]
+publish = true
+
+[[bin]]
+name = "APP_NAME"
+path = "src/main.rs"
+```
+
+The package name must be available on crates.io. Search for it before building your release process around it.
+
+The important fields are:
+
+- **`name`** — the permanent crate name on crates.io
+- **`version`** — the version Cargo will publish
+- **`description`** — required by crates.io
+- **`license`** or **`license-file`** — required by crates.io
+- **`repository`** — lets users find the source and lets cargo-dist identify the GitHub repository
+- **`readme`** — included on the crate page
+- **`publish`** — set this to `false` for private workspace crates that must never be uploaded
+
+A published crate version is permanent. You can yank it so new projects stop selecting it, but you cannot overwrite its files with a corrected build. If `1.2.3` is wrong, fix the problem and publish `1.2.4`.
+
+## 2. Check What Cargo Will Publish
+
+Cargo packages files according to `include`, `exclude`, and Git ignore rules. Inspect the package before uploading it:
+
+```bash
+cargo package --list
+cargo publish --dry-run
+```
+
+The dry run creates the `.crate` package, extracts it into a clean directory, and checks that it still builds. This catches common mistakes such as forgetting a generated source file or excluding something required by `build.rs`.
+
+Run the rest of your release checks too:
+
+```bash
+cargo fmt --check
+cargo clippy --all-targets --all-features -- -D warnings
+cargo test --all-features
+```
+
+If your project commits `Cargo.lock`, use `--locked` for a stricter release check:
+
+```bash
+cargo publish --dry-run --locked
+```
+
+## 3. Publish the First Version Manually
+
+crates.io Trusted Publishing can only be configured after the crate exists. The first version therefore has to be published manually.
+
+Sign in to [crates.io](https://crates.io) with GitHub, verify your email address, and create an API token under **Account Settings → API Tokens**. Then authenticate Cargo:
+
+```bash
+cargo login YOUR_CRATES_IO_TOKEN
+```
+
+Run the checks one last time and publish:
+
+```bash
+cargo publish --dry-run --locked
+cargo publish --locked
+```
+
+For a workspace, specify the package explicitly:
+
+```bash
+cargo publish -p APP_NAME --locked
+```
+
+Once the first version exists, delete or revoke the bootstrap API token after Trusted Publishing is working. Future CI releases will use short-lived OIDC credentials instead of a stored registry token.
+
+## 4. Configure crates.io Trusted Publishing
+
+Open your crate on [crates.io](https://crates.io), go to **Settings → Trusted Publishing**, and add a GitHub Actions publisher with:
+
+- **Repository owner:** your GitHub user or organization
+- **Repository name:** your repository name
+- **Workflow filename:** `publish-registries.yml`
+- **Environment:** leave blank for the workflow below
+
+The filename is case-sensitive and must match the file inside `.github/workflows/` exactly.
+
+This registration is the trust boundary. crates.io will issue a publish credential only when GitHub's OIDC token says the job came from that repository and workflow. A workflow copied into another repository cannot publish your crate, and there is no reusable registry secret for an attacker to steal from GitHub Actions.
+
+If you use a GitHub environment such as `release`, enter that same environment on crates.io and add this to the publish job:
+
+```yml
+environment: release
+```
+
+GitHub environments are useful when you want required reviewers or branch restrictions before a package can be published.
+
+## 5. Publish Future Versions Through GitHub Actions
+
+Create `.github/workflows/publish-registries.yml`:
+
+```yml
+name: Publish registries
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Check tag and package versions
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          release_commit="$(git rev-parse "${GITHUB_REF_NAME}^{commit}")"
+
+          if ! git merge-base --is-ancestor "$release_commit" origin/main; then
+            echo "Release tag $GITHUB_REF_NAME is not on main" >&2
+            exit 1
+          fi
+
+          tag_version="${GITHUB_REF_NAME#v}"
+          cargo_version="$(cargo metadata --no-deps --format-version 1 \
+            | jq -r '.packages[] | select(.name == "APP_NAME") | .version')"
+
+          if [[ "$tag_version" != "$cargo_version" ]]; then
+            echo "Tag version $tag_version does not match Cargo.toml version $cargo_version" >&2
+            exit 1
+          fi
+
+          echo "tag=$GITHUB_REF_NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$tag_version" >> "$GITHUB_OUTPUT"
+
+  # Shared gate: do not publish crates.io or npm until cargo-dist release builds finish.
+  wait-for-binaries:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for GitHub release binaries
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_assets=(
+            APP_NAME-aarch64-apple-darwin.tar.xz
+            APP_NAME-x86_64-unknown-linux-gnu.tar.xz
+          )
+
+          for attempt in {1..120}; do
+            assets="$(gh release view "${{ needs.prepare.outputs.tag }}" \
+              --repo "${{ github.repository }}" \
+              --json assets \
+              --jq '.assets[].name' 2>/dev/null || true)"
+            missing=()
+
+            for asset in "${expected_assets[@]}"; do
+              if ! grep -Fxq "$asset" <<< "$assets"; then
+                missing+=("$asset")
+              fi
+            done
+
+            if (( ${#missing[@]} == 0 )); then
+              echo "All GitHub release binaries are available"
+              exit 0
+            fi
+
+            echo "Waiting for GitHub release binaries (attempt $attempt/120): ${missing[*]}"
+            sleep 30
+          done
+
+          echo "Timed out waiting for GitHub release binaries"
+          exit 1
+
+  publish-crate:
+    needs:
+      - prepare
+      - wait-for-binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Verify package
+        run: cargo publish -p APP_NAME --dry-run --locked
+
+      - name: Check crates.io
+        id: registry
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            --header 'Accept: application/json' \
+            --user-agent 'APP_NAME-release-workflow (https://github.com/OWNER/REPOSITORY)' \
+            "https://crates.io/api/v1/crates/APP_NAME/${{ needs.prepare.outputs.version }}")"
+
+          case "$status" in
+            200) echo "published=true" >> "$GITHUB_OUTPUT" ;;
+            404) echo "published=false" >> "$GITHUB_OUTPUT" ;;
+            *) echo "Unexpected crates.io response: HTTP $status"; exit 1 ;;
+          esac
+
+      - name: Authenticate with crates.io
+        if: steps.registry.outputs.published != 'true'
+        id: auth
+        uses: rust-lang/crates-io-auth-action@v1
+
+      - name: Publish to crates.io
+        if: steps.registry.outputs.published != 'true'
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+        run: cargo publish -p APP_NAME --locked
+```
+
+Replace `APP_NAME` in both commands and in the metadata query.
+
+The important pieces are:
+
+- **`wait-for-binaries`** blocks crates.io (and NPM) until cargo-dist's GitHub Release assets exist — same gate as npm.
+- **`id-token: write`** lets GitHub mint the OIDC identity token crates.io verifies.
+- **`crates-io-auth-action`** exchanges that identity for a short-lived crates.io token.
+- **`CARGO_REGISTRY_TOKEN`** exists only for the publish step; it is not a repository secret.
+- **The action's cleanup step** revokes the temporary crates.io token when the job completes.
+- **The version check** stops a `v1.2.3` tag from accidentally publishing a different version from `Cargo.toml`.
+- **The ancestry check** rejects accidental release tags pointing to commits that are not already on `main`.
+- **The dry run** fails before authentication if the crate cannot be packaged correctly.
+- **The registry check** makes reruns safe by skipping a version crates.io already accepted.
+- **The identifying `User-Agent`** follows crates.io's API policy; a bare CI `curl` can receive HTTP 403.
+
+Do not add a long-lived crates.io token to GitHub Actions for normal releases. Trusted Publishing is the safer steady-state setup.
+
+### Why does Cargo still need `CARGO_REGISTRY_TOKEN`?
+
+OIDC authenticates the GitHub job to crates.io; Cargo itself does not send the OIDC token directly. `rust-lang/crates-io-auth-action` handles the exchange and exposes crates.io's temporary credential as an action output:
+
+```yml
+- name: Authenticate with crates.io
+  id: auth
+  uses: rust-lang/crates-io-auth-action@v1
+
+- name: Publish to crates.io
+  env:
+    CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+  run: cargo publish -p APP_NAME --locked
+```
+
+So the environment variable is normal. The important difference is that it comes from `steps.auth.outputs.token`, not `${{ secrets.CARGO_REGISTRY_TOKEN }}`.
+
+### Add the NPM binary wrapper
+
+For a Cargo-first CLI, the NPM package should not contain another independently built copy of the application. Keep it as a small wrapper whose version matches `Cargo.toml` and whose install script downloads the matching cargo-dist asset:
+
+```json
+{
+  "name": "APP_NAME",
+  "version": "0.1.0",
+  "bin": {
+    "APP_NAME": "./bin.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  },
+  "files": ["bin.js", "install.js", "README.md"],
+  "license": "MIT"
+}
+```
+
+`install.js` should map Node's platform and architecture to the cargo-dist target name, then download an asset like:
+
+```text
+https://github.com/OWNER/REPOSITORY/releases/download/v1.2.3/APP_NAME-aarch64-apple-darwin.tar.xz
+```
+
+This ordering is important: **do not publish crates.io or NPM until the GitHub Release binaries exist**. cargo-dist is the real release gate; registry jobs should wait on those assets first. For NPM specifically, publishing early means users can install the package while its `postinstall` URL still returns 404. For crates.io, waiting keeps `cargo install` and prebuilt channels aligned with a finished binary release.
+
+Configure NPM Trusted Publishing for the same repository and `publish-registries.yml` workflow. Give the npm job `id-token: write`, use Node 24 and npm 11.5.1 or newer, and make both registry jobs depend on a shared wait step that polls the GitHub Release until every supported binary asset exists. NPM can still depend on the Cargo job if you want a strict crates-then-npm order after binaries land.
+
+Both registry jobs should be safe to rerun. Query crates.io and NPM for the target version first; skip a package that already exists and continue the unfinished release.
+
+## 6. Set Up cargo-dist and Homebrew
+
+cargo-dist generates the workflow that builds platform-specific archives and creates GitHub Releases.
+
+Install it locally:
+
+```bash
+cargo install cargo-dist --locked
+```
+
+Initialize it from the repository root:
+
+```bash
+dist init
+```
+
+Choose GitHub Actions and the target platforms you support. cargo-dist will create or update:
+
+```text
+dist-workspace.toml
+.github/workflows/release.yml
+```
+
+A simple `dist-workspace.toml` that also publishes a Homebrew formula looks like this:
+
+```toml
+[workspace]
+members = ["cargo:."]
+
+[dist]
+# Use the version written by your installed copy of dist.
+cargo-dist-version = "0.32.0"
+ci = "github"
+targets = [
+  "aarch64-apple-darwin",
+  "x86_64-apple-darwin",
+  "aarch64-unknown-linux-gnu",
+  "x86_64-unknown-linux-gnu",
+  "x86_64-pc-windows-msvc",
+]
+installers = ["homebrew"]
+tap = "OWNER/homebrew-tap"
+publish-jobs = ["homebrew"]
+```
+
+Do not blindly copy the `cargo-dist-version` above. Let `dist init` record the version you installed so local generation and CI stay in sync.
+
+Create a public `OWNER/homebrew-tap` repository before the first release. cargo-dist writes the generated formula into its `Formula/` directory after the GitHub Release assets exist. Users can then install with:
+
+```bash
+brew install OWNER/tap/APP_NAME
+```
+
+The application repository needs a fine-grained token that can write only to the tap repository. Store it as `HOMEBREW_TAP_TOKEN` under **Settings → Secrets and variables → Actions**. Give it **Contents: Read and write** access to `OWNER/homebrew-tap`, and nothing else.
+
+You can also generate shell and PowerShell installers:
+
+```toml
+installers = ["shell", "powershell"]
+```
+
+Homebrew is downstream of the GitHub Release: cargo-dist uploads immutable archives first, then writes a formula containing their URL and SHA-256 checksum. If the tap update fails, rerun the failed Homebrew job for the same release rather than creating a fake patch version.
+
+## 7. Review the Generated Release Workflow
+
+cargo-dist owns `.github/workflows/release.yml`. Its generated workflow generally:
+
+1. Detects version-like Git tags.
+2. Plans which packages and targets to release.
+3. Builds archives on the appropriate operating systems.
+4. Uploads checksums and installers.
+5. Creates the final GitHub Release.
+
+Commit the generated files:
+
+```bash
+git add dist-workspace.toml .github/workflows/release.yml
+git commit -m "chore: configure cargo-dist"
+```
+
+When changing the cargo-dist configuration, regenerate the workflow:
+
+```bash
+dist init
+```
+
+Review the diff before committing it. Generated workflows can change when cargo-dist changes versions.
+
+Avoid hand-editing `release.yml`. cargo-dist checks whether generated CI is current and can overwrite manual changes. Prefer configuration in `dist-workspace.toml`, build setup files, or custom jobs supported by cargo-dist.
+
+The registry workflow is intentionally separate, so `dist init` cannot clobber it.
+
+## 8. Preview the Binary Release
+
+Ask cargo-dist what it would build for the current package version:
+
+```bash
+dist plan
+```
+
+Build the artifacts supported by your current machine:
+
+```bash
+dist build
+```
+
+Then check the normal Rust release inputs again:
+
+```bash
+cargo publish --dry-run --locked
+cargo test --all-features
+```
+
+This validates both halves of the release:
+
+- cargo-dist can produce binary artifacts.
+- Cargo can produce the crates.io source package.
+
+## 9. Add the `just tag` Release Command
+
+I use a small [`just`](https://just.systems/) recipe in [Crabcode](https://github.com/omsimos/crabcode) so I do not manually edit versions, regenerate the changelog, commit, tag, and push every release.
+
+Install the two tools used by the workflow:
+
+```bash
+brew install just git-cliff
+```
+
+Add this to the repository's `justfile`:
+
+```just
+# Release: bump versions, create a release commit, and create a git tag.
+tag:
+    sh scripts/tag_and_release.sh
+```
+
+Then create `scripts/tag_and_release.sh`:
+
+```bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ -n "$(git status --porcelain)" ]; then
+    echo "❗ Please commit all changes before bumping the version."
+    exit 1
+fi
+
+branch="$(git branch --show-current)"
+if [[ "$branch" != "main" ]]; then
+    echo "❗ Releases must be tagged from main (currently on '${branch:-detached HEAD}')."
+    echo "   git checkout main && git pull && just tag"
+    exit 1
+fi
+
+echo "🦋 Fetching origin/main..."
+git fetch --quiet origin main
+
+if ! git merge-base --is-ancestor origin/main HEAD; then
+    echo "❗ local main has diverged from origin/main. Pull/rebase first."
+    exit 1
+fi
+
+NAME=$(sed -n 's/^name *= *"\([^"]*\)".*/\1/p' Cargo.toml)
+CURRENT=$(sed -n 's/^version *= *"\([^"]*\)".*/\1/p' Cargo.toml)
+
+echo "🦋 What kind of change is this for $NAME?"
+echo "Current version: $CURRENT"
+echo "Choose patch, minor, or major:"
+read -r BUMP
+
+case "$BUMP" in
+    patch)
+        NEW=$(echo "$CURRENT" | awk -F. '{$NF+=1; OFS="."; print $1,$2,$3}')
+        ;;
+    minor)
+        NEW=$(echo "$CURRENT" | awk -F. '{$(NF-1)+=1; $NF=0; OFS="."; print $1,$2,$3}')
+        ;;
+    major)
+        NEW=$(echo "$CURRENT" | awk -F. '{$1+=1; $2=0; $3=0; OFS="."; print $1,$2,$3}')
+        ;;
+    *)
+        echo "Please specify patch, minor, or major"
+        exit 1
+        ;;
+esac
+
+echo "🦋 Would tag and push $NAME $CURRENT -> $NEW"
+read -p "Proceed? [Y/n] " -r CONFIRM
+CONFIRM=${CONFIRM:-y}
+
+if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
+    echo "Aborted."
+    exit 0
+fi
+
+echo "🦋 Updating Cargo.toml to version ${NEW}"
+sed -i.bak "s/^version *= *\"[^\"]*\"/version = \"${NEW}\"/" Cargo.toml
+rm Cargo.toml.bak
+
+# Crabcode also ships an npm wrapper, so keep its version in sync when present.
+if [ -f "npm/package.json" ]; then
+    echo "🦋 Updating npm/package.json to version ${NEW}"
+    sed -i.bak \
+        "s/\"version\":[[:space:]]*\"[^\"]*\"/\"version\": \"${NEW}\"/" \
+        npm/package.json
+    rm npm/package.json.bak
+fi
+
+echo "🦋 Updating Cargo.lock..."
+cargo generate-lockfile
+
+echo "🦋 Regenerating CHANGELOG.md..."
+git cliff --tag "v${NEW}" -o CHANGELOG.md
+
+echo "🦋 Committing version bump ${NEW}..."
+git add Cargo.toml Cargo.lock CHANGELOG.md
+if [ -f "npm/package.json" ]; then
+    git add npm/package.json
+fi
+git commit -m "release: ${NAME} v${NEW}"
+
+echo "🦋 Creating git tag v${NEW}"
+git tag "v${NEW}"
+
+echo "🦋 Pushing release commit and tag atomically..."
+git push --atomic origin main "v${NEW}"
+```
+
+Make the script executable and commit it:
+
+```bash
+chmod +x scripts/tag_and_release.sh
+git add justfile scripts/tag_and_release.sh
+git commit -m "chore: add release tagging command"
+```
+
+The clean-tree and `main`-only checks at the beginning are important. A dirty tree would scoop unrelated work into the release commit. Tagging any other branch would still trigger cargo-dist: GitHub Releases and Homebrew publish from the tag, not from `main`. Only `publish-registries.yml` refused off-main tags, which is how you can end up with a GitHub Release whose crate never landed on crates.io.
+
+The script then:
+
+1. Refuses to run unless HEAD is `main` and `origin/main` is an ancestor.
+2. Reads the package name and current version from `Cargo.toml`.
+3. Asks for a patch, minor, or major bump.
+4. Shows the proposed version and asks for confirmation.
+5. Updates `Cargo.toml` and, when present, `npm/package.json`.
+6. Regenerates `Cargo.lock` and `CHANGELOG.md`.
+7. Creates a `release: APP_NAME v[VERSION]` commit.
+8. Atomically pushes `main` and the matching `v[VERSION]` tag.
+
+`git cliff` uses your repository's `cliff.toml`. Set that up before relying on the script, or remove the changelog command and `CHANGELOG.md` from `git add`.
+
+## 10. Cut a Release with `just tag`
+
+Run the release checks before allowing the script to commit or push anything:
+
+```bash
+cargo test --all-features
+cargo publish --dry-run --locked
+dist plan
+```
+
+Make sure you are on an up-to-date `main` with a clean working tree, then run:
+
+```bash
+just tag
+```
+
+Choose `patch`, `minor`, or `major`, review the proposed version, and confirm. The script handles the version edits, release commit, `v[VERSION]` tag, and pushes.
+
+That pushed tag triggers both workflows:
+
+- `release.yml` builds cargo-dist binaries and updates Homebrew.
+- `publish-registries.yml` publishes the crate to crates.io, waits for the GitHub binaries, then publishes the NPM wrapper.
+
+The workflows start together. crates.io can publish while cargo-dist builds, but NPM waits for both crates.io and the GitHub Release assets so its installer never points at missing binaries.
+
+### Is publishing from `just tag` secure?
+
+It can be, but the local script is only the release entry point—not the security boundary. A fork contributor cannot create a tag in your upstream repository, and their fork's OIDC identity cannot publish your packages. The meaningful risk is a collaborator or compromised token with permission to create upstream tags.
+
+Use all of these layers:
+
+1. Make `just tag` refuse anything other than `main`. Random people cannot release — the script only runs on a machine with push access — but you (or a collaborator) absolutely can tag a feature branch by accident.
+2. Keep the workflow ancestry check in `publish-registries.yml` so crates.io and NPM still refuse off-main tags if someone pushes a tag by hand.
+3. Put the same ancestry check in cargo-dist's `release.yml` plan job. Without it, GitHub Releases and Homebrew still publish from an off-main tag.
+4. Add a GitHub tag ruleset for `v*` that restricts tag creation, update, and deletion to release maintainers.
+5. Put publishing jobs behind a protected `release` environment if you want required approval.
+6. Configure the NPM and crates.io Trusted Publishers with that same environment.
+7. Use the atomic `git push --atomic origin main "v[VERSION]"` instead of `git push --tags`, which can push unrelated local tags and the current feature branch.
+
+The ancestry check lives in the tagged workflow file. A collaborator who can push an upstream branch and create upstream tags could remove that check before tagging their branch. That is why the GitHub tag ruleset and protected environment are stronger controls; the script and workflow check mainly prevent mistakes.
+
+## 11. Verify the Release
+
+Check the crate page:
+
+```text
+https://crates.io/crates/APP_NAME
+```
+
+Install through Cargo:
+
+```bash
+cargo install APP_NAME --locked
+APP_NAME --version
+```
+
+Then open the repository's **Releases** page and verify that cargo-dist uploaded archives for the expected target platforms.
+
+Test one of those binaries or installers on a clean machine if possible. A successful workflow proves the files were built and uploaded, but it does not prove every target works in a real user environment.
+
+## Workspaces
+
+For a workspace with multiple publishable crates, publish dependencies before crates that depend on them:
+
+```bash
+cargo publish -p APP_CORE --locked
+cargo publish -p APP_CLI --locked
+```
+
+Every publishable crate needs its own Trusted Publisher configuration on crates.io, even if all of them use the same repository and workflow file.
+
+Keep private workspace crates out of the registry:
+
+```toml
+[package]
+publish = false
+```
+
+If a public workspace crate depends on another workspace crate, give that dependency a registry version as well as a local path:
+
+```toml
+[dependencies]
+app-core = { version = "1.2.3", path = "../app-core" }
+```
+
+The path is used inside the workspace. The version tells crates.io users which published dependency to download.
+
+For a multi-crate workspace, replace the single `cargo publish` command in the workflow with explicit commands in dependency order. Do not assume every workspace member can publish in parallel.
+
+## Common Problems
+
+### You tagged a feature branch instead of `main`
+
+`just tag` used to run on any branch. cargo-dist still created the GitHub Release and updated Homebrew; only `publish-registries.yml` refused, so crates.io and NPM stayed on the previous version.
+
+If registries never published, delete the GitHub Release and the tag, revert the Homebrew tap if cargo-dist already bumped it, then retag from `main`:
+
+```bash
+gh release delete v1.2.3 --cleanup-tag --yes
+git tag -d v1.2.3
+# on the tap repo: revert the formula commit cargo-dist just pushed
+git checkout main
+git pull
+just tag
+```
+
+Do not reuse a version that already landed on crates.io. Published crate versions are immutable.
+
+### The tag and Cargo version do not match
+
+If the tag is `v1.2.3`, the package selected for release must also be version `1.2.3`. Delete an incorrect local tag before pushing it:
+
+```bash
+git tag -d v1.2.3
+```
+
+If the incorrect tag is already on GitHub, stop and inspect any workflows it triggered before deleting or replacing it.
+
+### crates.io says the trusted publisher does not match
+
+Check all of these values on the crate's Trusted Publishing settings:
+
+- Repository owner
+- Repository name
+- `publish-registries.yml` filename, including extension and capitalization
+- GitHub environment name, if one is configured
+
+Also confirm the workflow has:
+
+```yml
+permissions:
+  id-token: write
+```
+
+### The package includes files you did not expect
+
+Inspect it with:
+
+```bash
+cargo package --list
+```
+
+Then add `include` or `exclude` rules to `Cargo.toml`. Be careful: excluding source files, generated assets, or license files can make the packaged crate fail even though the working tree builds.
+
+### The crate published, but the GitHub Release failed
+
+Fix the cargo-dist issue and rerun the failed GitHub Actions jobs if they are safe to rerun. Do not publish the same crate version again; crates.io will reject it because published versions are immutable.
+
+### The GitHub Release succeeded, but crates.io failed
+
+Fix the Trusted Publisher, packaging, or workspace-order problem. If the version was never accepted by crates.io, rerun `publish-registries.yml` for the same tag from the GitHub Actions interface.
+
+If the crate version actually exists despite a timeout, do not retry blindly. Check the crate page first.
+
+### `cargo publish --dry-run` works locally but fails in CI
+
+Look for uncommitted or ignored files that your local build uses. CI checks out only committed files. `cargo package --list` and the unpacked package under `target/package/` usually reveal the difference.
+
+## The Final Workflow
+
+Once everything is set up, a release is:
+
+1. Merge the work to `main` and pull so the tree is clean.
+2. Run tests, `cargo publish --dry-run`, and `dist plan`.
+3. From `main`, run `just tag` and choose the SemVer bump.
+4. The script updates versions and the changelog, commits, tags, and pushes.
+5. GitHub Actions publishes the crate to crates.io.
+6. cargo-dist builds native binaries, creates the GitHub Release, and updates Homebrew.
+7. The registry workflow sees the binaries and publishes the matching NPM wrapper.
+
+The main thing to remember is that `Cargo.toml` owns this release. crates.io publishes its source package, cargo-dist produces its binaries, NPM wraps those binaries, and Homebrew points to them. One version tag keeps every channel aligned.

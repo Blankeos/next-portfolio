@@ -172,45 +172,93 @@ name: Publish
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+
+      # Trusted publishing (OIDC) needs npm ≥ 11.5.1. Bun alone leaves you
+      # on the runner's old npm → ENEEDAUTH.
+      - name: Update npm
+        run: npm install --global npm@11.5.2
+
       - run: bun install --frozen-lockfile
       - run: bun run build
 
-      - name: Create Release Pull Request or Publish
+      # Changesets Action accepts a custom title but does not interpolate the
+      # next version. Derive it from the release plan; on the publish run there
+      # are no pending changesets, so fall back to package.json.
+      # Use a workspace-relative status file — under bun, changeset resolves
+      # absolute $RUNNER_TEMP paths incorrectly.
+      - name: Determine release pull request title
+        id: release-title
+        shell: bash
+        run: |
+          set -euo pipefail
+          status_file="changeset-status.json"
+          bunx changeset status --output "$status_file"
+          version="$(node -e '
+            const fs = require("node:fs");
+            const status = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+            const pkg = require("./package.json");
+            process.stdout.write(status.releases[0]?.newVersion ?? pkg.version);
+          ' "$status_file")"
+          rm -f "$status_file"
+          echo "title=release: v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Create release pull request or publish
         id: changesets
         uses: changesets/action@v1
         with:
           publish: bun run publish-ci
+          title: ${{ steps.release-title.outputs.title }}
+          commit: ${{ steps.release-title.outputs.title }}
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## 4. NPM + GitHub Setup
+No `NPM_TOKEN`. Auth is OIDC via `id-token: write` + npm Trusted Publishers. The essential piece for publish succeeding is **Node 24 + `npm@11.5.2`** — `changeset publish` shells out to `npm publish`, and only modern npm speaks trusted publishing.
 
-A few one-time things to wire up:
+Changesets otherwise calls both the release PR and its version commit **"Version Packages"**. `title` / `commit` fix that. The helper reads the next version from `changeset status`, then falls back to `package.json` on the publish run after pending changesets are consumed.
 
-### NPM Access Token
+## 4. NPM Trusted Publishing + GitHub Setup
 
-1. Go to [npmjs.com](https://www.npmjs.com) > **Access Tokens** > **Generate New Token**
-2. Choose **Automation** type (bypasses 2FA for CI)
-3. Copy the token
+NPM's **Trusted Publishers** feature lets GitHub Actions publish securely through OIDC.
 
-### GitHub Secrets
+You have to publish the first `0.0.0` version though, so do this once:
 
-1. Go to your repo > **Settings** > **Secrets and variables** > **Actions**
-2. Add a new secret: `NPM_TOKEN` with the token you just copied
+```bash
+npm login
+npm pkg set version=0.0.0
+npm publish --access public
+```
+
+NPM won't let you configure a trusted publisher until the package exists, which is why this first manual publish is necessary.
+
+Now open your package on [npmjs.com](https://www.npmjs.com), go to **Settings** > **Trusted Publisher**, and choose **GitHub Actions**. Enter:
+
+- Your GitHub user or organization
+- Your repository name
+- `publish.yml` as the workflow filename
+- **npm publish** as the allowed action
 
 ### GitHub Permissions
 
@@ -219,7 +267,7 @@ In your repo > **Settings** > **Actions** > **General**:
 - Set Workflow Permissions to **"Read and write permissions"**
 - Check **"Allow GitHub Actions to create and approve pull requests"**
 
-This lets the changesets action create release PRs automatically.
+This lets the changesets action create release PRs automatically. The workflow's `id-token: write` permission is what lets NPM verify GitHub Actions without an NPM token — you do **not** need an `NPM_TOKEN` secret.
 
 ## The Workflow (Once Everything's Set Up)
 
